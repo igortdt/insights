@@ -1,0 +1,413 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template/master-template.xhtml">
+
+	<ui:define name="titulo_pagina">
+		<h:outputText value="#{msg['consulta.nfse']}" />
+	</ui:define>
+
+	<ui:define name="breadcrumb">
+		<li><i class="fa fa-home"></i><p:link outcome="inicio" value=" #{msg['inicio']}" /></li>
+		<li><i class="fa fa-file-text"></i> #{msg['consulta.nfse']}</li>
+	
+	</ui:define>
+
+	<!-- Alguns itens do formulario estao no arquivo formulario.xhtml -->
+	<!-- Por exemplo: bloquear formulario enquanto pesquisa e foco automatico ao carregar a pagina -->
+	<!-- A barra de ferramentas e a disposicao de seus botoes tambem esta no formulatio.xhtml -->
+
+	<ui:define name="conteudo">
+		<ui:decorate template="/WEB-INF/template/formulario.xhtml">
+
+			<!-- ********************************************** -->
+			<!-- BARRA DE FERRAMENTAS - BOTOES DO LADO ESQUERDO -->
+			<!-- ********************************************** -->
+			<!-- <ui:define name="toolbar-left">
+				<p:link  styleClass="btn btn-default" onclick="PF('block').show();">
+					<i class="fa fa-file-o"></i>
+					#{msg['novo']}
+				</p:link>
+			</ui:define> -->
+
+			<!-- ********************************************* -->
+			<!-- BARRA DE FERRAMENTAS - BOTOES DO LADO DIREITO -->
+			<!-- ********************************************* -->
+			<ui:define name="toolbar-right">
+				<p:commandLink id="btSubmit" action="#{pesquisarNFSeBean.pesquisar()}" update="@form"
+					styleClass="btn btn-success" process="@this #{pesquisarNFSeBean.primeiraAbaSelecionada() ? 'tvConsultas:tabUm' :'tvConsultas:tabDois'}">
+					<i class="fa fa-search"></i>
+					#{msg['pesquisar']}
+				</p:commandLink>
+			</ui:define>
+
+			<br clear="all"/>
+			<br clear="all"/>
+
+			<!-- ******************************* -->
+			<!-- INICIO DOS CAMPOS DO FORMULARIO -->
+			<!-- ******************************* -->
+			<!-- <p:panelGrid columns="1" styleClass="simple-panel width25" layout="grid" columnClasses="width100"> -->
+			
+							
+					<p:tabView id="tvConsultas">
+					<p:ajax event="tabChange" listener="#{pesquisarNFSeBean.onTabChange()}" update="@form"/>
+					
+					<!--######## PRIMEIRA ABA ##########################-->
+						<p:tab title="#{msg['emitidas']}" id="tabUm" rendered="#{pesquisarNFSeBean.mostrarAbaPrestadas()}">
+							<div class="panel panel-default">
+								<div id="pessoa" class="panel-body">
+									<p:panelGrid columns="1" layout="grid" styleClass="form-panel" id="pgEmitidas">
+										<h:panelGroup>
+											<div class="responsivo width145px margin-right10px">
+												<p:outputLabel value="#{msg['situacao.nota']}"/>
+												<p:selectOneMenu value="#{pesquisarNFSeBean.filtroNFSe.situacaoNFSe}">
+													<f:selectItem itemLabel="#{msg['todas']}"/>
+													<f:selectItems value="#{pesquisarNFSeBean.situacaesNFSeEmitida}" var="situacao" itemValue="#{situacao}" itemLabel="#{msg[situacao.label]}" />
+												</p:selectOneMenu>
+											</div>
+											
+											<div class="responsivo width145px margin-right10px">
+												<p:outputLabel value="#{msg['rps']}"/>
+												<p:selectOneMenu value="#{pesquisarNFSeBean.filtroNFSe.filtroRPS}">
+													<f:selectItem itemLabel="#{msg['todas']}"/>
+													<f:selectItems value="#{pesquisarNFSeBean.filtrosRPS}" var="filtrosRPS" itemValue="#{filtrosRPS}" itemLabel="#{msg[filtrosRPS.label]}" />
+												</p:selectOneMenu>
+											</div>
+
+											<div class="fixo width140px bg-calendario">
+												<p:outputLabel value="#{msg['data.inicial']}" for="dataInicial"/>
+												<p:calendar value="#{pesquisarNFSeBean.filtroNFSe.dataInicio}" required="#{pesquisarNFSeBean.primeiraAbaSelecionada()}" id="dataInicial"/>
+											</div>
+											
+											<div class="fixo width140px bg-calendario">
+												<p:outputLabel value="#{msg['data.final']}" for="dataFinal"/>
+												<p:calendar value="#{pesquisarNFSeBean.filtroNFSe.dataFinal}" required="#{pesquisarNFSeBean.primeiraAbaSelecionada()}" id="dataFinal"/>
+											</div>
+									    </h:panelGroup>
+									
+									    <h:panelGroup>
+									    	<div class="responsivo width140px margin-right10px">
+												<p:outputLabel value="#{msg['retencao.iss']}" for="retencaoIss"/>
+												<p:selectOneMenu value="#{pesquisarNFSeBean.filtroNFSe.issRetido}" id="retencaoIss" >
+													<f:selectItem itemLabel="#{msg['ambos']}"/>
+													<f:selectItems value="#{enumProducer.simNao}" var="simNao" itemValue="#{simNao}" itemLabel="#{msg[simNao.label]}"/>
+												</p:selectOneMenu>
+											</div>
+											
+											<div class="responsivo width215px margin-right10px">
+												<p:outputLabel value="#{msg['local.tributacao.servico']}"/>
+												<p:selectOneMenu value="#{pesquisarNFSeBean.filtroNFSe.localTributacaoNFSe}">
+													<f:selectItem itemLabel="#{msg['ambos']}"/>
+													<f:selectItems value="#{pesquisarNFSeBean.localTributacaoNFSe}" var="localTributacaoNFSe" itemValue="#{localTributacaoNFSe}" 
+													itemLabel="#{msg[localTributacaoNFSe.label]}"/>
+												</p:selectOneMenu>
+											</div>
+											
+											<div class="responsivo width225px margin-right10px">
+												<p:outputLabel value="#{msg['tomador.cpf.cnpj']}"/>
+												<p:selectOneMenu value="#{pesquisarNFSeBean.filtroNFSe.tipoPessoaTomador}">
+													<f:selectItem itemLabel="#{msg['todos']}"/>
+													<f:selectItems value="#{pesquisarNFSeBean.tipoPessoa}" var="tipoPessoa" itemValue="#{tipoPessoa}" itemLabel="#{msg[tipoPessoa.label]}"/>
+												</p:selectOneMenu>
+											</div>
+										</h:panelGroup>
+										<h:panelGroup>
+											<div class="responsivo width595px margin-right10px">
+												<p:outputLabel value="#{msg['nome.razao.social.tomador']}"/>
+												<p:inputText value="#{pesquisarNFSeBean.filtroNFSe.nomeRazaoSocialTomador}"/>
+											</div>
+										</h:panelGroup>
+									</p:panelGrid>
+								</div>
+							</div>
+							
+							<div class="panel panel-default">
+								<div id="pessoa" class="panel-body">
+									<p:panelGrid columns="1" layout="grid" styleClass="form-panel">
+										<h:panelGroup>
+										<div class="responsivo width225px margin-right10px">
+												<p:outputLabel value="#{msg['consulta.por.nfse.rps']}"/>
+												<p:selectOneMenu value="#{pesquisarNFSeBean.filtroNFSe.tipoConsultaNFSe}">
+													<f:selectItems value="#{pesquisarNFSeBean.tipoConsultaNFSe}" var="tipoConsultaNFSe" itemValue="#{tipoConsultaNFSe}" itemLabel="#{msg[tipoConsultaNFSe.label]}"/>
+												</p:selectOneMenu>
+											</div>
+											
+											<div class="responsivo width360px margin-right10px">
+												<p:outputLabel value="#{msg['numero.nfse.rps']}"/>
+												<p:inputText value="#{pesquisarNFSeBean.filtroNFSe.codigoNFSeRPS}"/>
+											</div>
+										</h:panelGroup>
+									</p:panelGrid>
+								</div>
+							</div>
+							
+							
+							<!-- TABELA DE RESULTADOS -->
+							<div class="scroll-lateral-responsivo">
+								<p:dataTable value="#{pesquisarNFSeBean.notas}" var="nota"
+									emptyMessage="#{msg['sem.dados']}" tableStyleClass="table table-hover table-striped tabela-de-dados"
+									paginator="true" rows="20" paginatorPosition="bottom" paginatorAlwaysVisible="false" lazy="true">
+									<!-- styleClass="tabela-de-dados panel panel-default table-responsive" -->
+									
+									<f:facet name="header">
+										<p:outputPanel rendered="#{!empty pesquisarNFSeBean.notas}" style="text-align: right;">
+											<p:commandLink ajax="false" action="#{pesquisarNFSeBean.gerarRelatorio()}" 
+												target="_blank" styleClass="mr">
+												<p:graphicImage name="/img/pdf.png" width="24" />
+											</p:commandLink>			
+										</p:outputPanel>
+									</f:facet>
+
+									<!--Colunas NFS-e -->
+									<p:column headerText="#{msg['nota']}" style="width: 100px">
+										<!-- <h:outputText value="#{lancamentoIss.nfSe.numeroNFSe}" />  -->
+										<h:outputText value="#{nota.numeroNota}" />
+									</p:column>
+
+									<p:column headerText="#{msg['rps']}" style="width: 100px">
+										<!-- <h:outputText value="#{lancamentoIss.nfSe.rpsNumero}" />  -->
+										<h:outputText value="#{nota.numeroRPS}" /> 
+									</p:column>
+
+									<p:column headerText="#{msg['emissao']}" style="width: 120px">
+										<!-- <h:outputText value="#{lancamentoIss.nfSe.dataHoraEmissao}" >
+											<f:convertDateTime pattern="dd/MM/yyyy"/>
+										</h:outputText>  -->
+										<h:outputText value="#{nota.dataHoraEmissaoDaNota}" >
+											<f:convertDateTime pattern="dd/MM/yyyy"/>
+										</h:outputText> 
+									</p:column>
+
+									<p:column headerText="#{msg['data.rps']}" style="width: 120px">
+										<!-- <h:outputText value="#{lancamentoIss.nfSe.rpsDataEmissao}">
+											<f:convertDateTime pattern="dd/MM/yyyy"/>
+										</h:outputText> -->
+										<h:outputText value="#{nota.dataEmissaoRPS}">
+											<f:convertDateTime pattern="dd/MM/yyyy"/>
+										</h:outputText>
+									</p:column>
+
+									<p:column headerText="#{msg['tomador.servico']}" >
+										<!-- <h:outputText value="#{lancamentoIss.nfSe.tomador.descricao} / " converter="cpfCnpjConverter"/> 
+										<h:outputText value="#{lancamentoIss.nfSe.tomador.documento}" converter="cpfCnpjConverter"/>  -->
+										<h:outputText value="#{nota.descricaoTomador} / " converter="cpfCnpjConverter"/> 
+										<h:outputText value="#{nota.documentoTomador}" converter="cpfCnpjConverter"/> 
+									</p:column>
+
+									<p:column headerText="#{msg['valor.nota']}" style="width: 140px">
+										<!-- <h:outputText value="#{lancamentoIss.nfSe.valorTotal}" converter="moneyConverter"/>  -->
+										<h:outputText value="#{nota.valorTotalDaNota}" converter="moneyConverter"/> 
+									</p:column>
+									
+									<p:column headerText="#{msg['aliquota']}" style="width: 140px">
+										<h:outputText value="#{nota.valorAliquota}" /> 
+									</p:column>
+									
+									<p:column headerText="#{msg['iss']}" style="width: 140px">
+										<h:outputText value="#{nota.valorInss}" converter="moneyConverter"/> 
+									</p:column>
+
+									<p:column headerText="#{msg['situacao']}" style="width: 140px">
+										<!-- <h:outputText value="#{msg[lancamentoIss.nfSe.situacaoNFSe]}" />  -->
+										<h:outputText value="#{msg[nota.situacaoDaNota]}" /> 
+									</p:column>
+
+								 	<p:column headerText="#{msg['acoes']}" styleClass="width50px">
+										<p:commandButton id="optButton" type="button" icon="ui-icon-gear" />
+
+										<p:menu overlay="true" trigger="optButton" my="right top" at="right bottom">
+											<p:menuitem value="#{msg['detalhar']}" icon="ui-icon-pencil" ajax="false" action="#{pesquisarNFSeBean.detalharNota(nota)}" />
+										<!-- 	<p:menuitem value="#{msg['detalhar']}2" icon="ui-icon-pencil" ajax="false" action="#{detalharNFSeAvulsaBean.preparar(nota)}" /> -->
+										</p:menu>
+
+										<!-- <p:menu overlay="true" trigger="optButton" my="right top" at="right bottom">
+										</p:menu> -->
+									</p:column>
+
+								 	<!-- <p:column headerText="#{msg['acoes']}" styleClass="width50px" rendered="#{!pesquisarNFSeBean.eUmLancamentoNFSe(lancamentoIss)}">
+										<p:commandButton id="optButton2" type="button" icon="ui-icon-gear" />
+									</p:column> -->
+
+								</p:dataTable>
+							</div> 
+							</p:tab>		
+							
+							<!--######## SEGUNDA ABA ########################################-->
+							
+							<p:tab title="#{msg['tomadas']}" id="tabDois">
+							<div class="panel panel-default">
+								<div id="pessoa" class="panel-body">
+									<p:panelGrid columns="1" layout="grid" styleClass="form-panel">
+										<h:panelGroup >
+											<div class="fixo width140px bg-calendario">
+												<p:outputLabel value="#{msg['data.inicial']}" for="dataInicial2"/>
+												<p:calendar value="#{pesquisarNFSeBean.filtroNFSe.dataInicio}"  required="#{!pesquisarNFSeBean.primeiraAbaSelecionada()}" id="dataInicial2"/>
+											</div>
+											
+											<div class="fixo width140px bg-calendario">
+												<p:outputLabel value="#{msg['data.final']}" for="dataFinal2"/>
+												<p:calendar value="#{pesquisarNFSeBean.filtroNFSe.dataFinal}"  required="#{!pesquisarNFSeBean.primeiraAbaSelecionada()}" id="dataFinal2"/>
+											</div>
+											
+											<div class="responsivo width145px margin-right10px">
+												<p:outputLabel value="#{msg['situacao.nota']}"/>
+												<p:selectOneMenu value="#{pesquisarNFSeBean.filtroNFSe.situacaoNFSe}">
+													<f:selectItem itemLabel="#{msg['todas']}"/>
+													<f:selectItems value="#{pesquisarNFSeBean.situacaesNFSeTomada}" var="situacao" itemValue="#{situacao}" itemLabel="#{msg[situacao.label]}" />
+												</p:selectOneMenu>
+											</div>
+											
+											<div class="responsivo width145px margin-right10px">
+												<p:outputLabel value="#{msg['rps']}"/>
+												<p:selectOneMenu value="#{pesquisarNFSeBean.filtroNFSe.filtroRPS}">
+													<f:selectItem itemLabel="#{msg['todas']}"/>
+													<f:selectItems value="#{pesquisarNFSeBean.filtrosRPS}" var="filtrosRPS" itemValue="#{filtrosRPS}" itemLabel="#{msg[filtrosRPS.label]}" />
+													
+												</p:selectOneMenu>
+											</div>
+									  </h:panelGroup>
+									  <h:panelGroup >
+											<div class="responsivo width140px margin-right10px">
+												<p:outputLabel value="#{msg['retencao.iss']}" for="retencaoIss2"/>
+												<p:selectOneMenu value="#{pesquisarNFSeBean.filtroNFSe.issRetido}" id="retencaoIss2" >
+													<f:selectItem itemLabel="#{msg['ambos']}"/>
+													<f:selectItems value="#{enumProducer.simNao}" var="simNao" itemValue="#{simNao}" itemLabel="#{msg[simNao.label]}"/>
+												</p:selectOneMenu>
+											</div>
+											
+											<div class="responsivo width215px margin-right10px">
+												<p:outputLabel value="#{msg['local.tributacao.servico']}"/>
+												<p:selectOneMenu value="#{pesquisarNFSeBean.filtroNFSe.localTributacaoNFSe}">
+													<f:selectItem itemLabel="#{msg['ambos']}"/>
+													<f:selectItems value="#{pesquisarNFSeBean.localTributacaoNFSe}" var="localTributacaoNFSe" itemValue="#{localTributacaoNFSe}" 
+													itemLabel="#{msg[localTributacaoNFSe.label]}"/>
+												</p:selectOneMenu>
+											</div>
+											
+											<div class="responsivo width225px margin-right10px">
+												<p:outputLabel value="#{msg['prestador.cpf.cnpj']}"/>
+												<p:selectOneMenu value="#{pesquisarNFSeBean.filtroNFSe.tipoPessoaPrestador}">
+													<f:selectItem itemLabel="#{msg['todos']}"/>
+													<f:selectItems value="#{pesquisarNFSeBean.tipoPessoa}" var="tipoPessoa" itemValue="#{tipoPessoa}" itemLabel="#{msg[tipoPessoa.label]}"/>
+												</p:selectOneMenu>
+											</div>
+										</h:panelGroup>
+										<h:panelGroup>
+											<div class="responsivo width595px margin-right10px">
+												<p:outputLabel value="#{msg['nome.razao.social.prestador']}"/>
+												<p:inputText value="#{pesquisarNFSeBean.filtroNFSe.nomeRazaoSocialPrestador}"/>
+											</div>
+										</h:panelGroup>
+									</p:panelGrid>
+								</div>
+							</div>
+							
+							<div class="panel panel-default">
+								<div id="pessoa" class="panel-body">
+									<p:panelGrid columns="1" layout="grid" styleClass="form-panel">
+										<h:panelGroup>
+										<div class="responsivo width225px margin-right10px">
+												<p:outputLabel value="#{msg['consulta.por.nfse.rps']}"/>
+												<p:selectOneMenu value="#{pesquisarNFSeBean.filtroNFSe.tipoConsultaNFSe}">
+													<f:selectItems value="#{pesquisarNFSeBean.tipoConsultaNFSe}" var="tipoConsultaNFSe" itemValue="#{tipoConsultaNFSe}" itemLabel="#{msg[tipoConsultaNFSe.label]}"/>
+												</p:selectOneMenu>
+											</div>
+											
+											<div class="responsivo width360px margin-right10px">
+												<p:outputLabel value="#{msg['numero.nfse.rps']}"/>
+												<p:inputText value="#{pesquisarNFSeBean.filtroNFSe.codigoNFSeRPS}"/>
+											</div>
+										</h:panelGroup>
+									</p:panelGrid>
+								</div>
+							</div>
+							
+							<!-- TABELA DE RESULTADOS -->
+							<div class="scroll-lateral-responsivo">
+								<p:dataTable value="#{pesquisarNFSeBean.notas}" var="nota"
+									emptyMessage="#{msg['sem.dados']}" tableStyleClass="table table-hover table-striped tabela-de-dados"
+									paginator="true" rows="20" paginatorPosition="bottom" paginatorAlwaysVisible="false" lazy="true">
+									<!-- styleClass="tabela-de-dados panel panel-default table-responsive" -->
+									<f:facet name="header">
+										<p:outputPanel rendered="#{!empty pesquisarNFSeBean.notas}" style="text-align: right;">
+											<p:commandLink ajax="false" action="#{pesquisarNFSeBean.gerarRelatorio()}" 
+												target="_blank" styleClass="mr">
+												<p:graphicImage name="/img/pdf.png" width="24" />
+											</p:commandLink>			
+										</p:outputPanel>
+									</f:facet>
+
+									<p:column headerText="#{msg['nota']}" style="width: 100px">
+										<h:outputText value="#{nota.numeroNota}" /> 
+									</p:column>
+
+									<p:column headerText="#{msg['rps']}" style="width: 100px">
+										<h:outputText value="#{nota.numeroRPS}" /> 
+									</p:column>
+
+									<p:column headerText="#{msg['emissao']}" style="width: 120px">
+										<h:outputText value="#{nota.dataHoraEmissaoDaNota}" >
+											<f:convertDateTime pattern="dd/MM/yyyy"/>
+										</h:outputText> 
+									</p:column>
+
+									<p:column headerText="#{msg['data.rps']}" style="width: 120px">
+										<h:outputText value="#{nota.dataEmissaoRPS}">
+											<f:convertDateTime pattern="dd/MM/yyyy"/>
+										</h:outputText>
+									</p:column>
+
+									<p:column headerText="#{msg['prestador.servico']}">
+										<h:outputText value="#{nota.descricaoPrestador} / " converter="cpfCnpjConverter"/> 
+										<h:outputText value="#{nota.documentoPrestador}" converter="cpfCnpjConverter"/> 
+									</p:column>
+
+									<p:column headerText="#{msg['valor.nota']}" style="width: 140px">
+										<h:outputText value="#{nota.valorTotalDaNota}" converter="moneyConverter"/> 
+									</p:column>
+
+									<p:column headerText="#{msg['situacao']}" style="width: 140px">
+										<h:outputText value="#{msg[nota.situacaoDaNota]}" /> 
+									</p:column>
+
+								 	<p:column headerText="#{msg['acoes']}" styleClass="width50px">
+										<p:commandButton id="optButton" type="button" icon="ui-icon-gear" />
+
+										<p:menu overlay="true" trigger="optButton" my="right top" at="right bottom">
+											<p:menuitem value="#{msg['detalhar']}" icon="ui-icon-pencil" ajax="false" action="#{pesquisarNFSeBean.detalharNota(nota)}" />
+											<!-- <p:menuitem value="#{msg['cancelar']}" icon="fa fa-ban" ajax="false" action="#{cancelarNFSeBean.cancelarNota(nota)}"/> -->
+										</p:menu>
+									</p:column>
+
+								</p:dataTable>
+							</div> 
+							</p:tab>
+							</p:tabView>
+			
+
+			<br clear="all"/>
+
+
+			<!-- <p:blockUI widgetVar="block" block="@form" trigger="uf, municipio">
+				<i class="fa fa-spin fa-circle-o-notch"></i>
+				<span class="m-left-xs">#{msg['aguarde']}</span>
+			</p:blockUI> -->
+			
+			<p:blockUI block="@form" trigger="btSubmit">
+				<i class="fa fa-spin fa-circle-o-notch"></i>
+				<span class="m-left-xs">Aguarde...</span>
+			</p:blockUI>
+
+			<!-- <f:metadata>
+				<f:event listener="#{conversationBean.end}" type="preRenderView" />
+			</f:metadata> -->
+
+		</ui:decorate>
+	</ui:define>
+
+</ui:composition>

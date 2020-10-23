@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template/master-template.xhtml">
+
+
+	<ui:define name="titulo_pagina">
+		<h:outputText value="#{msg['escrituracao.cosif']}" />
+	</ui:define>
+
+	<ui:define name="breadcrumb">
+		<li><i class="fa fa-home"></i><p:link outcome="inicio" value=" #{msg['inicio']}" /></li>
+		<li class="active"><i class="fa fa-university"></i> #{msg['escrituracao.cosif']}</li>
+	</ui:define>
+
+	<!-- Alguns itens do formulario estao no arquivo formulario.xhtml -->
+	<!-- Por exemplo: bloquear formulario enquanto pesquisa e foco automatico ao carregar a pagina -->
+	<!-- A barra de ferramentas e a disposicao de seus botoes tambem esta no formulatio.xhtml -->
+
+	<ui:define name="conteudo">
+		<ui:decorate template="/WEB-INF/template/formulario.xhtml">
+
+			<!-- ********************************************** -->
+			<!-- BARRA DE FERRAMENTAS - BOTOES DO LADO ESQUERDO -->
+			<!-- ********************************************** -->
+			<ui:define name="toolbar-left">
+				<p:link onclick="PF('confirmBack').show();return false;"
+					styleClass="btn btn-danger">
+					<i class="fa fa-reply"></i>
+					#{msg['voltar']}
+				</p:link>
+				<p:dialog widgetVar="confirmBack" id="confirmBack" fitViewport="true" modal="true"
+					width="100%" closable="false" draggable="false" resizable="false" showEffect="fade"
+					closeOnEscape="true" hideEffect="fade" styleClass="modal-confirmacao">
+					<h:outputText value="#{msg['confirma.cancelamento.inclusao']}" styleClass="modal-confirmacao-texto" />
+					<div class="modal-confirmacao-botoes">
+						<p:button value="#{msg['sim']}" outcome="pesquisar_escrituracao_cosif_portal" styleClass="modal-confirmacao-botao-verde" />
+						<p:commandButton value="#{msg['nao']}" type="button" onclick="PF('confirmBack').hide();" styleClass="modal-confirmacao-botao-vermelho" />
+					</div>
+				</p:dialog>
+			</ui:define>
+
+			<!-- ********************************************* -->
+			<!-- BARRA DE FERRAMENTAS - BOTOES DO LADO DIREITO -->
+			<!-- ********************************************* -->
+			<ui:define name="toolbar-right">
+				<p:commandLink action="#{escrituracaoCosifPortalBean.escriturarGerarDam}"
+					styleClass="btn btn-success">
+					<i class="fa fa-check-square-o"></i> #{msg['escriturar']}
+					<p:confirm message="#{msg['confirma.escrituracao.cosif.competencia']}?"  />
+				</p:commandLink>
+			</ui:define>
+
+			<br clear="all"/>
+			<br clear="all"/>
+
+			<!-- ******************************* -->
+			<!-- INICIO DOS CAMPOS DO FORMULARIO -->
+			<!-- ******************************* -->
+			<div  class="panel panel-default">
+				<!-- <p:wizard styleClass="insights-wizard" widgetVar="wizard"  id="wizard" flowListener="#{escrituracaoCosifPortalBean.onFlowProcess}" backLabel="#{msg['voltar']}" nextLabel="#{msg['proximo']}" showNavBar="true" >
+					
+					<p:tab id="lista-cosif-aba" title="#{msg['plano.contabil.cosif']}"> -->
+						<p:panel >
+							<ui:include src="/app/UC0046EscrituracaoCosifPortal/lista-cosif-aba.xhtml" />
+						</p:panel>
+					<!-- </p:tab>
+					
+					<p:tab id="confirmacao-aba" title="#{msg['confirmacao']}">
+						<p:panel >
+							<ui:include src="/app/UC0046EscrituracaoCosifPortal/confirmacao-aba.xhtml" />
+						</p:panel>
+					</p:tab>
+				 </p:wizard>
+				 
+				 <p:outputPanel id="btn">
+				 
+				 </p:outputPanel> -->
+			</div> 
+
+			<div id="toolbar" class="grey-container shortcut-wrapper toolbar">
+				<div class="toolbar-left">
+					<p:link onclick="PF('confirmBack').show();return false;"
+						styleClass="btn btn-danger">
+						<i class="fa fa-reply"></i>
+						#{msg['voltar']}
+					</p:link>
+				</div>
+				<div class="toolbar-right">
+					<p:commandLink action="#{escrituracaoCosifPortalBean.escriturarGerarDam}"
+						styleClass="btn btn-success">
+						<i class="fa fa-check-square-o"></i> #{msg['escriturar']}
+						<p:confirm message="#{msg['confirma.escrituracao.cosif.competencia']}?"  />
+					</p:commandLink>
+				</div>
+			</div>
+
+			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade" closeOnEscape="true" closable="false" width="100%" styleClass="modal-confirmacao">
+		       <div class="modal-confirmacao-botoes">
+			        <p:commandButton value="#{msg['escriturar.gerar.dam']}" type="button" styleClass="ui-confirmdialog-yes modal-confirmacao-botao-verde"  />
+			        <p:commandButton value="#{msg['cancelar']}" type="button" styleClass="ui-confirmdialog-no modal-confirmacao-botao-vermelho" />
+		    	</div>
+		    </p:confirmDialog>
+
+			<f:metadata>
+				<!-- <f:event listener="#{conversationBean.begin}" type="preRenderView" /> -->
+				<!-- <f:event listener="#{escrituracaoCosifPortalBean.init}" type="preRenderView" /> -->
+			</f:metadata>
+
+		</ui:decorate>
+	</ui:define>
+
+</ui:composition>

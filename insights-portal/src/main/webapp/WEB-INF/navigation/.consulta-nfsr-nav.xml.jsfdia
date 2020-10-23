@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PROCESS model-entity="JSFProcess">
+ <PROCESS-ITEM NAME="rules:" SHAPE="32,17,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules::0" NAME="item" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="consulta_nfse::#app#UC0050ConsultaNFSe#T0050L-consulta-nfse.xhtml"
+    NAME="output"
+    PATH="/app/UC0050ConsultaNFSe/T0050L-consulta-nfse.xhtml"
+    TARGET="rules:#app#UC0050ConsultaNFSe#T0050L-consulta-nfse.xhtml"
+    TITLE="consulta_nfse" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="detalhar_nfse::#app#UC0050ConsultaNFSe#T0050C-detalhe-nfse.xhtml"
+    NAME="output1"
+    PATH="/app/UC0050ConsultaNFSe/T0050C-detalhe-nfse.xhtml"
+    TARGET="rules:#app#UC0050ConsultaNFSe#T0050C-detalhe-nfse.xhtml"
+    TITLE="detalhar_nfse" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="detalhar_nfse_avulsa::#app#UC0050ConsultaNFSe#T0050C-detalhe-nfse-avulsa.xhtml"
+    NAME="output2"
+    PATH="/app/UC0050ConsultaNFSe/T0050C-detalhe-nfse-avulsa.xhtml"
+    TARGET="rules:#app#UC0050ConsultaNFSe#T0050C-detalhe-nfse-avulsa.xhtml"
+    TITLE="detalhar_nfse_avulsa" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM
+  NAME="rules:#app#UC0050ConsultaNFSe#T0050L-consulta-nfse.xhtml"
+  PATH="/app/UC0050ConsultaNFSe/T0050L-consulta-nfse.xhtml"
+  SHAPE="240,33,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#app#UC0050ConsultaNFSe#T0050C-detalhe-nfse.xhtml"
+  PATH="/app/UC0050ConsultaNFSe/T0050C-detalhe-nfse.xhtml"
+  SHAPE="256,177,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#app#UC0050ConsultaNFSe#T0050C-detalhe-nfse-avulsa.xhtml"
+  PATH="/app/UC0050ConsultaNFSe/T0050C-detalhe-nfse-avulsa.xhtml"
+  SHAPE="272,321,0,0" model-entity="JSFProcessGroup"/>
+</PROCESS>

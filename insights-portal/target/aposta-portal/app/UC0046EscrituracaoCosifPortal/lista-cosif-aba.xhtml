@@ -1,0 +1,104 @@
+<div id="geral"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+	<!-- <div class="panel panel-default">
+		<div  class="panel-body"> -->
+			<p:panelGrid columns="1" layout="grid">
+
+				<h:panelGroup>
+					<div class="fixo width140px">
+						<p:outputLabel value="#{msg['cnpj']}" styleClass="width100" />
+						<h:outputText value="#{escrituracaoCosifPortalBean.escrituracaoCosif.prestador.documento}"
+							converter="cpfCnpjConverter" />
+					</div>
+					<div class="responsivo width100">
+						<p:outputLabel value="#{msg['razao.social']}" styleClass="width100" />
+						<h:outputText value="#{escrituracaoCosifPortalBean.escrituracaoCosif.prestador.descricao}" />
+					</div>
+				</h:panelGroup>
+
+				<h:panelGroup>
+					<div class="fixo width190px bg-calendario">
+						<p:outputLabel value="#{msg['data.encerramento']}" />
+						<h:outputText value="#{escrituracaoCosifPortalBean.escrituracaoCosif.dataEncerramento}">
+							<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-3" />
+						</h:outputText>
+					</div>
+					<div class="fixo width90px">
+						<p:outputLabel for="competencia" value="#{msg['competencia']}" />
+						<h:outputText id="competencia" value="#{escrituracaoCosifPortalBean.escrituracaoCosif.competencia}"
+						 converter="competenciaConverter" />
+					</div>
+					<div class="fixo width190px bg-calendario">
+						<p:outputLabel value="#{msg['data.vencimento']}" />
+						<h:outputText value="#{escrituracaoCosifPortalBean.escrituracaoCosif.dataVencimento}">
+							<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-3" />
+						</h:outputText>
+					</div>
+					<!-- <div class="fixo width150px bg-calendario">
+						<p:outputLabel for="vencimento" value="#{msg['data.pagamento']}" />
+						<p:calendar id="vencimento" pattern="dd/MM/yyyy" mask="true" navigator="true"
+							value="#{escrituracaoCosifPortalBean.escrituracaoCosif.dataPagamento}" required="true"
+							locale="pt_BR" mindate="#{escrituracaoCosifPortalBean.minDate}" />
+					</div> -->
+					<!-- <h:panelGroup> -->
+						<p:outputPanel id="fileUpload" styleClass="responsivo width100">
+							 <p:fileUpload fileUploadListener="#{escrituracaoCosifPortalBean.handleFileUpload}" 
+						 		mode="advanced" auto="true" update="fileUpload" dragDropSupport="false" 
+						 		label="#{msg['anexar.cosif']}" styleClass="upload-file-cosif"
+						 		rendered="#{empty escrituracaoCosifPortalBean.escrituracaoCosif.fileName}">
+							 </p:fileUpload>
+							 <p:outputPanel id="panelFile" styleClass="panel-file-cosif responsivo width100"
+							 	rendered="#{!empty escrituracaoCosifPortalBean.escrituracaoCosif.fileName}">
+							 	<p:outputLabel value="#{msg['anexo']}" styleClass="width100" />
+								<h:outputText id="nomeArquivo" value="#{escrituracaoCosifPortalBean.escrituracaoCosif.fileName}" />
+								<p:spacer width="10px" />
+								<p:commandLink action="#{escrituracaoCosifPortalBean.excluirAnexo}"
+									styleClass="btn btn-danger btn-sm" process="@this" update="fileUpload">
+									<i class="fa fa-trash"></i> #{msg['excluir.anexo']}
+								</p:commandLink>
+									<!-- rendered="#{escrituracaoCosifPortalBean.escrituracaoCosif.fileName != null}" -->
+							 </p:outputPanel>
+						</p:outputPanel>
+					<!-- </h:panelGroup> -->
+				</h:panelGroup>
+
+				<br />
+
+				<p:dataTable id="dataTable" value="#{escrituracaoCosifPortalBean.listaCompetenciaCOSIF}" var="compCOSIF"
+					emptyMessage="#{msg['sem.dados']}" styleClass="tabela-de-dados panel panel-default table-responsive"
+					tableStyleClass="table table-striped table-hover"
+					paginator="true" rows="50" paginatorPosition="bottom" paginatorAlwaysVisible="false">
+						<p:column headerText="#{msg['plano.contabil.cosif']}">
+							<h:outputText value="#{compCOSIF.cosif.codigo} #{compCOSIF.cosif.descricao}" style="font-weight: bold;"  rendered="#{compCOSIF.cosif.COSIFPai}"/>
+							<h:outputText value="#{compCOSIF.cosif.codigo} #{compCOSIF.cosif.descricao}" rendered="#{!compCOSIF.cosif.COSIFPai}"/>
+						</p:column>
+						<p:column headerText="#{msg['lc116']}" style="width: 80px">
+							<h:outputText value="#{compCOSIF.servico.codigo}"  rendered="#{compCOSIF.servico != null}"/>
+							<h:outputText value="-" rendered="#{compCOSIF.servico == null}"/>
+						</p:column>
+						<p:column headerText="#{msg['base.calculo']}" style="width: 140px">
+							<p:inputText id="valorBaseCalculo" 
+								value="#{compCOSIF.baseCalculo}" converter="moneyConverter" styleClass="money">	
+								<p:ajax event="blur" process="@this" update="valorIss"/>					
+							</p:inputText>
+						</p:column>
+						<p:column headerText="#{msg['aliquota']}" style="width: 80px">
+							<h:outputText value="#{compCOSIF.aliquota}" rendered="#{compCOSIF.aliquota != null}"
+								converter="percentConverter" />
+							<h:outputText value="-"  rendered="#{compCOSIF.aliquota == null}"/>
+						</p:column>
+						<p:column  headerText="#{msg['valor.iss']}" style="width: 140px">
+							<h:outputText id="valorIss" value="#{compCOSIF.valorISS}" converter="moneyConverter" />
+						</p:column>
+				</p:dataTable>
+
+			</p:panelGrid>
+		<!-- </div>
+	</div>	 -->
+
+</div>	

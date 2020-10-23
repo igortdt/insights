@@ -1,0 +1,104 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:head>
+		<title>#{msg['cadastro.socios']}</title>
+		<h:outputStylesheet library="css" name="insights.css" />
+		<link href="#{request.contextPath}/theme/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+		<link href="#{request.contextPath}/theme/css/theme.css" rel="stylesheet" />
+		<link href="#{request.contextPath}/theme/css/colorbox/colorbox.css" rel="stylesheet" />
+	</h:head>
+
+	<h:body style="height: 235px;">
+		<h:form prependId="false">
+			<p:messages id="msgs" autoUpdate="true" />
+
+			<div class="panel panel-default">
+				<div id="pessoa" class="panel-body">
+
+					<p:panelGrid columns="1" layout="grid">
+						<p:selectOneButton id="tipo-pessoa" value="#{modalCadastroSocio.tipoPessoa}" styleClass="combobox ">
+							<f:selectItems value="#{enumProducer.tiposPessoa}" var="tipo"
+								itemLabel="#{msg[tipo.label]}" itemValue="#{tipo}" />
+							<p:ajax event="change" update="pessoa_panel" resetValues="true"
+								listener="#{modalCadastroSocio.resetForm}" />
+						</p:selectOneButton>
+					</p:panelGrid>
+
+					<p:outputPanel id="pessoa_panel">
+						<p:panelGrid columns="1" layout="grid" rendered="#{modalCadastroSocio.renderPF}">
+							<h:panelGroup>
+
+								<div class="fixo width120px">
+									<p:outputLabel for="cpf" value="#{msg['cpf']}" />
+									<p:inputMask mask="999.999.999-99" id="cpf" value="#{modalCadastroSocio.doc}"
+										required="true" validator="existeCpfCnpj" converter="cpfCnpjConverter">
+										<p:ajax event="change" listener="#{modalCadastroSocio.onDocChange}" />
+									</p:inputMask>
+								</div>
+
+								<div class="responsivo width340px">
+									<p:outputLabel for="nome" value="#{msg['nome']}" />
+									<p:inputText id="nome" value="#{modalCadastroSocio.des}" required="true" />
+								</div>
+
+							</h:panelGroup>
+							
+						</p:panelGrid>
+						<p:panelGrid columns="1" layout="grid" rendered="#{!modalCadastroSocio.renderPF}">
+							<h:panelGroup>
+
+								<div class="fixo width120px">
+									<p:outputLabel for="cnpj" value="#{msg['cnpj']}" />
+									<p:inputMask mask="99.999.999/9999-99" id="cnpj" value="#{modalCadastroSocio.doc}"
+										required="true" validator="existeCpfCnpj" converter="cpfCnpjConverter">
+										<p:ajax event="change" listener="#{modalCadastroSocio.onDocChange}" />
+									</p:inputMask>
+								</div>
+
+								<div class="responsivo width340px">
+									<p:outputLabel for="razao" value="#{msg['razao.social']}" />
+									<p:inputText id="razao" value="#{modalCadastroSocio.des}" required="true" />
+								</div>
+
+							</h:panelGroup>
+							
+						</p:panelGrid>
+					</p:outputPanel>
+
+					<p:panelGrid columns="1" layout="grid">
+						<h:panelGroup>
+							<div class="fixo">
+								<p:commandLink styleClass="btn btn-success" actionListener="#{modalCadastroSocio.salvar}">
+									<i class="fa fa-disk-o"></i>
+									#{msg['salvar']}
+								</p:commandLink>
+							</div>
+							<div>
+								<p:commandLink styleClass="btn btn-danger" actionListener="#{modalCadastroSocio.cancelar}" process="@this">
+									<i class="fa fa-reply"></i>
+									#{msg['cancelar']}
+								</p:commandLink>
+							</div>
+						</h:panelGroup>
+					</p:panelGrid>
+
+				</div>
+			</div>
+
+			<p:focus context="@form" />
+
+			<p:blockUI block="@form" trigger="tipo-pessoa, cpf, cnpj">
+				<i class="fa fa-spin fa-circle-o-notch"></i>
+				<span class="m-left-xs">Aguarde...</span>
+			</p:blockUI>
+
+		</h:form>
+	</h:body>
+
+</html>

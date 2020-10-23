@@ -1,0 +1,197 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template/master-template.xhtml">
+
+	<ui:define name="titulo_pagina">
+		<h:outputText value="#{msg['detalhes.nfse.avulsa']}" />
+	</ui:define>
+
+	<ui:define name="breadcrumb">
+		<li><i class="fa fa-home"></i><p:link outcome="inicio" value=" #{msg['inicio']}" /></li>
+		<li><i class="fa fa-file-text"></i> #{msg['consulta.nfse']}</li>
+	</ui:define>
+
+	<!-- Alguns itens do formulario estao no arquivo formulario.xhtml -->
+	<!-- Por exemplo: bloquear formulario enquanto pesquisa e foco automatico ao carregar a pagina -->
+	<!-- A barra de ferramentas e a disposicao de seus botoes tambem esta no formulatio.xhtml -->
+
+	<ui:define name="conteudo">
+		<ui:decorate template="/WEB-INF/template/formulario.xhtml">
+
+			<!-- ********************************************** -->
+			<!-- BARRA DE FERRAMENTAS - BOTOES DO LADO ESQUERDO -->
+			<!-- ********************************************** -->
+			<ui:define name="toolbar-left">
+				<p:link outcome="consulta_nfse" styleClass="btn btn-danger">
+					<i class="fa fa-reply"></i>
+					#{msg['voltar']}
+				</p:link>
+			</ui:define>
+
+			<!-- ********************************************* -->
+			<!-- BARRA DE FERRAMENTAS - BOTOES DO LADO DIREITO -->
+			<!-- ********************************************* -->
+			<ui:define name="toolbar-right">
+				<p:link id="optButton" styleClass="btn btn-default" onclick="return false;">
+					<i class="fa fa-bars"></i>#{msg['opcoes']}
+				</p:link>
+				
+				<p:menu overlay="true" trigger="optButton" my="right top" at="right bottom">
+					<p:menuitem value="#{msg['visualizar.nfse']}" icon="fa fa-search" ajax="false" target="_blank"
+						action="#{detalharNFSeAvulsaBean.visualizarNFSe(detalharNFSeAvulsaBean.nfseAlvusa)}"
+						rendered="#{detalharNFSeAvulsaBean.situacaoNFSeEEmitida()}" />
+							
+					<!-- <p:menuitem value="#{msg['cancelar.nfse']}" icon="fa fa-ban" ajax="false" action="#{detalharNFSeAvulsaBean.cancelarNFSeAvulsa()}"
+					rendered="#{detalharNFSeAvulsaBean.situacaoNFSeEEmitida()}"/> -->
+				</p:menu>
+			</ui:define> 
+
+			<br clear="all"/>
+			<br clear="all"/>
+
+			<!-- ******************************* -->
+			<!-- INICIO DOS CAMPOS DO FORMULARIO -->
+			<!-- ******************************* -->
+
+		<div class="panel panel-default">
+		 	<div class="panel-heading">#{msg['prestador']}</div>
+			<div class="panel-body">
+
+				<p:panelGrid id="prestador-panel2" columns="1" layout="grid" styleClass="form-panel">
+					<h:panelGroup>
+						<div class="fixo width150px">
+							<p:outputLabel value="#{msg['cpf.cnpj']}" styleClass="width100"/>
+							<h:outputText value="#{detalharNFSeAvulsaBean.nfseAlvusa.prestador.documento}" converter="cpfCnpjConverter" />
+						</div>
+						
+						<div class="fixo width250px">
+							<p:outputLabel value="#{msg['nome.razao']}" styleClass="width100"/>
+							<h:outputText value="#{detalharNFSeAvulsaBean.nfseAlvusa.prestador.descricao}"/>
+						</div>
+					</h:panelGroup>
+				</p:panelGrid>
+			</div> 
+				
+				
+				<div class="panel-heading">#{msg['tomador']}</div>
+				<div class="panel-body">
+
+					<p:panelGrid id="tomador-panel2" columns="1" layout="grid" styleClass="form-panel">
+						<h:panelGroup>
+							<div class="fixo width150px">
+								<p:outputLabel value="#{msg['cpf.cnpj']}" styleClass="width100"/>
+								<h:outputText value="#{detalharNFSeAvulsaBean.nfseAlvusa.tomador.documento}" converter="cpfCnpjConverter" />
+							</div>
+							<div class="fixo width250px">
+								<p:outputLabel value="#{msg['nome.razao']}" styleClass="width100"/>
+								<h:outputText value="#{detalharNFSeAvulsaBean.nfseAlvusa.tomador.descricao}"/>
+							</div>
+						</h:panelGroup>
+						
+												
+						<h:panelGroup>
+							<div class="responsivo width100">
+								<p:outputLabel value="#{msg['endereco']}" styleClass="width100"/>
+								<h:outputText value="#{detalharNFSeAvulsaBean.nfseAlvusa.tomador.endereco}"/>
+							</div>
+						</h:panelGroup>
+					</p:panelGrid>
+				</div>
+				
+				
+				<div class="panel-heading">#{msg['servico.prestado']}</div>
+				<div class="panel-body">
+
+					<p:panelGrid id="servico-panel2" columns="1" layout="grid"
+						styleClass="form-panel">
+
+						<h:panelGroup>
+							<div class="fixo width450px">
+								<p:outputLabel value="#{msg['servico']}"/>
+								<br clear="all"/>
+								<h:outputText value="#{detalharNFSeAvulsaBean.nfseAlvusa.servico.descricao}" converter="cpfCnpjConverter" />
+							</div>
+
+							<div class="fixo width250px">
+								<p:outputLabel value="#{msg['aliquota']}"/>
+								<br clear="all"/>
+								<h:outputText value="#{detalharNFSeAvulsaBean.nfseAlvusa.aliquota} %">
+									<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+								</h:outputText>	
+							</div>
+						
+							<div class="fixo width250px">
+								<p:outputLabel value="#{msg['optante.simples']}"/>
+								<br clear="all"/>
+								<h:outputText value="#{msg[detalharNFSeAvulsaBean.nfseAlvusa.prestadorOptanteSIMPLES]}" />
+							</div>
+						</h:panelGroup>
+						
+						<h:panelGroup>
+							<div class="fixo width100">
+								<p:outputLabel value="#{msg['local.tributacao.servico']}"/>
+								<br clear="all"/>
+								<h:outputText value="#{msg[detalharNFSeAvulsaBean.nfseAlvusa.servico.localTributacaoServico.label]}"/>
+							</div>
+						</h:panelGroup>
+						
+						<h:panelGroup>
+							<div class="responsivo width100">
+								<p:outputLabel for="observacao2" value="#{msg['descricao.servico']}" />
+								<p:spacer width="10px" /><h:outputText id="disp-observacao2" />
+								<p:inputTextarea id="observacao2" value="#{detalharNFSeAvulsaBean.nfseAlvusa.discriminacaoServico}" disabled="true"/>
+							</div>
+						</h:panelGroup>
+						
+						
+								
+						<h:panelGroup>
+							<div class="fixo width250px">
+								<p:outputLabel value="#{msg['local.execucao.servico']}"/>
+								<br clear="all"/>
+								<h:outputText value="#{detalharNFSeAvulsaBean.nfseAlvusa.localPrestacaoServico}"/>
+							</div>
+							
+						</h:panelGroup>
+						
+						
+						<h:panelGroup>
+							<div class="fixo width250px">
+								<p:outputLabel value="#{msg['valor.servico']}"/>
+								<br clear="all"/>
+								<h:outputText value="#{detalharNFSeAvulsaBean.nfseAlvusa.valorTotal}" converter="moneyConverter"/>
+							</div>	
+							
+							<div class="fixo width250px">
+								<p:outputLabel value="#{msg['valor.deducoes']}"/>
+								<br clear="all"/>
+								<h:outputText value="#{detalharNFSeAvulsaBean.nfseAlvusa.valorDeducoes}" converter="moneyConverter"/>
+								
+							</div>	
+							
+							<div class="fixo width250px">
+								<p:outputLabel value="#{msg['base.calculo']}"/>
+								<br clear="all"/>
+								<h:outputText value="#{detalharNFSeAvulsaBean.nfseAlvusa.valorBaseCalculo}" converter="moneyConverter"/>
+							</div>	
+							
+							<div class="fixo width250px">
+								<p:outputLabel value="#{msg['valor.iss']}"/>
+								<br clear="all"/>
+								<h:outputText value="#{detalharNFSeAvulsaBean.nfseAlvusa.valorISS}" converter="moneyConverter"/>
+							</div>	
+						</h:panelGroup>
+					</p:panelGrid>
+				</div> 			
+			</div>
+
+
+		</ui:decorate>
+	</ui:define>
+
+</ui:composition>

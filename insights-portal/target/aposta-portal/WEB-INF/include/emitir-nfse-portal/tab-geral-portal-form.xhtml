@@ -1,0 +1,303 @@
+<div id="geral"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+
+	
+	<!-- <div class="panel-heading">#{msg['tomador']}</div> -->
+	<div class="panel-body">
+	
+	<p:panelGrid columns="1" layout="grid" id="form-tomador" styleClass="form-panel">
+		<p:selectOneButton id="tipo_tomador" styleClass="combobox margin-auto"
+			 value="#{emitirNFSePortalBean.consultarPessoaBean.tipoPessoa}">
+			<f:selectItems value="#{emitirNFSePortalBean.tiposPessoa}" var="tipo"
+				itemLabel="#{msg[tipo.label]}" itemValue="#{tipo}" />
+			<p:ajax event="change" listener="#{emitirNFSePortalBean.resetTomador}"
+				update="tomador_panel, end_comp" resetValues="true" />
+		</p:selectOneButton>
+	</p:panelGrid>
+
+	<p:outputPanel id="tomador_panel">
+		<p:panelGrid columns="1" layout="grid" styleClass="form-panel" rendered="#{emitirNFSePortalBean.consultarPessoaBean.renderPF}">
+			<h:panelGroup>
+
+				<div class="responsivo width140px">
+					<p:outputLabel for="cpf-tomador" value="#{msg['cpf']}" />
+					<p:inputMask mask="999.999.999-99" id="cpf-tomador" converter="cpfCnpjConverter" required="true" requiredMessage="#{msg['tomador.obrigatorio']}"
+						value="#{emitirNFSePortalBean.consultarPessoaBean.pessoaFisica.cpf}" validator="cpfCnpjBeanValidator">
+						<p:ajax event="change" listener="#{emitirNFSePortalBean.onDocTomadorChange}" resetValues="true"
+							update="tomador_panel,endereco, end_comp" />
+					</p:inputMask>														
+				</div>
+
+				<div class="responsivo width50px margin-top23px">
+					<p:commandButton id="btPFTomador" widgetVar="btPFTomador" icon="fa fa-search"
+						actionListener="#{modalPessoaFisicaPortal.openModal}" immediate="true">
+						<p:ajax event="dialogReturn" listener="#{emitirNFSePortalBean.onTomadorSelected}"
+							update="tomador_panel, endereco, end_comp" resetValues="true" />
+					</p:commandButton>
+				</div>
+
+				<div class="responsivo width390px margin-right15px">
+					<p:outputLabel for="nome-tomador" value="#{msg['nome']}" />
+					<p:inputText id="nome-tomador" value="#{emitirNFSePortalBean.consultarPessoaBean.pessoaFisica.nome}"
+						required="true" disabled="#{emitirNFSePortalBean.consultarPessoaBean.pfFound}" />
+				</div>
+
+			</h:panelGroup>
+		</p:panelGrid>
+
+		<p:panelGrid columns="1" layout="grid" styleClass="form-panel" rendered="#{emitirNFSePortalBean.consultarPessoaBean.renderPJ}">
+			<h:panelGroup>
+
+				<div class="responsivo width140px">
+					<p:outputLabel for="cnpj-tomador" value="#{msg['cnpj']}" />
+					<p:inputMask mask="99.999.999/9999-99" id="cnpj-tomador" converter="cpfCnpjConverter" required="true" requiredMessage="#{msg['tomador.obrigatorio']}"
+						value="#{emitirNFSePortalBean.consultarPessoaBean.pessoaJuridica.cnpj}" validator="cpfCnpjBeanValidator">
+						<p:ajax event="change" listener="#{emitirNFSePortalBean.onDocTomadorChange}" resetValues="true"
+							update="tomador_panel, endereco, end_comp" />
+					</p:inputMask>
+				</div>
+
+				<div class="responsivo width50px margin-top23px">
+					<p:commandButton id="btPJTomador" widgetVar="btPJTomador" icon="fa fa-search"
+						actionListener="#{modalPessoaJuridicaPortal.openModal}" immediate="true">
+						<p:ajax event="dialogReturn" listener="#{emitirNFSePortalBean.onTomadorSelected}"
+							update="tomador_panel, endereco, end_comp" resetValues="true" />
+					</p:commandButton>
+				</div>
+
+				<div class="responsivo width390px margin-right15px">
+					<p:outputLabel for="razao-tomador" value="#{msg['razao.social']}" />
+					<p:inputText id="razao-tomador" value="#{emitirNFSePortalBean.consultarPessoaBean.pessoaJuridica.razaoSocial}" requiredMessage="#{msg['tomador.obrigatorio']}"
+						required="true" disabled="#{emitirNFSePortalBean.consultarPessoaBean.pjFound}" />
+				</div>
+
+			</h:panelGroup>
+		</p:panelGrid>
+		
+		<p:panelGrid columns="1" layout="grid" styleClass="form-panel" rendered="#{emitirNFSePortalBean.consultarPessoaBean.renderExterior}">
+			<h:panelGroup>
+
+				<div class="responsivo width140px margin-right15px">
+					<p:outputLabel for="documento-tomador" value="#{msg['documento']}" />
+					<p:inputText  id="documento-tomador" requiredMessage="#{msg['tomador.obrigatorio']}"
+						disabled="#{emitirNFSePortalBean.consultarPessoaBean.pessoaExterior.id != null}"
+						value="#{emitirNFSePortalBean.consultarPessoaBean.pessoaExterior.documento}">
+					</p:inputText>
+				</div>
+
+				
+				<div class="responsivo width390px margin-right15px">
+					<p:outputLabel for="nome-pessoa-externa-tomador" value="#{msg['nome']}" />
+					
+					<p:autoComplete id="nome-pessoa-externa-tomador" value="#{emitirNFSePortalBean.consultarPessoaBean.pessoaExterior}" var="pessoa" itemValue="#{pessoa}" converter="entityConverter"
+						itemLabel="#{pessoa.documento} #{pessoa.descricao}" completeMethod="#{emitirNFSePortalBean.filtrarPessoaExterior}" forceSelection="true"
+						minQueryLength="3"  queryDelay="150">			
+						<p:ajax event="itemSelect" listener="#{emitirNFSePortalBean.onTomadorSelected}" update="tomador_panel, end_comp" process="documento-tomador, @this"/>													 					
+					</p:autoComplete>
+					
+				</div>
+				
+				<div class="responsivo width50px margin-top23px">
+					<p:commandButton id="btPETomador" widgetVar="btPJTomador" icon="fa fa-search"
+						actionListener="#{modalPessoaExteriorPortal.openModal}" immediate="true">
+						<f:param name="cid" value="#{javax.enterprise.context.conversation.id}" />
+						<p:ajax event="dialogReturn" listener="#{emitirNFSePortalBean.onTomadorSelected}"
+							update="tomador_panel, end_comp" resetValues="true" />
+					</p:commandButton>
+				</div>
+				
+				
+					
+			</h:panelGroup>
+			<h:panelGroup>
+			
+				<div class="fixo width270px">	
+					<p:outputLabel for="pais" value="#{msg['pais']}" />
+					<p:selectOneMenu  id="pais" value="#{emitirNFSePortalBean.consultarPessoaBean.pessoaExterior.pais}" converter="entityConverter"
+						disabled="#{emitirNFSePortalBean.consultarPessoaBean.pessoaExterior.id != null}"
+						filter="true" filterMatchMode="contains" required="true">
+						<f:selectItem itemLabel="#{msg['selecionar']}" />
+						<f:selectItems value="#{emitirNFSePortalBean.paises}" var="pais" itemLabel="#{pais.nome}" itemValue="#{pais}" />
+					</p:selectOneMenu>
+				</div>
+						
+				<div class="responsivo width520px">
+					<p:outputLabel for="endereco_exterior" value="#{msg['endereco']}" />
+					<p:inputText id="endereco_exterior" value="#{emitirNFSePortalBean.consultarPessoaBean.pessoaExterior.enderecoExterior}"  
+						disabled="#{emitirNFSePortalBean.consultarPessoaBean.pessoaExterior.id != null}"/>
+				</div>
+				
+			</h:panelGroup>
+		</p:panelGrid>
+	</p:outputPanel>
+	
+
+	<p:outputPanel id="end_comp" >
+		<p:outputPanel id="endereco_panel" rendered="#{!emitirNFSePortalBean.consultarPessoaBean.renderExterior}">
+			<div class="panel panel-default">
+						<div class="panel-heading">#{msg['endereco']}</div>
+						<div id="panel-endereco" class="panel-body">
+							<p:panelGrid columns="1" layout="grid">
+								<h:panelGroup>
+		
+									<div class="fixo width320px">
+										<p:outputLabel for="email" value="#{msg['email']}" />
+										<p:inputText id="email" value="#{emitirNFSePortalBean.consultarPessoaBean.pessoa.email}" disabled="#{!empty emitirNFSePortalBean.consultarPessoaBean.pessoa.email}"/>
+									</div>
+									<div class="fixo width120px">
+										<p:outputLabel for="tfixo" value="#{msg['telefone.fixo']}" />
+										<p:inputText id="tfixo" value="#{emitirNFSePortalBean.consultarPessoaBean.pessoa.telefoneFixo}"
+											onkeyup="mascara(this, telefone)" converter="telefoneConverter" validator="telefoneValidator" disabled="#{!empty emitirNFSePortalBean.consultarPessoaBean.pessoa.telefoneFixo}"/>
+									</div>
+									<div class="fixo width120px">
+										<p:outputLabel for="tfax" value="#{msg['fax']}" />
+										<p:inputText id="tfax" value="#{emitirNFSePortalBean.consultarPessoaBean.pessoa.telefoneFax}"
+											onkeyup="mascara(this, telefone)" converter="telefoneConverter" validator="telefoneValidator"  disabled="#{!empty emitirNFSePortalBean.consultarPessoaBean.pessoa.telefoneFax}"/>
+									</div>
+									<div class="fixo width120px">
+										<p:outputLabel for="tmovel" value="#{msg['celular']}" />
+										<p:inputText id="tmovel" value="#{emitirNFSePortalBean.consultarPessoaBean.pessoa.telefoneMovel}"
+											onkeyup="mascara(this, telefone)" converter="telefoneConverter" validator="telefoneValidator" disabled="#{!empty emitirNFSePortalBean.consultarPessoaBean.pessoa.telefoneMovel}"/>
+									</div>
+		
+								</h:panelGroup>
+							</p:panelGrid>
+		
+								<p:panelGrid id="endereco" columns="1" layout="grid">
+		
+									<h:panelGroup>
+		
+										<div class="fixo width90px">
+											<p:outputLabel for="cep" value="#{msg['cep']}" />
+											<p:inputMask mask="99.999-999" id="cep" value="#{emitirNFSePortalBean.enderecoBean.cep.cep}" converter="cepConverter" disabled="#{!emitirNFSePortalBean.habilitarCamposEdicao}">
+												<p:ajax listener="#{emitirNFSePortalBean.enderecoBean.onCepChange}" process="@this" update="endereco" resetValues="true" />
+											</p:inputMask>
+										</div>
+		
+										<div class="fixo width135px">
+											<p:outputLabel for="uf" value="#{msg['uf']}" />
+											<p:selectOneMenu id="uf" value="#{emitirNFSePortalBean.enderecoBean.uf}" converter="entityConverter" disabled="#{!emitirNFSePortalBean.habilitarCamposEdicao}"
+												filter="true" filterMatchMode="contains">
+												<f:selectItem itemLabel="#{msg['selecione.uf']}" itemValue=""/>
+												<f:selectItems value="#{emitirNFSePortalBean.ufs}" var="uf" itemLabel="#{uf.nome}" itemValue="#{uf}" />
+												<p:ajax listener="#{emitirNFSePortalBean.enderecoBean.onUfChange}" process="@this" update="endereco" resetValues="true" />
+											</p:selectOneMenu>
+										</div>
+		
+										<div class="responsivo width275px margin-right10px">
+											<p:outputLabel for="municipio" value="#{msg['municipio']}" />
+											<p:selectOneMenu id="municipio" value="#{emitirNFSePortalBean.enderecoBean.logradouro.municipio}" converter="entityConverter" disabled="#{!emitirNFSePortalBean.habilitarCamposEdicao}"
+												filter="true" filterMatchMode="contains">
+												<f:selectItem itemLabel="#{empty emitirNFSePortalBean.enderecoBean.uf ? msg['selecione.uf'] : msg['selecione.municipio']}" itemValue=""/>
+												<f:selectItems value="#{emitirNFSePortalBean.enderecoBean.municipios}" var="mun" itemLabel="#{mun.nome}" itemValue="#{mun}" />
+												<p:ajax listener="#{emitirNFSePortalBean.enderecoBean.onMunicipioChange}" process="@this" update="endereco" resetValues="true" />
+											</p:selectOneMenu>
+										</div>
+										
+										<div class="fixo width275px">
+											<p:outputLabel for="distrito" value="#{msg['distrito']}" />
+											<p:selectOneMenu id="distrito" value="#{emitirNFSePortalBean.enderecoBean.logradouro.distrito}" converter="entityConverter" 
+												filter="true" filterMatchMode="contains"
+												disabled="#{empty emitirNFSePortalBean.enderecoBean.distritos or emitirNFSePortalBean.enderecoBean.cepFound or !emitirNFSePortalBean.habilitarCamposEdicao}">
+												<f:selectItem
+													itemLabel="#{empty emitirNFSePortalBean.enderecoBean.distritos ? msg['nenhum.distrito'] : msg['selecione.distrito']}"
+													itemValue=""/>
+												<f:selectItems value="#{emitirNFSePortalBean.enderecoBean.distritos}" var="dis" itemLabel="#{dis.nome}" itemValue="#{dis}" />
+												<p:ajax listener="#{emitirNFSePortalBean.enderecoBean.onDistritoChange}" process="@this" resetValues="true"
+													update="cep, bairro, tipo, logradouro" />
+											</p:selectOneMenu>
+										</div>
+		
+									</h:panelGroup>
+		
+									<h:panelGroup>
+		
+										<p:outputPanel id="panel-bairro" styleClass="responsivo width275px margin-right10px">
+											<p:outputLabel value="#{msg['bairro']}" />
+											<p:spacer width="50px" height="1px" />
+											<p:commandLink id="ad-bairro" value="#{msg['adicionar']}" actionListener="#{emitirNFSePortalBean.enderecoBean.addBairro}" process="@this"
+												rendered="#{emitirNFSePortalBean.enderecoBean.renderBairroSelect and emitirNFSePortalBean.enderecoBean.outroMunicipio 
+													and emitirNFSePortalBean.habilitarCamposEdicao}"
+												update="panel-bairro, panel-logradouro, tipo"  />
+											<p:commandLink id="c-ad-bairro" value="#{msg['cancelar']}" actionListener="#{emitirNFSePortalBean.enderecoBean.cancelarAddBairro}"
+												rendered="#{!emitirNFSePortalBean.enderecoBean.renderBairroSelect and emitirNFSePortalBean.enderecoBean.outroMunicipio 
+													and emitirNFSePortalBean.habilitarCamposEdicao}"
+												process="@this" update="panel-bairro, panel-logradouro, tipo"  />
+											<p:selectOneMenu id="bairro" value="#{emitirNFSePortalBean.enderecoBean.bairro}"
+												filter="true" filterMatchMode="contains" converter="entityConverter"
+												disabled="#{!emitirNFSePortalBean.habilitarCamposEdicao}"
+												rendered="#{emitirNFSePortalBean.enderecoBean.renderBairroSelect}">
+												<f:selectItem itemLabel="#{msg['selecione.bairro']}" itemValue=""/>
+												<f:selectItems value="#{emitirNFSePortalBean.enderecoBean.bairros}" var="bairro" itemLabel="#{bairro.nome}" itemValue="#{bairro}" />
+												<p:ajax listener="#{emitirNFSePortalBean.enderecoBean.onBairroChange}" process="@this" update="endereco" resetValues="true" />
+											</p:selectOneMenu>
+											<p:inputText id="bairro-add" value="#{emitirNFSePortalBean.enderecoBean.bairro.nome}"
+												rendered="#{!emitirNFSePortalBean.enderecoBean.renderBairroSelect}" />
+										</p:outputPanel>
+		
+										<div class="fixo width135px">
+											<p:outputLabel for="tipo" value="#{msg['tipo.logradouro']}" />
+											<p:selectOneMenu id="tipo" value="#{emitirNFSePortalBean.enderecoBean.logradouro.tipoLogradouro}" converter="entityConverter"
+												filter="true" filterMatchMode="contains"
+												disabled="#{emitirNFSePortalBean.enderecoBean.logradouroFound or (emitirNFSePortalBean.enderecoBean.renderBairroSelect 
+													and emitirNFSePortalBean.enderecoBean.renderLogradouroSelect)}">
+												<f:selectItem itemLabel="#{msg['selecione.tipo']}" itemValue=""/>
+												<f:selectItems value="#{emitirNFSePortalBean.tiposLogradouro}" var="tipo" itemLabel="#{tipo.nome}" itemValue="#{tipo}" />
+											</p:selectOneMenu>
+										</div>
+		
+										<p:outputPanel id="panel-logradouro" styleClass="responsivo width375px margin-right10px">
+											<p:outputLabel value="#{msg['logradouro']}" />
+											<p:spacer width="50px" height="1px" />
+											<p:commandLink id="ad-logradouro" value="#{msg['adicionar']}" actionListener="#{emitirNFSePortalBean.enderecoBean.addLogradouro}" process="@this"
+												rendered="#{emitirNFSePortalBean.enderecoBean.renderLogradouroSelect and emitirNFSePortalBean.enderecoBean.renderBairroSelect 
+													and emitirNFSePortalBean.enderecoBean.outroMunicipio and emitirNFSePortalBean.habilitarCamposEdicao}"
+												update="panel-logradouro, tipo" />
+											<p:commandLink id="c-ad-logradouro" value="#{msg['cancelar']}" actionListener="#{emitirNFSePortalBean.enderecoBean.cancelarAddLogradouro}"
+												rendered="#{!emitirNFSePortalBean.enderecoBean.renderLogradouroSelect and emitirNFSePortalBean.enderecoBean.renderBairroSelect 
+													and emitirNFSePortalBean.enderecoBean.outroMunicipio and emitirNFSePortalBean.habilitarCamposEdicao}"
+												process="@this" update="panel-logradouro, tipo"  />
+											<p:selectOneMenu id="logradouro" value="#{emitirNFSePortalBean.enderecoBean.endereco.logradouro}"
+												disabled="#{!emitirNFSePortalBean.habilitarCamposEdicao}"
+												rendered="#{emitirNFSePortalBean.enderecoBean.renderBairroSelect and emitirNFSePortalBean.enderecoBean.renderLogradouroSelect}"
+												filter="true" filterMatchMode="contains" converter="entityConverter">
+												<f:selectItem itemLabel="#{msg['selecione.logradouro']}" itemValue=""/>
+												<f:selectItems value="#{emitirNFSePortalBean.enderecoBean.logradouros}" var="logradouro" itemLabel="#{logradouro.nome}"
+													itemValue="#{logradouro}" />
+												<!-- <p:ajax process="@this, cep, tipo" update="cep, tipo" resetValues="true" /> -->
+												<p:ajax listener="#{emitirNFSePortalBean.enderecoBean.onLogradouroChange}" process="@this, cep, tipo" update="cep, tipo" resetValues="true" />
+											</p:selectOneMenu>
+											<p:inputText id="logradouro-add" value="#{emitirNFSePortalBean.enderecoBean.endereco.logradouro.nome}"
+												rendered="#{!emitirNFSePortalBean.enderecoBean.renderBairroSelect or !emitirNFSePortalBean.enderecoBean.renderLogradouroSelect}" />
+		        						</p:outputPanel>
+		
+									</h:panelGroup>
+		
+									<h:panelGroup>
+									
+										<div class="fixo width90px">
+											<p:outputLabel for="numero" value="#{msg['numero']}" />
+											<p:inputText id="numero" value="#{emitirNFSePortalBean.enderecoBean.endereco.numero}" disabled="#{!emitirNFSePortalBean.habilitarCamposEdicao}" />
+										</div>
+									
+										<div class="responsivo width320px">
+											<p:outputLabel for="complemento" value="#{msg['complemento']}" />
+											<p:inputText id="complemento" value="#{emitirNFSePortalBean.enderecoBean.endereco.complemento}" disabled="#{!emitirNFSePortalBean.habilitarCamposEdicao}" />
+										</div>
+										
+									</h:panelGroup>
+		
+								</p:panelGrid>					
+						</div>
+					</div>
+			</p:outputPanel>		
+		</p:outputPanel>
+	</div>
+
+
+</div>

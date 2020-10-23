@@ -1,0 +1,141 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template/master-template.xhtml">
+
+	<ui:define name="titulo_pagina">
+			<h:outputText value="#{msg['detalhe.iss.retido']}" />
+	</ui:define>
+
+	<ui:define name="breadcrumb">
+		<li><i class="fa fa-home"></i><p:link outcome="inicio" value=" #{msg['escriturar.competencia']}" /></li>
+		<!-- <li><i class="fa fa-money"></i> #{msg['tributos']}</li>
+		<li>#{msg['iss']}</li> -->
+		<li class="active">#{msg['detalhe.iss.retido']}</li>
+	</ui:define>
+
+	<!-- Alguns itens do formulario estao no arquivo display.xhtml -->
+	<!-- A barra de ferramentas e a disposicao de seus botoes tambem esta no display.xhtml -->
+
+	<ui:define name="conteudo">
+		<ui:decorate template="/WEB-INF/template/display.xhtml">
+
+			<!-- ********************************************** -->
+			<!-- BARRA DE FERRAMENTAS - BOTOES DO LADO ESQUERDO -->
+			<!-- ********************************************** -->
+			<ui:define name="toolbar-left">
+				<p:link onclick="PF('confirmBack').show();return false;"
+					styleClass="btn btn-danger">
+					<i class="fa fa-reply"></i>
+					#{msg['voltar']}
+				</p:link>
+				<p:dialog widgetVar="confirmBack" id="confirmBack" fitViewport="true" modal="true"
+					width="100%" closable="false" draggable="false" resizable="false" showEffect="fade"
+					closeOnEscape="true" hideEffect="fade" styleClass="modal-confirmacao">
+					<h:outputText value="#{msg['confirma.cancelamento.inclusao']}" styleClass="modal-confirmacao-texto" />
+					<div class="modal-confirmacao-botoes">
+						<p:button value="#{msg['sim']}" outcome="escriturar_competencia" styleClass="modal-confirmacao-botao-verde" />
+						<p:commandButton value="#{msg['nao']}" type="button" onclick="PF('confirmBack').hide();" styleClass="modal-confirmacao-botao-vermelho" />
+					</div>
+				</p:dialog>
+			</ui:define>
+
+			<!-- ********************************************* -->
+			<!-- BARRA DE FERRAMENTAS - BOTOES DO LADO DIREITO -->
+			<!-- ********************************************* -->		
+			<ui:define name="toolbar-right" rendered="#{detalheDeclaracaoRetencaoIssBean.encerramentoCompetenciaTomador.id == null}">
+				
+				<!-- <p:link id="optButton" styleClass="btn btn-default" onclick="return false;" rendered="#{detalheDeclaracaoRetencaoIssBean.encerramentoCompetenciaTomador.id != null}">
+					<i class="fa fa-bars"></i>#{msg['opcoes']}
+				</p:link>
+				
+				<p:menu overlay="true" trigger="optButton" my="right top" at="right bottom">
+					<p:menuitem value="#{msg['visualizar']}" icon="fa fa-search" ajax="false" target="_blank"
+						rendered="#{detalheDeclaracaoRetencaoIssBean.encerramentoCompetenciaTomador.id != null}"
+						action="#{detalheDeclaracaoRetencaoIssBean.visualizarDeclaracao()}"/>
+				</p:menu> -->
+			</ui:define>
+
+			<br clear="all"/>
+			<br clear="all"/>
+
+			<!-- ******************************* -->
+			<!-- INICIO DOS CAMPOS DO FORMULARIO -->
+			<!-- ******************************* -->
+			<div class="panel panel-default">
+				<div class="panel-heading">#{msg['tomador']}</div>
+				<div class="panel-body">
+					<p:panelGrid columns="1" layout="grid" id="form-autorizacao" styleClass="form-panel">
+						
+						<h:panelGroup>
+							<div class="fixo width140px">
+								<p:outputLabel id="compentenciaLabel"
+									value="#{msg['competencia']}" />
+									
+									<br clear="all"/>
+									
+								<p:outputLabel mask="99/9999"
+									value="#{detalheDeclaracaoRetencaoIssBean.encerramentoCompetenciaTomador.competencia}"
+									converter="competenciaConverter" />
+							</div>
+						
+
+						</h:panelGroup>
+						
+						<h:panelGroup>
+							<div class="fixo width150px">
+								<p:outputLabel value="#{msg['cpf']}" rendered="#{detalheDeclaracaoRetencaoIssBean.encerramentoCompetenciaTomador.tomador.pessoaFisica}"/>
+								<p:outputLabel value="#{msg['cnpj']}" rendered="#{detalheDeclaracaoRetencaoIssBean.encerramentoCompetenciaTomador.tomador.pessoaJuridica}"/>
+								<br clear="all"/>
+								<h:outputText value="#{detalheDeclaracaoRetencaoIssBean.encerramentoCompetenciaTomador.tomador.documento}" converter="cpfCnpjConverter" />
+							</div>
+							<div class="fixo width250px">
+								<p:outputLabel value="#{msg['nome']}" rendered="#{detalheDeclaracaoRetencaoIssBean.encerramentoCompetenciaTomador.tomador.pessoaFisica}"/>
+								<p:outputLabel value="#{msg['razao.social']}" rendered="#{detalheDeclaracaoRetencaoIssBean.encerramentoCompetenciaTomador.tomador.pessoaJuridica}"/>
+								<br clear="all"/>
+								<h:outputText value="#{detalheDeclaracaoRetencaoIssBean.encerramentoCompetenciaTomador.tomador.descricao}"/>
+							</div>
+						</h:panelGroup>
+					</p:panelGrid>
+
+				</div>
+				
+				<br /><br />
+				<div class="panel-heading">#{msg['prestadores']}</div>
+				<div class="panel-body">
+					<div class="scroll-lateral-responsivo">
+						<p:dataTable value="#{detalheDeclaracaoRetencaoIssBean.prestadores}" var="prestador" scrollable="true" scrollHeight="150"
+							emptyMessage="#{msg['sem.dados']}" styleClass="tabela-de-dados panel panel-default table-responsive"
+							paginator="true" rows="20" paginatorPosition="bottom" paginatorAlwaysVisible="false" lazy="true">
+							
+							<p:column headerText="#{msg['nome.razao']}">
+								<h:outputText value="#{prestador.descricao}" /> 
+							</p:column>
+							
+							<p:column headerText="#{msg['cpf.cnpj']}">
+								<h:outputText value="#{prestador.documento}" converter="cpfCnpjConverter"/> 
+							</p:column>
+							
+							<p:column headerText="#{msg['visualizar']}" width="70">
+								<p:commandButton action="#{detalheDeclaracaoRetencaoIssBean.visualizarDeclaracao(prestador)}" icon="fa fa-print" ajax="false" onclick="this.form.target='_blank';"
+								onmouseout="this.form.target='_self';"/>
+							</p:column>
+							
+						</p:dataTable>
+					</div>		
+				</div>
+			</div> <!-- DADOS -->
+
+			<p:blockUI widgetVar="block" block="@form" >
+				<i class="fa fa-spin fa-circle-o-notch"></i>
+				<span class="m-left-xs">#{msg['aguarde']}</span>
+			</p:blockUI>
+
+		</ui:decorate>
+	</ui:define>
+
+</ui:composition>

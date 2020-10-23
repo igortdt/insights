@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template/master-template.xhtml">
+
+	<ui:define name="titulo_pagina">
+		<h:outputText value="#{msg['consulta.escrituracao.cosif']}" />
+	</ui:define>
+
+	<ui:define name="breadcrumb">
+		<li><i class="fa fa-home"></i><p:link outcome="inicio" value=" #{msg['inicio']}" /></li>
+		<li class="active"><i class="fa fa-university"></i> #{msg['escrituracao.cosif']}</li>
+	</ui:define>
+
+	<!-- Alguns itens do formulario estao no arquivo formulario.xhtml -->
+	<!-- Por exemplo: bloquear formulario enquanto pesquisa e foco automatico ao carregar a pagina -->
+	<!-- A barra de ferramentas e a disposicao de seus botoes tambem esta no formulatio.xhtml -->
+
+	<ui:define name="conteudo">
+		<ui:decorate template="/WEB-INF/template/formulario.xhtml">
+
+			<!-- ********************************************** -->
+			<!-- BARRA DE FERRAMENTAS - BOTOES DO LADO ESQUERDO -->
+			<!-- ********************************************** -->
+			<ui:define name="toolbar-left">
+				<!-- <p:link
+					outcome="/app/UC0046EscrituracaoCosifPortal/T0046C-escrituracao-cosif-form-portal"
+					styleClass="btn btn-default">
+					<i class="fa fa-file-o"></i>
+					#{msg['nova.escrituracao']}
+				</p:link> -->
+			</ui:define>
+
+			<!-- ********************************************* -->
+			<!-- BARRA DE FERRAMENTAS - BOTOES DO LADO DIREITO -->
+			<!-- ********************************************* -->
+			<ui:define name="toolbar-right">
+				<p:commandLink id="btSubmit"
+					action="#{consultarEscrituracaoCosifPortalBean.pesquisar}"
+					update="@form" styleClass="btn btn-success">
+					<i class="fa fa-search"></i>
+					#{msg['pesquisar']}
+				</p:commandLink>
+			</ui:define>
+
+			<br clear="all"/>
+			<br clear="all"/>
+
+			<!-- ******************************* -->
+			<!-- INICIO DOS CAMPOS DO FORMULARIO -->
+			<!-- ******************************* -->
+			<!-- <p:panelGrid columns="1" styleClass="simple-panel width25" layout="grid" columnClasses="width100"> -->
+			<div class="panel panel-default">
+				<div id="pessoa" class="panel-body">
+					<p:panelGrid columns="1" layout="grid">
+
+						<h:panelGroup>
+	
+							<div class="fixo width90px">
+								<p:outputLabel for="exercicio" value="#{msg['exercicio']}" />
+								<p:selectOneMenu id="exercicio" value="#{consultarEscrituracaoCosifPortalBean.ano}"  required="true">
+									<f:selectItems value="#{consultarEscrituracaoCosifPortalBean.listaAnos}" var="ano" itemLabel="#{ano.label}" itemValue="#{ano.value}" />
+									<p:ajax event="change" update="tab-consulta" listener="#{consultarEscrituracaoCosifPortalBean.onAnoChange}" />	
+								</p:selectOneMenu>
+							</div>
+						</h:panelGroup>
+					</p:panelGrid>
+				</div>
+			</div>
+
+			<br clear="all"/>
+
+			<!-- ******************** -->
+			<!-- TABELA DE RESULTADOS -->
+			<!-- ******************** -->
+			<div class="scroll-lateral-responsivo">
+		
+			<p:dataTable value="#{consultarEscrituracaoCosifPortalBean.listaEscrituracao}" var="escrituracaoCOSIF"
+				emptyMessage="#{msg['sem.dados']}" styleClass="tabela-de-dados panel panel-default table-responsive"
+				tableStyleClass="table table-striped table-hover" id="tab-consulta"
+				paginator="true" rows="20" paginatorAlwaysVisible="false">
+				<p:column headerText="#{msg['competencia']}">
+					<h:outputText value="#{escrituracaoCOSIF.competencia}"
+						converter="competenciaConverter" />
+				</p:column>
+				<p:column headerText="#{msg['data.escrituracao']}">
+					<h:outputText value="#{escrituracaoCOSIF.dataEncerramento}">
+						<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-3" />
+					</h:outputText>
+				</p:column>
+				<p:column headerText="#{msg['situacao']}">
+					<h:outputText value="#{msg['escriturado']}" rendered="#{escrituracaoCOSIF.situacaoCOSIF eq 'EMITIDO' or escrituracaoCOSIF.situacaoCOSIF eq 'RETORNO_BANCO' }"/>
+					<h:outputText value="#{msg['retificado']}" rendered="#{escrituracaoCOSIF.situacaoCOSIF eq 'CANCELADO' }"/>
+					<h:outputText value="#{msg['em.aberto']}" rendered="#{empty escrituracaoCOSIF.situacaoCOSIF}"/>
+				</p:column>
+				<p:column headerText="#{msg['valor.total.iss']}">
+					<h:outputText value="#{escrituracaoCOSIF.valorTotalIss}"
+						converter="moneyConverter" styleClass="money" />
+				</p:column>
+				<p:column headerText="#{msg['situacao.iss']}">
+					<h:outputText value="#{msg[consultarEscrituracaoCosifPortalBean.situacaoLancamentoPorEscrituracao(escrituracaoCOSIF)]}" />
+				</p:column>
+				<p:column headerText="#{msg['anexo']}">
+					<p:commandButton value="#{msg['download']}" ajax="false" onclick="PrimeFaces.monitorDownload(start, stop);"
+						icon="fa fa-download" rendered="#{escrituracaoCOSIF.fileName != null}">
+					     <p:fileDownload value="#{downloadAttachment.downloadEscrituracaoCosif(escrituracaoCOSIF.id)}" />
+					</p:commandButton>
+					<h:outputText value="-" rendered="#{escrituracaoCOSIF.fileName == null}" />
+				</p:column>
+				<!-- <p:column headerText="#{msg['prestador']}">
+					<h:outputText value="#{escrituracaoCOSIF.prestador.descricao}" />
+				</p:column> -->
+				<p:column headerText="#{msg['acoes']}" styleClass="width50px">
+					<p:commandButton id="optButton" type="button" icon="fa fa-cog"
+						rendered="#{consultarEscrituracaoCosifPortalBean.podeEncerrar(escrituracaoCOSIF)
+							or !empty escrituracaoCOSIF.situacaoCOSIF or escrituracaoCOSIF.situacaoCOSIF eq 'EMITIDO'}" />
+					<p:menu overlay="true" trigger="optButton" my="right top" at="right bottom">
+						<p:menuitem value="#{msg['escriturar']}"
+							icon="fa fa-check-square-o" ajax="false" target="_self"
+							action="#{escrituracaoCosifPortalBean.init(escrituracaoCOSIF)}"
+							rendered="#{consultarEscrituracaoCosifPortalBean.podeEncerrar(escrituracaoCOSIF)}" />
+						<p:menuitem value="#{msg['detalhar']}"
+							icon="fa fa-search" ajax="false" target="_self"
+							rendered="#{!empty escrituracaoCOSIF.situacaoCOSIF}"
+							action="#{detalharEscrituracaoCOSIFPortalBean.detalhar(escrituracaoCOSIF)}" />
+						<p:menuitem value="#{msg['declaracao']}"
+							icon="fa fa-file-text-o" ajax="false" target="_blank"
+							rendered="#{!empty escrituracaoCOSIF.situacaoCOSIF}"
+							action="#{detalharEscrituracaoCOSIFPortalBean.visualizarDeclaracao(escrituracaoCOSIF)}" />
+						<p:menuitem value="#{msg['retificar']}"
+							icon="fa fa-wrench" ajax="false" target="_self"
+							rendered="#{escrituracaoCOSIF.situacaoCOSIF eq 'EMITIDO'}"
+							action="#{escrituracaoCosifPortalBean.retificar(escrituracaoCOSIF)}" />
+					</p:menu>
+				</p:column>
+			</p:dataTable>
+			</div>
+
+			<p:blockUI block="@form" trigger="btSubmit">
+				<i class="fa fa-spin fa-circle-o-notch"></i>
+				<span class="m-left-xs">#{msg['aguarde']}</span>
+			</p:blockUI>
+
+			<f:metadata>
+				<f:event listener="#{conversationBean.end}" type="preRenderView" />
+			</f:metadata>
+
+		</ui:decorate>
+	</ui:define>
+
+</ui:composition>

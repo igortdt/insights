@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.0.1.final using JasperReports Library version 6.0.0  -->
+<!-- 2016-06-17T09:57:49 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="CabecalhoAlvara" pageWidth="400" pageHeight="61" orientation="Landscape" columnWidth="400" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="fd9bdce5-cf53-4753-8ec6-da92ef1591f6">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<style name="prefeitura_style" vAlign="Middle" fontSize="14" isBold="true">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$P{prefeitura}.length() > 28]]></conditionExpression>
+			<style vAlign="Middle" fontSize="11" isBold="true"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$P{prefeitura}.length() > 40]]></conditionExpression>
+			<style vAlign="Middle" fontSize="10" isBold="true"/>
+		</conditionalStyle>
+	</style>
+	<style name="orgao_style" vAlign="Middle" fontSize="12" isBold="true">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$P{orgao}.length() > 28]]></conditionExpression>
+			<style vAlign="Middle" fontSize="11" isBold="true"/>
+		</conditionalStyle>
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$P{orgao}.length() > 40]]></conditionExpression>
+			<style vAlign="Middle" fontSize="10" isBold="true"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="path_img" class="java.lang.String"/>
+	<parameter name="prefeitura" class="java.lang.String"/>
+	<parameter name="orgao" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="60" splitType="Stretch">
+			<property name="local_mesure_unitheight" value="pixel"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<image scaleImage="FillFrame" hAlign="Center" vAlign="Middle">
+				<reportElement x="0" y="0" width="60" height="60" uuid="e2c8e333-92bc-413f-8f61-5fbe8bd426b3"/>
+				<imageExpression><![CDATA[$P{path_img}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement style="prefeitura_style" x="70" y="0" width="330" height="20" uuid="eac6a130-1f7b-4595-957d-b23522d65684">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{prefeitura}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="orgao_style" x="70" y="20" width="330" height="20" uuid="473a0ef3-816d-409d-bfb7-70b823805781">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{orgao}.toUpperCase()]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band splitType="Stretch"/>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

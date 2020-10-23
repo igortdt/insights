@@ -1,0 +1,141 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template/master-template-portal.xhtml">
+	
+	<ui:define name="conteudo">
+		<div class="bg-light">
+				<div class="container">
+					<div class="col-lg-6 col-md-6 col-sm-6">
+						<ul class="list-inline margin-top5px">
+							<li>
+								<p:link outcome="/login.xhtml">
+									#{msg['pagina.inicial']} 
+								</p:link>
+							</li>
+							<li>/</li>
+						</ul>
+					</div>
+					<!--  
+					<div class="col-lg-6 col-md-6 col-sm-6">
+						<ul class="list-inline pull-right margin-top5px">
+							<li><i class="fa fa-adjust" aria-hidden="true"></i></li>
+							<li><b>A</b><i class="fa fa-plus" aria-hidden="true"></i></li>
+							<li><small><b>A</b><i class="fa fa-minus" aria-hidden="true"></i></small></li>
+						</ul>
+					</div>
+					-->
+				</div>
+			</div>
+			
+			<section class="bg-white min-height-680px">
+				<div class="container">
+					<div class="row">
+						
+						<div class="col-md-3">
+
+							<h2 class="novo-portal-chamada-servicos">#{msg['servicos']}</h2>
+						
+							<div class="novo-portal-menu-principal">
+								<!-- Include de componente de Menu -->
+								<ui:include src="/WEB-INF/template/menu-portal.xhtml" />
+							</div>
+							
+							<!-- O INCLUDE DOS BANNERS DEVERÃO  FICAR AQUI -->
+							
+						</div>
+						
+						<div class="col-md-9">
+							<div class="row novo-portal-texto-principal">
+								<div class="col-lg-12">
+								
+									<h1>#{msg['bem.vindo.portal.contribuinte']}</h1>
+									<p>#{msg['bem.vindo.portal.contribuinte.descricao.um']}</p>
+									<p>#{msg['bem.vindo.portal.contribuinte.descricao.dois']}</p>
+								</div>
+							</div>
+						</div>
+									
+						<div class="col-md-9 novo-portal-item-home-area">
+										
+							<div class="row">
+								
+								<p:link outcome="/UC0085IPTU/T0085L-display-iptu.xhtml">
+									<div class="col-sm-4 text-center fadeInUp animation-delay1 novo-portal-item-home">
+										<div class="col-lg-12">
+											<i class="fa fa-building fa-4x"></i>
+											<h3 class="margin-top-zero">#{msg['iptu']}</h3>
+											
+										</div>
+									</div>
+								</p:link>
+							
+								<p:link outcome="/UC0086ITBI/T0086L-display-itbi.xhtml">
+									<div class="col-sm-4 text-center fadeInUp animation-delay2 novo-portal-item-home">
+										<div class="col-lg-12 text-center teste">
+											<i class="fa fa-exchange fa-4x"></i>
+											<h3 class="margin-top-zero">#{msg['itbi']}</h3>
+											
+										</div>
+									</div>
+								</p:link>
+												
+								<p:link outcome="/UC0087ISS/T0087L-display-iss.xhtml">
+									<div class="col-sm-4 text-center fadeInUp animation-delay3 novo-portal-item-home">
+										<div class="col-lg-12">
+											<i class="fa fa-clipboard fa-4x"></i>
+											<h3 class="margin-top-zero">#{msg['iss']}</h3>
+											
+										</div>
+									</div>
+								</p:link>
+											
+								
+							</div>
+										
+							<div class="row">
+							
+								<p:link outcome="/UC0084EmitirCertidao/T0084L-emitir-certidao.xhtml">
+									<div class="col-sm-4 text-center fadeInUp animation-delay4 novo-portal-item-home">
+										<div class="col-lg-12 text-center teste">
+											<i class="fa fa-files-o fa-4x"></i>
+											<h3 class="margin-top-zero">#{msg['certidoes']}</h3>
+											
+										</div>
+									</div>
+								</p:link>
+							
+								<p:link outcome="/UC0035ValidarDocumento/T0035L-validar-documento.xhtml">
+									<div class="col-sm-4 text-center fadeInUp animation-delay5 novo-portal-item-home">
+										<div class="col-lg-12">
+											<i class="fa fa-qrcode fa-4x"></i>
+											<h3 class="margin-top-zero">#{msg['validacao.documentos']}</h3>
+											
+										</div>
+									</div>
+								</p:link>
+								
+								<p:link outcome="/UC0088Legislacao/T0088L-display-legislacao.xhtml">
+									<div class="col-sm-4 text-center fadeInUp animation-delay6 novo-portal-item-home">
+										<div class="col-lg-12">
+											<i class="fa fa-balance-scale fa-4x"></i>
+											<h3 class="margin-top-zero">#{msg['legislacao.tributaria']}</h3>
+											
+										</div>
+									</div>
+								</p:link>
+								
+							</div>
+							
+						</div>
+					
+						
+					</div><!-- End of row -->
+				</div><!-- End of container -->
+			</section>			
+	</ui:define>
+</ui:composition>

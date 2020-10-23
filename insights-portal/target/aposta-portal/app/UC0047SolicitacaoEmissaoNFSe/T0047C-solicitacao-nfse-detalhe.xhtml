@@ -1,0 +1,358 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template/master-template.xhtml">
+
+	<ui:define name="titulo_pagina">
+			<h:outputText value="#{msg['consulta.solicitacoes.credenciamento']}" />
+	</ui:define>
+
+	<ui:define name="breadcrumb">
+		<li><i class="fa fa-home"></i><p:link outcome="inicio" value=" #{msg['inicio']}" /></li>
+		<!-- <li><i class="fa fa-money"></i> #{msg['tributos']}</li>
+		<li>#{msg['iss']}</li> -->
+		<li class="active">#{msg['credenciamento']}</li>
+	</ui:define>
+
+	<!-- Alguns itens do formulario estao no arquivo display.xhtml -->
+	<!-- A barra de ferramentas e a disposicao de seus botoes tambem esta no display.xhtml -->
+
+	<ui:define name="conteudo">
+		<ui:decorate template="/WEB-INF/template/display.xhtml">
+
+			<!-- ********************************************** -->
+			<!-- BARRA DE FERRAMENTAS - BOTOES DO LADO ESQUERDO -->
+			<!-- ********************************************** -->
+			<ui:define name="toolbar-left">
+				<p:link outcome="pesquisar_solicitacao_nfse"
+					styleClass="btn btn-danger">
+					<i class="fa fa-reply"></i>
+					#{msg['voltar']}
+				</p:link>
+			</ui:define>
+
+			<!-- ********************************************* -->
+			<!-- BARRA DE FERRAMENTAS - BOTOES DO LADO DIREITO -->
+			<!-- ********************************************* -->
+			<ui:define name="toolbar-right">
+				<p:link id="optButton" styleClass="btn btn-default" onclick="return false;">
+					<i class="fa fa-bars"></i>
+					#{msg['opcoes']}
+				</p:link>
+				<p:menu overlay="true" trigger="optButton" my="right top" at="right bottom">
+					<p:menuitem value="#{msg['visualizar']}" icon="fa fa-print" ajax="false" target="_blank"
+						action="#{visualizarSolicitacaoNfseBean.visualizar(detalharSolicitacaoNfseBean.solicitacao)}" />
+					<p:menuitem value="#{msg['cancelar']}" icon="fa fa-ban" outcome="preparar_cancelamento_solicitacao_nfse"
+						rendered="#{detalharSolicitacaoNfseBean.solicitacao.situacaoSolicitacaoEmissaoNFSe eq 'NOVA'}"
+						target="_self">
+						<f:param name="cid" value="#{javax.enterprise.context.conversation.id}" />
+					</p:menuitem>
+				</p:menu>
+				<p:confirmDialog global="true" showEffect="fade" hideEffect="fade" closeOnEscape="true" closable="false" width="100%" styleClass="modal-confirmacao">
+					<div class="modal-confirmacao-botoes">
+						<p:commandButton value="#{msg['sim']}" type="button" styleClass="ui-confirmdialog-yes modal-confirmacao-botao-verde" />
+						<p:commandButton value="#{msg['nao']}" type="button" styleClass="ui-confirmdialog-no modal-confirmacao-botao-vermelho" />
+					</div>
+				</p:confirmDialog>
+			</ui:define>
+
+			<br clear="all"/>
+			<br clear="all"/>
+
+			<!-- ******************************* -->
+			<!-- INICIO DOS CAMPOS DO FORMULARIO -->
+			<!-- ******************************* -->
+			<div class="panel panel-default">
+				<div class="panel-heading">#{msg['dados.solicitacao']}</div>
+				<div class="panel-body">
+					<p:panelGrid columns="1" layout="grid" id="form-autorizacao" styleClass="form-panel">
+						<h:panelGroup>
+
+							<div class="fixo width100px">
+								<p:outputLabel value="#{msg['numero']}" styleClass="width100" />
+								<h:outputText value="#{detalharSolicitacaoNfseBean.solicitacao.numero}" />
+							</div>
+
+							<div class="fixo width140px">
+								<p:outputLabel value="#{msg['data.solicitacao']}" styleClass="width100" />
+								<h:outputText value="#{detalharSolicitacaoNfseBean.solicitacao.dataSolicitacao}">
+									<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" timeZone="GMT-3" />
+								</h:outputText>
+							</div>
+
+							<div class="fixo width140px">
+								<p:outputLabel value="#{msg['tipo.solicitacao']}" styleClass="width100" />
+								<h:outputText value="#{msg[detalharSolicitacaoNfseBean.solicitacao.tipo.label]}" />
+							</div>
+
+							<div class="fixo width140px">
+								<p:outputLabel value="#{msg['situacao']}" styleClass="width100" />
+								<h:outputText value="#{msg[detalharSolicitacaoNfseBean.solicitacao.situacaoSolicitacaoEmissaoNFSe.label]}" />
+							</div>
+
+						</h:panelGroup>
+						<h:panelGroup>
+
+							<p:outputPanel styleClass="fixo width200px" rendered="#{!empty detalharSolicitacaoNfseBean.solicitacao.usuarioResponsavel}">
+								<p:outputLabel value="#{msg['responsavel.analise']}" styleClass="width100" />
+								<h:outputText value="#{detalharSolicitacaoNfseBean.solicitacao.usuarioResponsavel}" />
+							</p:outputPanel>
+
+							<p:outputPanel styleClass="fixo width140px" rendered="#{detalharSolicitacaoNfseBean.solicitacao.situacaoSolicitacaoEmissaoNFSe eq 'AUTORIZADA'}">
+								<p:outputLabel value="#{msg['inicio.autorizacao']}" styleClass="width100" />
+								<h:outputText value="#{detalharSolicitacaoNfseBean.solicitacao.dataIniAutorizacao}">
+									<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-3" />
+								</h:outputText>
+							</p:outputPanel>
+
+							<p:outputPanel styleClass="fixo width140px bg-calendario" rendered="#{detalharSolicitacaoNfseBean.solicitacao.situacaoSolicitacaoEmissaoNFSe eq 'AUTORIZADA'}">
+								<p:outputLabel value="#{msg['fim.autorizacao']}" styleClass="width100" />
+								<h:outputText value="#{detalharSolicitacaoNfseBean.solicitacao.dataFimAutorizacao}">
+									<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-3" />
+								</h:outputText>
+							</p:outputPanel>
+
+						</h:panelGroup>
+						<h:panelGroup rendered="#{detalharSolicitacaoNfseBean.solicitacao.situacaoSolicitacaoEmissaoNFSe eq 'COM_NEGATIVA'}">
+
+							<div class="responsivo width100">
+								<p:outputLabel value="#{msg['motivo.indeferimento']}" styleClass="width100" />
+								<h:outputText value="#{detalharSolicitacaoNfseBean.solicitacao.motivoIndeferimento}" />
+							</div>
+
+						</h:panelGroup>
+						<h:panelGroup rendered="#{detalharSolicitacaoNfseBean.solicitacao.situacaoSolicitacaoEmissaoNFSe eq 'CANCELADA'}">
+
+							<div class="responsivo width100">
+								<p:outputLabel value="#{msg['motivo.cancelamento']}" styleClass="width100" />
+								<h:outputText value="#{detalharSolicitacaoNfseBean.solicitacao.motivoCancelamento}" />
+							</div>
+
+						</h:panelGroup>
+						<h:panelGroup>
+
+							<p:outputPanel styleClass="responsivo width100">
+								<p:dataTable value="#{detalharSolicitacaoNfseBean.listaHistorico}" var="historico"
+									emptyMessage="#{msg['sem.dados']}" styleClass=" panel panel-default table-responsive tabela-de-dados">
+									<f:facet name="header">
+										#{msg['historico']}
+									</f:facet>
+									<p:column headerText="#{msg['data']}" styleClass="width140px">
+										<h:outputText value="#{historico.dataEvento}">
+											<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+										</h:outputText>
+									</p:column>
+									<p:column headerText="#{msg['responsavel']}">
+										<h:outputText value="#{historico.responsavel}" />
+									</p:column>
+									<p:column headerText="#{msg['situacao.solicitacao']}">
+										<h:outputText value="#{msg[historico.situacao.label]}" />
+									</p:column>
+								</p:dataTable>
+							</p:outputPanel>
+
+						</h:panelGroup>
+					</p:panelGrid>
+				</div>
+			</div> <!-- DADOS SOLICITACAO -->
+
+			<div class="panel panel-default">
+				<div class="panel-heading">#{msg['dados.contribuinte']}</div>
+				<div class="panel-body">
+					<p:panelGrid columns="1" layout="grid" styleClass="form-panel" rendered="#{detalharSolicitacaoNfseBean.renderPF}">
+						<h:panelGroup>
+
+							<div class="fixo width140px">
+								<p:outputLabel value="#{msg['tipo.pessoa']}" styleClass="width100" />
+								<h:outputText value="#{msg[detalharSolicitacaoNfseBean.solicitacao.pessoa.tipoPessoa.label]}" />
+							</div>
+
+							<div class="fixo width140px">
+								<p:outputLabel value="#{msg['cpf']}" styleClass="width100" />
+								<h:outputText value="#{detalharSolicitacaoNfseBean.solicitacao.pessoa.documento}" converter="cpfCnpjConverter" />
+							</div>
+
+							<div class="fixo width115px">
+								<p:outputLabel value="#{msg['rg']}" styleClass="width100" />
+								<h:outputText value="#{detalharSolicitacaoNfseBean.solicitacao.pessoa.rg}" />
+							</div>
+
+							<div class="fixo width140px">
+								<p:outputLabel value="#{msg['data.nascimento']}" styleClass="width100" />
+								<h:outputText value="#{detalharSolicitacaoNfseBean.solicitacao.pessoa.dataNascimento}">
+									<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-3" />
+								</h:outputText>
+							</div>
+
+						</h:panelGroup>
+						<h:panelGroup>
+
+							<div class="fixo width100px">
+								<p:outputLabel value="#{msg['sexo']}" styleClass="width100" />
+								<h:outputText value="#{msg[detalharSolicitacaoNfseBean.solicitacao.pessoa.sexo.label]}" />
+							</div>
+
+							<div class="responsivo width390px">
+								<p:outputLabel value="#{msg['nome']}" styleClass="width100" />
+								<h:outputText value="#{detalharSolicitacaoNfseBean.solicitacao.pessoa.descricao}" />
+							</div>
+
+						</h:panelGroup>
+					</p:panelGrid>
+					<p:panelGrid columns="1" layout="grid" styleClass="form-panel" rendered="#{!detalharSolicitacaoNfseBean.renderPF}">
+						<h:panelGroup>
+
+							<div class="fixo width140px">
+								<p:outputLabel value="#{msg['tipo.pessoa']}" styleClass="width100" />
+								<h:outputText value="#{msg[detalharSolicitacaoNfseBean.solicitacao.pessoa.tipoPessoa.label]}" />
+							</div>
+
+							<div class="responsivo width140px">
+								<p:outputLabel value="#{msg['cnpj']}" styleClass="width100" />
+								<h:outputText value="#{detalharSolicitacaoNfseBean.solicitacao.pessoa.documento}" converter="cpfCnpjConverter" />
+							</div>
+
+							<div class="fixo width100px">
+								<p:outputLabel value="#{msg['optante.simples']}" styleClass="width100" />
+								<h:outputText value="#{msg[detalharSolicitacaoNfseBean.solicitacao.pessoa.optanteSIMPLES.label]}" />
+							</div>
+
+							<p:outputPanel id="faixa-simples" styleClass="fixo width200px" rendered="#{detalharSolicitacaoNfseBean.solicitacao.pessoa.optanteSIMPLES eq 'SIM'}">
+								<p:outputLabel value="#{msg['faixa.receita.bruta.simples']}" styleClass="width100" />
+								<h:outputText value="#{detalharSolicitacaoNfseBean.solicitacao.pessoa.faixaReceitaBrutaSIMPLES.descricao}" />
+							</p:outputPanel>
+
+						</h:panelGroup>
+						<h:panelGroup>
+
+							<div class="responsivo width300px margin-right15px">
+								<p:outputLabel value="#{msg['razao.social']}" styleClass="width100" />
+								<h:outputText value="#{detalharSolicitacaoNfseBean.solicitacao.pessoa.descricao}" />
+							</div>
+
+							<div class="responsivo width300px margin-right15px">
+								<p:outputLabel value="#{msg['nome.fantasia']}" styleClass="width100" />
+								<h:outputText value="#{detalharSolicitacaoNfseBean.solicitacao.pessoa.nomeFantasia}" />
+							</div>
+
+						</h:panelGroup>
+						<h:panelGroup>
+
+							<div class="responsivo width300px margin-right15px">
+								<p:outputLabel value="#{msg['responsavel.legal']}" styleClass="width100" />
+								<h:outputText value="#{detalharSolicitacaoNfseBean.solicitacao.pessoa.responsavelLegal}" />
+							</div>
+
+						</h:panelGroup>
+						<h:panelGroup rendered="#{detalharSolicitacaoNfseBean.solicitacao.tipo eq 'EMISSAO_NORMAL'}">
+
+							<p:outputPanel styleClass="responsivo width100">
+								<p:outputLabel value="#{msg['cnae.principal']}" styleClass="width100" />
+								<h:outputText value="#{detalharSolicitacaoNfseBean.contribuintePJ.cnaePrincipal}" />
+							</p:outputPanel>
+
+						</h:panelGroup>
+						<h:panelGroup rendered="#{detalharSolicitacaoNfseBean.solicitacao.tipo eq 'EMISSAO_NORMAL'}">
+
+							<p:outputPanel styleClass="responsivo width100">
+								<p:dataTable value="#{detalharSolicitacaoNfseBean.contribuintePJ.cnaeSecundarios}" var="cnae"
+									emptyMessage="#{msg['sem.dados']}" styleClass=" panel panel-default table-responsive tabela-de-dados tabela-cnae">
+									<f:facet name="header">
+										#{msg['cnaes.secundarios']}
+									</f:facet>
+									<p:column headerText="">
+										<h:outputText value="#{cnae}" />
+									</p:column>
+								</p:dataTable>
+							</p:outputPanel>
+
+						</h:panelGroup>
+						<h:panelGroup>
+
+							<div class="responsivo width100">
+								<p:dataTable value="#{detalharSolicitacaoNfseBean.solicitacao.pessoa.socios}" var="socio"
+									emptyMessage="#{msg['sem.dados']}" styleClass=" panel panel-default table-responsive tabela-de-dados tabela-socios">
+									<f:facet name="header">
+										#{msg['socios']}
+									</f:facet>
+									<p:column headerText="">
+										<h:outputText value="#{socio}" />
+									</p:column>
+								</p:dataTable>
+							</div>
+
+						</h:panelGroup>
+					</p:panelGrid>
+					<p:panelGrid id="endereco" columns="1" layout="grid" styleClass="form-panel">
+						<h:panelGroup>
+
+							<div class="fixo width100">
+								<p:outputLabel value="#{msg['endereco']}" styleClass="width100" />
+								<h:outputText value="#{detalharSolicitacaoNfseBean.solicitacao.pessoa.endereco}" converter="cepConverter" />
+							</div>
+
+						</h:panelGroup>
+					</p:panelGrid>
+				</div>
+			</div> <!-- DADOS CONTRIBUINTE -->
+
+			<p:outputPanel id="dados-economicos" styleClass="panel panel-default" rendered="#{detalharSolicitacaoNfseBean.solicitacao.tipo eq 'EMISSAO_NORMAL'}">
+				<div class="panel-heading">#{msg['dados.economicos']}</div>
+				<div id="panel-economia" class="panel-body">
+					<p:panelGrid columns="1" layout="grid" styleClass="form-panel">
+						<h:panelGroup>
+
+							<div class="fixo width120px">
+								<p:outputLabel value="#{msg['inscricao.estadual']}" styleClass="width100" />
+								<h:outputText value="#{detalharSolicitacaoNfseBean.solicitacao.pessoa.inscricaoEstadual}" />
+							</div>
+
+							<p:outputPanel styleClass="fixo width120px">
+								<p:outputLabel value="#{msg['inscricao.municipal']}" styleClass="width100" />
+								<h:outputText value="#{detalharSolicitacaoNfseBean.solicitacao.pessoa.inscricaoMunicipal}" />
+							</p:outputPanel>
+
+						</h:panelGroup>
+						<h:panelGroup>
+
+							<!-- <p:outputPanel class="fixo width100px">
+								<p:outputLabel for="placa" value="#{msg['placa']}" />
+								<p:inputText id="placa" value="#{cadastrarSolicitacaoNFSeBean.placa}" maxlength="7" />
+							</p:outputPanel> -->
+
+							<p:outputPanel styleClass="responsivo width400px" rendered="#{detalharSolicitacaoNfseBean.renderPF}">
+								<p:outputLabel value="#{msg['ocupacao']}" styleClass="width100" />
+								<h:outputText value="#{detalharSolicitacaoNfseBean.contribuintePF.ocupacao}" />
+							</p:outputPanel>
+
+						</h:panelGroup>
+						<h:panelGroup>
+
+							<p:outputPanel styleClass="responsivo width400px margin-right10px" rendered="#{!detalharSolicitacaoNfseBean.renderPF}">
+								<p:outputLabel value="#{msg['natureza.juridica']}" styleClass="width100" />
+								<h:outputText value="#{detalharSolicitacaoNfseBean.contribuintePJ.naturezaJuridica}" />
+							</p:outputPanel>
+
+							<p:outputPanel styleClass="responsivo width300px margin-right10px" rendered="#{detalharSolicitacaoNfseBean.renderPF}">
+								<p:outputLabel value="#{msg['escolaridade']}" styleClass="width100" />
+								<h:outputText value="#{detalharSolicitacaoNfseBean.contribuintePF.escolaridade}" />
+							</p:outputPanel>
+
+							<div class="fixo width430px">
+								<p:outputLabel value="#{msg['regime.tributacao']}" styleClass="width100" />
+								<h:outputText value="#{detalharSolicitacaoNfseBean.regimeTributacao}" />
+							</div>
+
+						</h:panelGroup>
+					</p:panelGrid>
+				</div>
+			</p:outputPanel> <!-- DADOS ECONOMICOS -->
+
+		</ui:decorate>
+	</ui:define>
+
+</ui:composition>

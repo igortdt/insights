@@ -1,0 +1,34 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:form prependId="false" id="form">
+
+		<div id="toolbar" class="grey-container shortcut-wrapper toolbar">
+			<div class="toolbar-left">
+				<ui:insert name="toolbar-left" />
+			</div>
+			<div class="toolbar-right">
+				<ui:insert name="toolbar-right" />
+			</div>
+		</div>
+
+		<ui:insert />
+
+		<!-- *********************** -->
+		<!-- AJUSTES / FACILITADORES -->
+		<!-- *********************** -->
+		<!-- <p:blockUI block="@form" trigger="btSubmit">
+			<i class="fa fa-spin fa-circle-o-notch"></i>
+			<span class="m-left-xs">Aguarde...</span>
+		</p:blockUI> -->
+		<p:focus context="@form" />
+		<!-- <p:defaultCommand target="btSubmit" /> -->
+
+	</h:form>
+
+</ui:composition>

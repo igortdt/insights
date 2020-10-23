@@ -1,0 +1,289 @@
+<div id="geral"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+	<div class="panel panel-default">
+		
+		<div class="panel-heading">#{msg['informacoes.nota.fiscal.servico']}</div>
+		<div class="panel-body">
+
+			<p:panelGrid id="servico-panel" columns="1" layout="grid" styleClass="form-panel">
+
+				<h:panelGroup>
+				
+					<div class="responsivo width150px margin-right10px">
+						<p:outputLabel for="numero-nota" value="#{msg['numero.nota']}" />
+						<p:inputText id="numero-nota" value="#{escrituracaoNotaTomadaPortalBean.nfsEscriturada.numeroNFS}" 
+							required="true">
+							<f:convertNumber integerOnly="true" type="number"/>
+						</p:inputText>	
+						
+					</div>
+					
+					<div class="fixo width150px bg-calendario">
+						<p:outputLabel value="#{msg['data.emissao']}" for="data-emissao"/>
+						<p:calendar id="data-emissao" pattern="dd/MM/yyyy" mask="true" navigator="true"
+							value="#{escrituracaoNotaTomadaPortalBean.nfsEscriturada.dataHoraEmissao}" required="true"
+							locale="pt_BR" maxdate="#{escrituracaoNotaTomadaPortalBean.maxDate}" />
+					</div>
+					
+					<div class="fixo width150px">
+						<p:outputLabel for="hora-emissa" value="#{msg['hora.emissao']}" />
+						<p:inputMask mask="99:99:99" id="hora-emissa" value="#{escrituracaoNotaTomadaPortalBean.horaEmissao}"/>
+					</div>
+					
+					<div class="fixo width160px">
+						<p:outputLabel for="codigo-verificacao" value="#{msg['codigo.verificacao']}" />
+						<p:inputText id="codigo-verificacao" value="#{escrituracaoNotaTomadaPortalBean.nfsEscriturada.codigoVerificacao}"/>
+					</div>
+	
+				</h:panelGroup>
+				
+			</p:panelGrid>
+			
+			<div class="panel-heading">#{msg['servico.prestado']}</div>
+			<div class="panel-body">
+				<p:panelGrid id="servivo-panel" columns="1" layout="grid" styleClass="form-panel">
+				
+					<h:panelGroup>
+						<div class="responsivo width480px">
+							<p:outputLabel for="itemServico" value="#{msg['item.servico']}" />
+							<p:selectOneMenu id="itemServico" value="#{escrituracaoNotaTomadaPortalBean.itemServico}" converter="entityConverter"
+								filter="true" filterMatchMode="contains" >
+								<f:selectItem itemLabel="#{msg['selecione.item.servico']}" itemValue=""/>
+								<f:selectItems value="#{escrituracaoNotaTomadaPortalBean.itensServico}" var="item" itemLabel="#{item}" itemValue="#{item}" />
+								<p:ajax listener="#{escrituracaoNotaTomadaPortalBean.onItemServicoChange}" process="@this"
+									update="subItemServico" resetValues="true" />
+							</p:selectOneMenu>
+						</div>
+					</h:panelGroup>
+					
+					<h:panelGroup>
+						<div class="responsivo width480px">
+							<p:outputLabel for="subItemServico" value="#{msg['subitem.servico']}" />
+							<p:selectOneMenu id="subItemServico" value="#{escrituracaoNotaTomadaPortalBean.nfsEscriturada.servico}" 
+							converter="entityConverter" required="true" styleClass="width100px"
+							filter="true" filterMatchMode="contains" >
+								<f:selectItem itemLabel="#{msg['selecione.sub.item.servico']}" itemValue=""/>
+								<f:selectItems value="#{escrituracaoNotaTomadaPortalBean.subItensServico}" var="sub" itemLabel="#{sub}" itemValue="#{sub}" />		
+								
+								<p:ajax event="change" process="@this, valorTotal, valorDeducoes, opAliquota" update="panelAliquota geral-panel opAliquota"
+								resetValues="true" listener="#{escrituracaoNotaTomadaPortalBean.definirValorAliquota}" />		
+							</p:selectOneMenu>
+						</div>
+					</h:panelGroup>
+				</p:panelGrid>	
+				</div>		
+					
+				<div class="panel-heading">#{msg['local.execucao.servico']} *</div>
+				<div class="panel-body">										
+					<p:panelGrid id="local-execucao-panel" columns="1" layout="grid" styleClass="form-panel">	
+						<h:panelGroup>
+							<div class="fixo width135px ">
+								<p:outputLabel for="ufExecucao" value="#{msg['uf']}" />
+								<p:selectOneMenu id="ufExecucao" value="#{escrituracaoNotaTomadaPortalBean.ufLocalExecucaoServico}" converter="entityConverter"
+									filter="true" filterMatchMode="contains">
+									<f:selectItem itemLabel="#{msg['selecione.uf']}" itemValue=""/>
+									<f:selectItems value="#{escrituracaoNotaTomadaPortalBean.ufs}" var="uf" itemLabel="#{uf.nome}" itemValue="#{uf}" />
+									<p:ajax listener="#{escrituracaoNotaTomadaPortalBean.onUfExecucaoChange}" process="@this" update="municipioExecucao opAliquota" 
+									resetValues="true" />
+								</p:selectOneMenu>
+							</div>
+							
+							<div class="responsivo width275px margin-right10px">
+								<p:outputLabel value="#{msg['municipioExecucao']}" for="municipioExecucao"/>
+								<p:selectOneMenu id="municipioExecucao" value="#{escrituracaoNotaTomadaPortalBean.nfsEscriturada.localPrestacao}" converter="entityConverter"
+									filter="true" filterMatchMode="contains" required="true">
+									<f:selectItem itemLabel="#{empty escrituracaoNotaTomadaPortalBean.ufLocalExecucaoServico ? msg['selecione.uf'] : msg['selecione.municipio']}" itemValue=""/>
+									<f:selectItems value="#{escrituracaoNotaTomadaPortalBean.municipiosExecucaoServico}" var="mun" itemLabel="#{mun.nome}" itemValue="#{mun}" />	
+									<p:ajax process="@this" update="opAliquota" listener="#{escrituracaoNotaTomadaPortalBean.definirValorAliquota}"/>						
+								</p:selectOneMenu>
+							</div>
+						</h:panelGroup>
+					</p:panelGrid>	
+				</div>	
+							
+			<div class="panel-body">										
+			<p:panelGrid  columns="1" layout="grid" styleClass="form-panel">
+				<h:panelGroup id="panelAliquota">		
+					<!-- <div class="fixo width120px float-left">
+						<p:outputLabel for="aliquota" value="#{msg['aliquota']}(%)"/>				
+						<p:inputText id="aliquota" value="#{escrituracaoNotaTomadaPortalBean.nfsEscriturada.aliquota}" required="true" 
+						styleClass="number">
+							<f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+							<p:ajax event="blur" process="@this aliquota" update="valorBaseCalculo, valorISS"  
+							listener="#{escrituracaoNotaTomadaPortalBean.preencherCamposValorISSeBaseDeCalculo()}" />	
+						</p:inputText>
+					</div>	 -->
+					<p:outputPanel id="opAliquota" class="fixo width150px float-left">
+						<p:outputLabel value="#{msg['aliquota']} *" 
+						rendered="#{escrituracaoNotaTomadaPortalBean.nfsEscriturada.servico != null || escrituracaoNotaTomadaPortalBean.prestadorEOptanteDoSimples()}"/>
+						<br clear="all"/>
+						
+						<p:inputText value="#{escrituracaoNotaTomadaPortalBean.nfsEscriturada.aliquota}" styleClass="number"
+						rendered="#{escrituracaoNotaTomadaPortalBean.nfsEscriturada.servico != null and !escrituracaoNotaTomadaPortalBean.prestadorEOptanteDoSimples()}" 
+						disabled="#{!escrituracaoNotaTomadaPortalBean.habilitarEdicaoAliquota()}">
+							<f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+							<p:ajax process="@this" event="blur" update="geral-panel" listener="#{escrituracaoNotaTomadaPortalBean.preencherCamposValorISSeBaseDeCalculo()}"/>
+						</p:inputText>
+						
+						
+						<p:inputText id="aliquota-select" value="#{escrituracaoNotaTomadaPortalBean.nfsEscriturada.aliquota}" styleClass="number"
+						rendered="#{escrituracaoNotaTomadaPortalBean.prestadorEOptanteDoSimples()}">
+							<f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+							<p:ajax process="@this" event="blur" update="geral-panel" listener="#{escrituracaoNotaTomadaPortalBean.preencherCamposValorISSeBaseDeCalculo()}"/>
+						</p:inputText>
+						
+						
+<!-- 						<p:selectOneMenu id="aliquota-select" value="#{escrituracaoNotaTomadaPortalBean.nfsEscriturada.aliquota}"  -->
+<!-- 						rendered="#{escrituracaoNotaTomadaPortalBean.prestadorEOptanteDoSimples()}" > -->
+<!-- 							<f:convertNumber maxFractionDigits="2" minFractionDigits="2" /> -->
+<!-- 							<f:selectItem itemLabel="#{msg['selecione.item']}"/> -->
+<!-- 							<f:selectItems value="#{escrituracaoNotaTomadaPortalBean.aliquotasSimples}" var="aliquota" -->
+<!-- 								itemLabel="#{emitirNFSePortalBean.formatAliquota(aliquota)}" itemValue="#{aliquota}" /> -->
+<!-- 							<p:ajax event="change" process="@this" update="valorBaseCalculo, valorISS" -->
+<!-- 							listener="#{escrituracaoNotaTomadaPortalBean.preencherCamposValorISSeBaseDeCalculo()}" /> -->
+<!-- 						</p:selectOneMenu> -->
+					</p:outputPanel>
+					
+					<div class="fixo width300px float-left">
+						<p:outputLabel value="#{msg['local.tributacao.servico']} *" rendered="#{escrituracaoNotaTomadaPortalBean.nfsEscriturada.servico != null}"/>
+						<br clear="all"/>
+						<p:outputLabel value="#{msg[escrituracaoNotaTomadaPortalBean.nfsEscriturada.servico.localTributacaoServico.label]}" 
+						rendered="#{escrituracaoNotaTomadaPortalBean.nfsEscriturada.servico != null}"/>
+					</div>			
+				</h:panelGroup>
+					
+					<br clear="all"/>
+						
+					<h:panelGroup>
+				
+						<div class="responsivo width100">
+							<p:outputLabel for="descricao-servico" value="#{msg['descricao.servico']}" />
+							<p:spacer width="10px" /><h:outputText id="disp-observacao" />
+							<p:inputTextarea id="descricao-servico" value="#{escrituracaoNotaTomadaPortalBean.nfsEscriturada.discriminacaoServico}"
+								autoResize="true" maxlength="255" counter="disp-observacao" counterTemplate="(Restam {0} caracteres)" required="true" />
+						</div>
+					</h:panelGroup>
+			
+					
+				</p:panelGrid>
+			</div>	
+			
+			
+			
+<!-- 			<div class="panel-heading">#{msg['local.tributacao.nfs']} *</div> -->
+<!-- 			<div class="panel-body">	 -->
+<!-- 			<p:panelGrid columns="1" layout="grid"  styleClass="form-panel"> -->
+<!-- 				<p:selectOneButton id="local-tributacao-nota" styleClass="combobox margin-left" required="true" requiredMessage="#{msg['local.tributacao.nota.obrigatorio']}" -->
+<!-- 					 value="#{escrituracaoNotaTomadaPortalBean.nfsEscriturada.localTributacaoNFS}"> -->
+<!-- 					<f:selectItems value="#{enumProducer.locaisTributacaoNFSe}" var="tipo" -->
+<!-- 						itemLabel="#{msg[tipo.label]}" itemValue="#{tipo}" /> -->
+<!-- 				</p:selectOneButton> -->
+<!-- 			</p:panelGrid> -->
+<!-- 			</div> -->
+			<div class="panel-heading">#{msg['iss.retido.tomador']}? *</div>
+			<div class="panel-body">	
+			<p:panelGrid columns="1" layout="grid"  styleClass="form-panel">
+				<p:selectOneButton id="local-tributacao-nota" styleClass="combobox margin-left" required="true" requiredMessage="#{msg['iss.retido.tomador.obrigatorio']}"
+					 value="#{escrituracaoNotaTomadaPortalBean.nfsEscriturada.issRetidoPeloTomador}">
+					<f:selectItems value="#{enumProducer.simNao}" var="tipo"
+						itemLabel="#{msg[tipo.label]}" itemValue="#{tipo}" />
+				</p:selectOneButton>
+			</p:panelGrid>
+			</div>
+				
+			
+			<div class="panel-body">				
+			<p:panelGrid id="geral-panel" columns="1" layout="grid" styleClass="form-panel">
+				
+				<h:panelGroup>
+							
+					<div class="fixo width120px float-left">
+						<p:outputLabel for="valorTotal" value="#{msg['valor.servico']}*"  />
+						<p:inputText id="valorTotal" 
+							value="#{escrituracaoNotaTomadaPortalBean.nfsEscriturada.valorTotal}" converter="moneyConverter" styleClass="money">	
+								<p:ajax event="blur" process="@this " update="valorBaseCalculo valorISS"  
+								listener="#{escrituracaoNotaTomadaPortalBean.preencherCamposValorISSeBaseDeCalculo()}" />	
+						</p:inputText>
+					</div>
+					
+					<div class="fixo width120px float-left">
+						<p:outputLabel for="valorDeducoes" value="#{msg['valor.deducoes']}" />
+						<p:inputText id="valorDeducoes"
+							value="#{escrituracaoNotaTomadaPortalBean.nfsEscriturada.valorDeducoes}" converter="moneyConverter" styleClass="money">	
+							<p:ajax event="blur" process="@this" update="valorBaseCalculo, valorISS"  
+								listener="#{escrituracaoNotaTomadaPortalBean.preencherCamposValorISSeBaseDeCalculo()}" />	
+						</p:inputText>
+					</div>
+					
+					<div class="fixo width120px float-left">
+						<p:outputLabel for="valorBaseCalculo" value="#{msg['base.calculo']}" />
+						<p:inputText id="valorBaseCalculo" required="true" disabled="true"
+							value="#{escrituracaoNotaTomadaPortalBean.nfsEscriturada.valorBaseCalculo}" converter="moneyConverter" styleClass="money">						
+						</p:inputText>
+					</div>
+					
+				</h:panelGroup>
+				
+				<h:panelGroup>
+					
+					<div class="fixo width120px float-left">
+						<p:outputLabel for="valorISS" value="#{msg['valor.iss']}" />
+						<p:inputText id="valorISS" required="true" disabled="true"
+							value="#{escrituracaoNotaTomadaPortalBean.nfsEscriturada.valorISS}" converter="moneyConverter" styleClass="money">
+						</p:inputText>
+					</div>
+					
+					<div class="fixo width120px float-left">
+						<p:outputLabel for="pisPasep" value="#{msg['pisPasep']}" />
+						<p:inputText id="pisPasep"
+							value="#{escrituracaoNotaTomadaPortalBean.nfsEscriturada.pisPasep}" converter="moneyConverter" styleClass="money">
+						</p:inputText>
+					</div>
+					
+					<div class="fixo width120px float-left">
+						<p:outputLabel for="cofins" value="#{msg['cofins']}" />
+						<p:inputText id="cofins"
+							value="#{escrituracaoNotaTomadaPortalBean.nfsEscriturada.cofins}" converter="moneyConverter" styleClass="money">
+						</p:inputText>
+					</div>
+					
+				</h:panelGroup>
+				
+				<h:panelGroup>
+					
+					<div class="fixo width120px float-left">
+						<p:outputLabel for="irrf" value="#{msg['irrf']}" />
+						<p:inputText id="irrf"
+							value="#{escrituracaoNotaTomadaPortalBean.nfsEscriturada.irrf}" converter="moneyConverter" styleClass="money">
+						</p:inputText>
+					</div>
+					
+					<div class="fixo width120px float-left">
+						<p:outputLabel for="csll" value="#{msg['csll']}" />
+						<p:inputText id="csll"
+							value="#{escrituracaoNotaTomadaPortalBean.nfsEscriturada.csll}" converter="moneyConverter" styleClass="money">
+						</p:inputText>
+					</div>
+					
+					<div class="fixo width120px float-left">
+						<p:outputLabel for="inss" value="#{msg['inss']}" />
+						<p:inputText id="inss"
+							value="#{escrituracaoNotaTomadaPortalBean.nfsEscriturada.inss}" converter="moneyConverter" styleClass="money">
+						</p:inputText>
+					</div>
+					
+				</h:panelGroup>
+			</p:panelGrid>
+	
+		</div>
+	
+		<p:blockUI block="geral-panel" trigger="valorTotal, valorDeducoes">
+		</p:blockUI>		
+		</div>
+	</div>						
+</div>	

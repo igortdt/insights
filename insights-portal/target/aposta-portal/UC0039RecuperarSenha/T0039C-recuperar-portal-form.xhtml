@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title><ui:insert name="titulo">#{msg['nome.sistema']}</ui:insert></title>
+
+		<h:outputStylesheet library="css" name="insights.css" />
+
+		<link href="#{request.contextPath}/theme/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+		<link href="#{request.contextPath}/theme/css/font-awesome.min.css" rel="stylesheet" />
+		<link href="#{request.contextPath}/theme/css/endless.min.css" rel="stylesheet" />
+
+		<link rel="shortcut icon" href="#{request.contextPath}/resources/img/favicon-aspec.ico" type="image/x-icon" />
+		<link rel="icon" href="#{request.contextPath}/resources/img/favicon-aspec.ico" type="image/x-icon" />
+
+	</h:head>
+
+	<h:body>
+
+		<div class="login-wrapper">
+		
+					
+			<div style="width:65px; margin-left: auto; margin-right: auto;">
+				<img src="#{request.contextPath}/resources/#{initParam['uf_municipio']}/img/brasao-sistema.jpg"  />
+			</div>
+			<div style="width:250px; margin-left: auto; margin-right: auto;" class="text-center clear">
+						<h4>#{msg[request.contextPath.substring(1).concat('.pref')]}</h4>
+						<h4 class="negrito fadeInUp animation-delay4 font80em">#{msg[request.contextPath.substring(1).concat('.nome')]}</h4>
+			</div>
+						
+			<div class="login-widget animation-delay1 width350px">
+				<div class="panel panel-default painel-login-sb">
+					<p:messages autoUpdate="true" globalOnly="true" />
+						<h:form id="frm" prependId="false" styleClass="form-login">
+							<p:focus context="frm" />
+							
+		
+							<!--  <div class="panel-heading clearfix"></div> -->
+							
+							<div class="panel-heading clearfix">
+								<div class="pull-left">									
+									<span>#{msg['alterar.senha']}</span>
+								</div>								
+							</div>
+							
+							<div class="panel-body">
+
+									
+									
+									<div class="form-group">
+										<p:outputLabel for="senha" value="#{msg['senha']}" />
+										<p:password id="senha" value="#{recuperarSenhaPortalBean.novaSenha}" size="30" required="true" 
+											styleClass="form-control input-sm" />
+										<p:message for="senha" />
+										
+										
+										<p:outputLabel for="confirmarSenha" value="#{msg['confirmar.senha']}" />
+										<p:password id="confirmarSenha" value="#{recuperarSenhaPortalBean.novaSenhaConfirm}" size="30" required="true" 
+											styleClass="form-control input-sm" />
+										<p:message for="confirmarSenha" />
+										
+									</div>
+		
+		
+									<br clear="all"/>
+																		
+									<p:commandLink id="btEntrar" action="#{recuperarSenhaPortalBean.confirmarAlteracaoSenha}" update="@form"
+										styleClass="btn btn-success btn-sm pull-right">
+										<i class="fa fa-sign-in"></i>
+										#{msg['alterar.senha']}
+										<f:param name="q" value="#{recuperarSenhaPortalBean.codigoConfirmacaoParam}"></f:param>
+									</p:commandLink>
+									<p:defaultCommand target="btEntrar" />
+							</div>
+					</h:form>
+				</div>
+				<p>© 2016 Aspec. Todos os direitos reservados.</p>
+			</div>
+			
+		</div>
+		
+		<script src="#{request.contextPath}/theme/js/theme.js"></script>
+		
+	</h:body>
+
+</html>

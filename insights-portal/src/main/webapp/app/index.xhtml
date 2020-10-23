@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template/master-template.xhtml">
+	
+	<ui:define name="conteudo">
+	
+	
+		
+		<!-- ********************************************** -->
+		<!-- BARRA DE FERRAMENTAS - BOTOES DO LADO DIREITO -->
+		<!-- ********************************************** -->
+		
+		<ui:decorate template="/WEB-INF/template/formulario.xhtml">
+		<ui:define name="toolbar-right">
+		
+		</ui:define>
+		
+		
+			
+			
+			<div class="scroll-lateral-responsivo no-header">
+  			 <p:dataTable value="#{indexBean.listarMensagensPorUsuario()}" var="msgs"
+				emptyMessage="#{msg['sem.dados']}" styleClass="tabela-de-dados panel panel-default table-responsive"
+				paginator="true" rows="20" paginatorAlwaysVisible="false">
+				<f:facet name="header">
+			        Mensagens
+			    </f:facet>
+				<p:column headerText="#{msg['remetente']}" styleClass="width70px text-upper">
+					<h:outputText value="#{msgs.mensagem.titulo}" />
+				</p:column>
+				<p:column headerText="#{msg['assunto']}" styleClass="width200px">
+					<h:outputText value="#{msgs.mensagem.mensagem}"  />
+				</p:column>
+				<p:column headerText="#{msg['data']}" styleClass="width50px">
+					<h:outputText value="#{msgs.mensagem.dataCadastro}" >
+					 	<f:convertDateTime pattern="dd/MM/yyyy"/>
+					</h:outputText>
+				</p:column>
+				<p:column headerText="#{msg['lida']}" styleClass="width15px #{empty msgs.dataLeitura ? 'color-red' : 'color-green'}">
+					<h:outputText value="#{empty msgs.dataLeitura ? 'Não lido' : 'Lido'}"  />
+				</p:column>
+				<p:column headerText="#{msg['acoes']}" styleClass="width10px">
+					<p:commandButton styleClass="btn btn-default" icon="fa fa-search" action="#{indexBean.visualizarMensagem}" title="Visualizar Mensagem" >
+						<f:setPropertyActionListener value="#{msgs}" target="#{indexBean.mensagem}"></f:setPropertyActionListener>
+					</p:commandButton>
+				</p:column>
+
+			</p:dataTable>
+			</div>
+			
+			<p:dialog id="idMensagem" widgetVar="wvMensagem"  draggable="false" modal="true" height="50%"
+			styleClass="fix-dialog-iptu" closeOnEscape="true" header="#{msg['mensagem']}" >
+			 <p:ajax event="close" update="@form" />
+				<div class="scroll-lateral-responsivo">
+					<p:panelGrid columns="1" layout="grid">
+						<h:outputLabel value="#{msg['remetente']}: #{indexBean.mensagem.usuario.nome}" />
+						<h:outputLabel value="#{msg['assunto']}" />
+						<h:inputText value="#{indexBean.mensagem.mensagem.titulo}" readonly="true" />
+						<h:outputLabel value="#{msg['mensagem']}" />
+						<h:inputTextarea value="#{indexBean.mensagem.mensagem.mensagem}" readonly="true" style="width:100%; height: 300px" />
+					</p:panelGrid>
+				</div>		
+			</p:dialog>	
+			
+	
+		<f:metadata>
+			<f:event listener="#{conversationBean.end}" type="preRenderView" />
+		</f:metadata>
+	</ui:decorate>
+	</ui:define>
+
+</ui:composition>

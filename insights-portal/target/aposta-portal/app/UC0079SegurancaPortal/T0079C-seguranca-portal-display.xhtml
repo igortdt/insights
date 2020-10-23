@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template/master-template.xhtml">
+
+	<ui:define name="titulo_pagina">
+		<h:outputText value="#{msg['cadastro.setores']}" />
+	</ui:define>
+
+	<ui:define name="breadcrumb">
+		<li><i class="fa fa-home"></i><p:link outcome="inicio" value=" #{msg['inicio']}" /></li>
+		<li><i class="fa fa-globe"></i> #{msg['cartografia']}</li>
+		<li class="active">#{msg['setores']}</li>
+	</ui:define>
+
+	<!-- Alguns itens do formulario estao no arquivo display.xhtml -->
+	<!-- A barra de ferramentas e a disposicao de seus botoes tambem esta no display.xhtml -->
+
+	<ui:define name="conteudo">
+		<ui:decorate template="/WEB-INF/template/display.xhtml">
+
+			<!-- ********************************************** -->
+			<!-- BARRA DE FERRAMENTAS - BOTOES DO LADO ESQUERDO -->
+			<!-- ********************************************** -->
+			<ui:define name="toolbar-left">
+				<p:link outcome="T0006C-setor-form" styleClass="btn btn-default">
+					<i class="fa fa-file-o"></i>
+					#{msg['novo']}
+				</p:link>
+			</ui:define>
+
+			<!-- ********************************************* -->
+			<!-- BARRA DE FERRAMENTAS - BOTOES DO LADO DIREITO -->
+			<!-- ********************************************* -->
+			<ui:define name="toolbar-right">
+				<p:link outcome="pesquisar_setor" styleClass="btn btn-success">
+					<i class="fa fa-search"></i>
+					#{msg['consultar']}
+				</p:link>
+			</ui:define>
+
+			<br clear="all"/>
+			<br clear="all"/>
+
+			<!-- ******************************* -->
+			<!-- INICIO DOS CAMPOS DO FORMULARIO -->
+			<!-- ******************************* -->
+			<p:panelGrid columns="1" layout="grid">
+
+				<p:dataTable id="tab-setores" value="#{cadastrarSetorBean.setores}" var="setor"
+					emptyMessage="#{msg['sem.dados']}" styleClass=" panel panel-default table-responsive tabela-de-dados"
+					paginator="true" rows="20" paginatorPosition="bottom" paginatorAlwaysVisible="false">
+					<f:facet name="header">
+						#{msg['setores.cadastrados']}
+					</f:facet>
+					<p:column headerText="#{msg['distrito']}">
+						<h:outputText value="#{setor.distrito}" />
+					</p:column>
+					<p:column headerText="#{msg['setor']}">
+						<h:outputText value="#{setor.codigo}" />
+					</p:column>
+				</p:dataTable>
+
+			</p:panelGrid>
+
+			<f:metadata>
+				<f:event listener="#{conversationBean.end}" type="preRenderView" />
+			</f:metadata>
+
+		</ui:decorate>
+	</ui:define>
+
+</ui:composition>

@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template/master-template.xhtml">
+
+	<ui:define name="titulo_pagina">
+		<h:outputText value="#{msg['consulta.solicitacoes.credenciamento']}" />
+	</ui:define>
+
+	<ui:define name="breadcrumb">
+		<li><i class="fa fa-home"></i><p:link outcome="inicio" value=" #{msg['inicio']}" /></li>
+<!--    <li><i class="fa fa-money"></i> #{msg['tributos']}</li> 
+		<li>#{msg['iss']}</li> -->
+		<li class="active">#{msg['credenciamento']}</li>
+	</ui:define>
+
+	<!-- Alguns itens do formulario estao no arquivo formulario.xhtml -->
+	<!-- Por exemplo: bloquear formulario enquanto pesquisa e foco automatico ao carregar a pagina -->
+	<!-- A barra de ferramentas e a disposicao de seus botoes tambem esta no formulatio.xhtml -->
+
+	<ui:define name="conteudo">
+		<ui:decorate template="/WEB-INF/template/formulario.xhtml">
+
+			<!-- ********************************************** -->
+			<!-- BARRA DE FERRAMENTAS - BOTOES DO LADO ESQUERDO -->
+			<!-- ********************************************** -->
+			<ui:define name="toolbar-left">
+				<p:commandLink action="#{cadastrarSolicitacaoNFSeBean.prepararCadastro}" styleClass="btn btn-default">
+					<i class="fa fa-file-o"></i>
+					#{msg['novo']}
+				</p:commandLink>
+			</ui:define>
+
+			<!-- ********************************************* -->
+			<!-- BARRA DE FERRAMENTAS - BOTOES DO LADO DIREITO -->
+			<!-- ********************************************* -->
+			<ui:define name="toolbar-right">
+				<p:commandLink id="btSubmit" action="#{pesquisarSolicitacaoNFSeBean.pesquisar}" update="@form"
+					styleClass="btn btn-success">
+					<i class="fa fa-search"></i>
+					#{msg['pesquisar']}
+				</p:commandLink>
+			</ui:define>
+			<br clear="all"/>
+			<br clear="all"/>
+
+			<!-- ******************************* -->
+			<!-- INICIO DOS CAMPOS DO FORMULARIO -->
+			<!-- ******************************* -->
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<p:panelGrid columns="1" layout="grid">
+						<h:panelGroup>
+
+							<div class="fixo width140px">
+								<p:outputLabel for="tipo" value="#{msg['situacao.solicitacao']}" />
+								<p:selectOneMenu id="tipo" value="#{pesquisarSolicitacaoNFSeBean.situacao}">
+									<f:selectItem itemLabel="TODAS" itemValue="" />
+									<f:selectItems value="#{enumProducer.situacoesSolicitacaoNfse}" var="situacao"
+										itemLabel="#{msg[situacao.label]}" itemValue="#{situacao}" />
+								</p:selectOneMenu>
+							</div>
+
+						</h:panelGroup>
+					</p:panelGrid>
+				</div>
+			</div>
+
+			<!-- ******************** -->
+			<!-- TABELA DE RESULTADOS -->
+			<!-- ******************** -->
+			<div class="scroll-lateral-responsivo">
+  			 <p:dataTable value="#{pesquisarSolicitacaoNFSeBean.listaConsulta}" var="solicitacao"
+				emptyMessage="#{msg['sem.dados']}" styleClass="tabela-de-dados panel panel-default table-responsive"
+				paginator="true" rows="20" paginatorAlwaysVisible="false">
+
+				<p:column headerText="#{msg['numero']}" styleClass="width100px">
+					<h:outputText value="#{solicitacao.numero}" />
+				</p:column>
+
+				<p:column headerText="#{msg['data.solicitacao']}" styleClass="width140px">
+					<h:outputText value="#{solicitacao.dataSolicitacao}">
+						<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" timeZone="GMT-3" />
+					</h:outputText>
+				</p:column>
+
+				<p:column headerText="#{msg['tipo']}" styleClass="width130px">
+					<h:outputText value="#{msg[solicitacao.tipo.label]}" />
+				</p:column>
+
+				<p:column headerText="#{msg['situacao']}" styleClass="width130px">
+					<h:outputText value="#{msg[solicitacao.situacaoSolicitacaoEmissaoNFSe.label]}" />
+				</p:column>
+
+				<p:column headerText="#{msg['contribuinte']}">
+					<h:outputText value="#{solicitacao.pessoa}" />
+				</p:column>
+
+				<p:column headerText="#{msg['acoes']}" styleClass="width50px">
+					<p:commandButton id="optButton" type="button" icon="fa fa-cog" />
+					<p:menu overlay="true" trigger="optButton" my="right top" at="right bottom">
+						<p:menuitem value="#{msg['visualizar']}" icon="fa fa-print" ajax="false" target="_blank"
+							action="#{visualizarSolicitacaoNfseBean.visualizar(solicitacao)}" />
+						<p:menuitem value="#{msg['detalhar']}" icon="fa fa-search" ajax="false" target="_self"
+							action="#{detalharSolicitacaoNfseBean.preparar(solicitacao)}" />
+					</p:menu>
+				</p:column>
+			</p:dataTable>
+			</div>
+
+			<p:blockUI block="@form" trigger="btSubmit">
+				<i class="fa fa-spin fa-circle-o-notch"></i>
+				<span class="m-left-xs">#{msg['aguarde']}</span>
+			</p:blockUI>
+
+			<f:metadata>
+				<f:event listener="#{conversationBean.end}" type="preRenderView" />
+			</f:metadata>
+
+		</ui:decorate>
+	</ui:define>
+
+</ui:composition>

@@ -1,0 +1,500 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template/master-template-portal.xhtml">
+	
+	<ui:define name="conteudo">
+	<h:form>
+		<div class="bg-light">
+				<div class="container">
+					<div class="col-lg-7 col-md-7 col-sm-7">
+						<ul class="list-inline margin-top5px">
+							<li>
+								<p:link outcome="/login.xhtml">
+									Página Inicial
+								</p:link>
+							</li>
+							<li>/</li>
+							<li>
+								<p:link outcome="/UC0035ValidarDocumento/T0035L-validar-documento.xhtml">
+									Validação de Documentos
+								</p:link>
+							</li>
+							<li>/</li>
+							<li>
+								<a href="#">
+									Informações Gerais do Habite-se
+								</a>
+							</li>
+							<li>/</li>
+						</ul>
+					</div>
+					
+					<div class="col-lg-5 col-md-5 col-sm-5">
+						<ul class="list-inline pull-right margin-top5px">
+							<li><i class="fa fa-adjust" aria-hidden="true"></i></li>
+							<li><b>A</b><i class="fa fa-plus" aria-hidden="true"></i></li>
+							<li><small><b>A</b><i class="fa fa-minus" aria-hidden="true"></i></small></li>
+						</ul>
+					</div>
+					
+				</div>
+			</div>
+			
+			<section class="bg-white min-height-680px">
+				<div class="container">
+					<div class="row">
+						
+						<div class="col-lg-3">
+
+							<h2 class="novo-portal-chamada-servicos">Serviços</h2>
+						
+							<div class="novo-portal-menu-principal">
+								<!-- Include de componente de Menu -->
+								<ui:include src="/WEB-INF/template/menu-portal.xhtml" />
+							</div>
+							
+							<!-- O INCLUDE DOS BANNERS DEVERÃO  FICAR AQUI -->
+							
+						</div>
+						
+						<div class="col-lg-9">
+							<div class="row novo-portal-texto-principal">
+								<div class="col-lg-12">
+									<h1>Informações Gerais do Habite-se</h1>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-9">
+				
+							<!-- ******************************* -->
+							<!-- INICIO DOS CAMPOS DO FORMULARIO -->
+							<!-- ******************************* -->
+								
+							<div class="panel panel-default">
+								<div class="panel-heading">#{msg['dados.habitese']}</div>
+								<div class="panel-body">
+									<p:panelGrid columns="1" layout="grid" id="form-habitese" styleClass="form-panel">
+										<h:panelGroup>
+				
+											<div class="fixo width150px">
+												<p:outputLabel value="#{msg['data.emissao']}" styleClass="width150px" />
+												<h:outputText value="#{validarHabiteseBean.habitese.dataEmissao}" styleClass="width150px">
+													<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-3" />
+												</h:outputText>
+											</div>
+				
+											<div class="fixo width150px">
+												<p:outputLabel value="#{msg['data.concecao']}" styleClass="width150px" />
+												<h:outputText value="#{validarHabiteseBean.habitese.dataConcessao}" styleClass="width150px">
+													<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-3" />
+												</h:outputText>																
+											</div>
+										</h:panelGroup>
+										<h:panelGroup>
+											
+											<div class="fixo width110px">
+												<p:outputLabel  value="#{msg['numero.habitese']}" />
+												<br class="clear" />
+												<h:outputText value="#{validarHabiteseBean.habitese.numeroHabitese}" ></h:outputText>								
+											</div>
+											
+											<div class="fixo width110px">
+												<p:outputLabel value="#{msg['numero.unidade']}" />
+												<br class="clear" />
+												<h:outputText value="#{validarHabiteseBean.habitese.numeroUnidade}" ></h:outputText>
+											</div>
+											
+											<div class="fixo width110px">
+												<p:outputLabel  value="#{msg['numero.pavimento']}" />
+												<br class="clear" />
+												<h:outputText value="#{validarHabiteseBean.habitese.numeroPavimento}" ></h:outputText>
+											</div>
+				
+										</h:panelGroup>
+										
+										<h:panelGroup>
+											<div class="responsivo width650px margin-right10px">
+												<p:outputLabel value="#{msg['item.taxa']}" />
+												<br class="clear" />
+												<h:outputText value="#{validarHabiteseBean.lancamentoTaxa.itemTaxa.descricao}" ></h:outputText>
+											</div>
+				
+											<div class="fixo width150px">
+												<p:outputLabel value="#{msg['vencimento.taxa']}" />
+												<h:outputText value="#{validarHabiteseBean.lancamentoTaxa.dataVencimento}">
+													<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-3" />
+												</h:outputText>
+											</div>
+										</h:panelGroup>
+										
+									</p:panelGrid>
+									
+									<p:dataTable id="tab-dam" value="#{validarHabiteseBean.dams}" var="dam"
+										emptyMessage="#{msg['sem.dados']}" styleClass=" panel panel-default table-responsive tabela-de-dados">
+										<f:facet name="header">
+											#{msg['lista.dam.pagamento']}
+										</f:facet>
+										<p:column headerText="#{msg['numero']}">
+											#{dam.numero}
+										</p:column>
+										<p:column headerText="#{msg['vencimento']}">
+											<h:outputText value="#{dam.dataVencimento}">
+												<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-3" />
+											</h:outputText>
+										</p:column>
+										<p:column headerText="#{msg['valor']}">
+											<h:outputText value="#{dam.valorTotal}" converter="moneyConverter" />
+										</p:column>
+										<!-- <p:column styleClass="width85px" rendered="#{detalharHabiteseBean.evento.situacaoHabitese eq 'GERADO'}">
+											<p:commandButton styleClass="btn btn-default fix-botao-imprimir" icon="fa fa-barcode" iconPos="left" value="DAM" ajax="false"
+												action="#{visualizarDAMBean.visualizar(dam, 1)}"
+												onclick="this.form.target='_blank';"
+												onmouseout="this.form.target='_self';" />
+										</p:column> -->
+									</p:dataTable>
+								</div>
+							</div>
+							
+							<div class="panel panel-default">
+								<div class="panel-heading">#{msg['historico']}</div>
+								<div id="historico" class="panel-body">
+				
+									<p:dataTable value="#{validarHabiteseBean.historico}" var="evento"
+										styleClass="tabela-de-dados panel panel-default table-responsive"
+										rendered="#{!empty validarHabiteseBean.historico}">
+										<p:column headerText="#{msg['data']}" styleClass="width170px">
+											<h:outputText value="#{evento.dataEvento}">
+												<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" timeZone="GMT-3"/>
+											</h:outputText>
+										</p:column>
+										<p:column headerText="#{msg['descricao']}">
+											<h:outputText value="#{msg[evento.descricaoEvento]}" />
+										</p:column>
+										<p:column headerText="#{msg['situacao.habitese']}" styleClass="width250px">
+											<h:outputText value="#{msg[evento.situacaoHabitese]}" />
+										</p:column>
+									</p:dataTable>
+				
+								</div>
+							</div>
+							
+							
+							<p:outputPanel id="modal_panel" rendered="#{validarHabiteseBean.habitese.alvaraConstrucao != null}">
+							<div class="panel panel-default">
+								<div class="panel-heading">#{msg['dados.alvara.construcao']}</div>
+								<div class="panel-body">
+									
+										
+										<p:panelGrid columns="1" layout="grid" styleClass="form-panel">					
+											
+											<h:panelGroup>
+												<div class="responsivo width100px margin-right10px">
+													<p:outputLabel value="#{msg['numero.alvara']}" />
+													<br class="clear" />
+													<h:outputText value="#{validarHabiteseBean.habitese.alvaraConstrucao.numero}"></h:outputText>
+												</div>
+												
+												<div class="fixo width150px">
+													<p:outputLabel value="#{msg['data.emissao']}" />
+													<h:outputText value="#{validarHabiteseBean.habitese.alvaraConstrucao.dataEmissao}">
+														<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-3" />
+													</h:outputText>
+												</div>
+												
+												<div class="fixo width150px">
+													<p:outputLabel value="#{msg['data.validade']}" />
+													<h:outputText value="#{validarHabiteseBean.habitese.alvaraConstrucao.dataValidade}">
+														<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-3" />
+													</h:outputText>								
+												</div>
+											</h:panelGroup>
+											<h:panelGroup rendered="#{validarHabiteseBean.habitese.alvaraConstrucao != null}">
+												<div class="responsivo width100">
+													<p:outputLabel value="#{msg['descricao.projeto']}" />
+													<br class="clear" />
+													<h:outputText value="#{validarHabiteseBean.habitese.alvaraConstrucao.descricaoProjeto}"></h:outputText>
+												</div>
+											</h:panelGroup>
+										</p:panelGrid>
+								</div>
+							</div>
+							</p:outputPanel>
+				
+							<p:outputPanel id="dadosAlvaraPanel">
+								<div class="panel panel-default">
+									<div class="panel-heading">#{msg['dados.imovel']}</div>
+									<div class="panel-body">
+										<p:panelGrid columns="1" layout="grid" id="form-imovel" styleClass="form-panel" rendered="#{validarHabiteseBean.habitese != null}">
+				
+											<h:panelGroup>
+				
+												<div class="responsivo width180px margin-right10px">
+													<p:outputLabel value="#{msg['inscricao']}"/>
+													<br class="clear" />	
+													<h:outputText value="#{validarHabiteseBean.habitese.inscricaoImovel}"></h:outputText>
+												</div>
+				
+												<div class="fixo width100">
+													<p:outputLabel value="#{msg['endereco']}" />
+													<br class="clear" />
+													<h:outputText value="#{validarHabiteseBean.habitese.enderecoLocalizacaoImovel}"></h:outputText>
+												</div>
+				
+											</h:panelGroup>
+				
+											<h:panelGroup>
+				
+												<div class="fixo width150px margin-right10px">
+													<p:outputLabel value="#{msg['area.terreno']}"/>
+													<br class="clear" />
+													<h:outputText value="#{validarHabiteseBean.habitese.areaTerrenoImovel}">
+														<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+													</h:outputText>
+												</div>
+				
+												<div class="fixo width150px margin-right10px">
+													<p:outputLabel value="#{msg['area.unidade']}"/>
+													<br class="clear" />
+													<h:outputText value="#{validarHabiteseBean.habitese.areaUnidadeEdificacaoImovel}">
+														<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+													</h:outputText>
+												</div>
+				
+												<div class="fixo width150px">
+													<p:outputLabel value="#{msg['area.total.construida']}"/>
+													<h:outputText value="#{validarHabiteseBean.habitese.areaTotalConstruidaEdificacaoImovel}">
+														<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+													</h:outputText>
+												</div>
+				
+											</h:panelGroup>
+				
+										</p:panelGrid>
+									</div>
+								</div>
+							
+							<p:panel rendered="#{validarHabiteseBean.habitese.alvaraConstrucao != null}">
+							<div class="panel panel-default">
+								<div class="panel-heading">#{msg['dados.proprietario']}</div>
+								<div class="panel-body">
+					
+									<p:panelGrid columns="1" layout="grid" styleClass="form-panel" 
+									rendered="#{validarHabiteseBean.proprietarioEhPessoaFisica and validarHabiteseBean.habitese.alvaraConstrucao != null}">
+										<h:panelGroup>
+					
+											<div class="responsivo width150px margin-right10px">
+												<p:outputLabel value="#{msg['cpf']}" />
+												<br class="clear" />
+												<h:outputText converter="cpfCnpjConverter"
+													value="#{validarHabiteseBean.habitese.alvaraConstrucao.cpfPessoa}"></h:outputText>
+											</div>
+				
+											<div class="responsivo width100">
+												<p:outputLabel value="#{msg['nome']}" />
+												<br class="clear" />
+												<h:outputText value="#{validarHabiteseBean.habitese.alvaraConstrucao.nomePessoa}"></h:outputText>
+											</div>
+				
+										</h:panelGroup>
+									</p:panelGrid>
+														
+									<p:panelGrid columns="1" layout="grid" styleClass="form-panel" 
+									rendered="#{!validarHabiteseBean.proprietarioEhPessoaFisica and validarHabiteseBean.habitese.alvaraConstrucao != null}">
+										<h:panelGroup>
+					
+											<div class="responsivo width150px margin-right10px">
+												<p:outputLabel value="#{msg['cnpj']}" />
+												<br class="clear" />
+												<h:outputText converter="cpfCnpjConverter"
+													value="#{validarHabiteseBean.habitese.alvaraConstrucao.cnpjPessoa}"></h:outputText>
+											</div>
+				
+											<div class="responsivo width100">
+												<p:outputLabel value="#{msg['razao.social']}" />
+												<br class="clear" />
+												<h:outputText value="#{validarHabiteseBean.habitese.alvaraConstrucao.razaoSocialPessoa}"></h:outputText>
+											</div>
+				
+										</h:panelGroup>
+									</p:panelGrid>
+				
+								</div>
+							</div> <!-- PROPRIETARIO -->
+				
+							<div class="panel panel-default">
+								<div class="panel-heading">#{msg['responsavel.projeto.arquitetonico']}</div>
+								<div class="panel-body">
+				
+									<p:panelGrid columns="1" layout="grid" styleClass="form-panel" 
+									rendered="#{validarHabiteseBean.arquitetonicoEhPessoaFisica and validarHabiteseBean.habitese.alvaraConstrucao != null}">
+										<h:panelGroup>
+					
+											<div class="responsivo width150px margin-right10px">
+												<p:outputLabel value="#{msg['cpf']}" />
+												<br class="clear" />
+												<h:outputText converter="cpfCnpjConverter"
+													value="#{validarHabiteseBean.habitese.alvaraConstrucao.cpfPessoaArquitetonico}"></h:outputText>
+											</div>
+				
+											<div class="responsivo width100">
+												<p:outputLabel value="#{msg['nome']}" />
+												<br class="clear" />
+												<h:outputText value="#{validarHabiteseBean.habitese.alvaraConstrucao.nomePessoaArquitetonico}"></h:outputText>
+											</div>
+				
+										</h:panelGroup>
+									</p:panelGrid>
+									
+									<p:panelGrid columns="1" layout="grid" styleClass="form-panel" 
+									rendered="#{!validarHabiteseBean.arquitetonicoEhPessoaFisica and validarHabiteseBean.habitese.alvaraConstrucao != null}">
+										<h:panelGroup>
+											<div class="responsivo width150px margin-right10px">
+												<p:outputLabel value="#{msg['cnpj']}" />
+												<br class="clear" />
+												<h:outputText converter="cpfCnpjConverter"
+													value="#{validarHabiteseBean.habitese.alvaraConstrucao.cnpjPessoaArquitetonico}"></h:outputText>
+											</div>
+				
+											<div class="responsivo width100">
+												<p:outputLabel value="#{msg['razao.social']}" />
+												<br class="clear" />
+												<h:outputText value="#{validarHabiteseBean.habitese.alvaraConstrucao.razaoSocialPessoaArquitetonico}"></h:outputText>
+											</div>
+				
+										</h:panelGroup>
+									</p:panelGrid>
+				
+				
+								</div>
+							</div> <!-- RESPONSAVEL PELO PROJETO ARQUITETONICO -->
+				
+							<div class="panel panel-default">
+								<div class="panel-heading">#{msg['responsavel.calculo']}</div>
+								<div class="panel-body">
+				
+									<p:panelGrid columns="1" layout="grid" styleClass="form-panel" id="form-arq-pf" 
+									rendered="#{validarHabiteseBean.calculoEhPessoaFisica and validarHabiteseBean.habitese.alvaraConstrucao != null}">
+										<h:panelGroup>
+					
+											<div class="responsivo width150px margin-right10px">
+												<p:outputLabel value="#{msg['cpf']}" />
+												<br class="clear" />
+												<h:outputText converter="cpfCnpjConverter"
+													value="#{validarHabiteseBean.habitese.alvaraConstrucao.cpfPessoaCalculo}"></h:outputText>
+											</div>
+				
+											<div class="responsivo width100">
+												<p:outputLabel value="#{msg['nome']}" />
+												<br class="clear" />
+												<h:outputText value="#{validarHabiteseBean.habitese.alvaraConstrucao.nomePessoaCalculo}"></h:outputText>
+											</div>
+				
+										</h:panelGroup>
+									</p:panelGrid>
+									
+									<p:panelGrid columns="1" layout="grid" styleClass="form-panel" id="form-arq-pj" 
+									rendered="#{!validarHabiteseBean.calculoEhPessoaFisica and validarHabiteseBean.habitese.alvaraConstrucao != null}">
+										<h:panelGroup>
+					
+											<div class="responsivo width150px margin-right10px">
+												<p:outputLabel value="#{msg['cnpj']}" />
+												<br class="clear" />
+												<h:outputText converter="cpfCnpjConverter"
+													value="#{validarHabiteseBean.habitese.alvaraConstrucao.cnpjPessoaCalculo}"></h:outputText>
+											</div>
+				
+											<div class="responsivo width100">
+												<p:outputLabel value="#{msg['razao.social']}" />
+												<br class="clear" />
+												<h:outputText value="#{validarHabiteseBean.habitese.alvaraConstrucao.razaoSocialPessoaCalculo}"></h:outputText>
+											</div>
+				
+										</h:panelGroup>
+									</p:panelGrid>
+				
+				
+								</div>
+							</div> <!-- RESPONSAVEL PELO CALCULO -->
+				
+							<div class="panel panel-default">
+								<div class="panel-heading">#{msg['responsavel.construcao']}</div>
+								<div class="panel-body">
+				
+									<p:panelGrid columns="1" layout="grid" styleClass="form-panel" 
+									rendered="#{validarHabiteseBean.construcaoEhPessoaFisica and validarHabiteseBean.habitese.alvaraConstrucao != null}">
+										<h:panelGroup>
+					
+											<div class="responsivo width150px margin-right10px">
+												<p:outputLabel value="#{msg['cpf']}" />
+												<br class="clear" />
+												<h:outputText converter="cpfCnpjConverter"
+													value="#{validarHabiteseBean.habitese.alvaraConstrucao.cpfPessoaConstrucao}"></h:outputText>
+											</div>
+				
+											<div class="responsivo width100">
+												<p:outputLabel value="#{msg['nome']}" />
+												<br class="clear" />
+												<h:outputText value="#{validarHabiteseBean.habitese.alvaraConstrucao.nomePessoaConstrucao}"></h:outputText>
+											</div>
+				
+										</h:panelGroup>
+									</p:panelGrid>
+									
+									<p:panelGrid columns="1" layout="grid" styleClass="form-panel" 
+									rendered="#{!validarHabiteseBean.construcaoEhPessoaFisica and validarHabiteseBean.habitese.alvaraConstrucao != null}">
+										<h:panelGroup>
+					
+											<div class="responsivo width150px margin-right10px">
+												<p:outputLabel value="#{msg['cnpj']}" />
+												<br class="clear" />
+												<h:outputText converter="cpfCnpjConverter"
+													value="#{validarHabiteseBean.habitese.alvaraConstrucao.cnpjPessoaConstrucao}"></h:outputText>
+											</div>
+				
+											<div class="responsivo width100">
+												<p:outputLabel value="#{msg['razao.social']}" />
+												<br class="clear" />
+												<h:outputText value="#{validarHabiteseBean.habitese.alvaraConstrucao.razaoSocialPessoaConstrucao}"></h:outputText>
+											</div>
+				
+										</h:panelGroup>
+									</p:panelGrid>
+				
+								</div>
+							</div> <!-- RESPONSAVEL PELA CONSTRUCAO -->
+				
+							<div class="panel panel-default">
+								<div class="panel-heading">#{msg['outras.informacoes']}</div>
+								<div class="panel-body">
+									<p:panelGrid columns="1" layout="grid" id="form-observacao" rendered="#{validarHabiteseBean.habitese.alvaraConstrucao != null}">
+										<h:panelGroup>
+											<div class="responsivo width100">
+												<p:outputLabel value="#{msg['observacao']}" />
+												<br class="clear" />
+												<h:outputText value="#{validarHabiteseBean.habitese.alvaraConstrucao.observacao}" />
+											</div>
+										</h:panelGroup>
+									</p:panelGrid>
+								</div>
+							</div>
+							</p:panel>
+							
+							</p:outputPanel>
+							
+						</div><!-- End of Col LG 9 -->	
+					
+					</div><!-- End of row -->
+				</div><!-- End of container -->
+			</section>			
+			
+			<f:metadata>
+				<f:event listener="#{conversationBean.begin}" type="preRenderView" />
+			</f:metadata>
+	</h:form>
+	</ui:define>
+</ui:composition>

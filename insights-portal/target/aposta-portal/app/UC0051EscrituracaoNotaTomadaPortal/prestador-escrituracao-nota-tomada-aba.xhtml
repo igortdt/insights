@@ -1,0 +1,254 @@
+<div id="geral"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+
+	
+	<div class="panel-heading">#{msg['prestador']}</div>
+	<div class="panel-body">
+	
+	<p:panelGrid columns="1" layout="grid" id="form-prestador" styleClass="form-panel">
+		<p:selectOneButton id="tipo_prestador" styleClass="combobox margin-auto"
+			 value="#{escrituracaoNotaTomadaPortalBean.consultarPessoaBean.tipoPessoa}">
+			<f:selectItems value="#{enumProducer.tiposPessoa}" var="tipo"
+				itemLabel="#{msg[tipo.label]}" itemValue="#{tipo}" />
+			<p:ajax event="change" listener="#{escrituracaoNotaTomadaPortalBean.resetPrestador}"
+				update="prestador_panel, endereco" resetValues="true" />
+		</p:selectOneButton>
+	</p:panelGrid>
+
+	<p:outputPanel id="prestador_panel">
+		<p:panelGrid columns="1" layout="grid" styleClass="form-panel" rendered="#{escrituracaoNotaTomadaPortalBean.consultarPessoaBean.renderPF}">
+			<h:panelGroup>
+
+				<div class="responsivo width140px">
+					<p:outputLabel for="cpf-prestador" value="#{msg['cpf']}" />
+					<p:inputMask mask="999.999.999-99" id="cpf-prestador" converter="cpfCnpjConverter" required="true" requiredMessage="#{msg['prestador.obrigatorio']}"
+						value="#{escrituracaoNotaTomadaPortalBean.consultarPessoaBean.pessoaFisica.cpf}" validator="cpfCnpjBeanValidator">
+						<p:ajax event="change" listener="#{escrituracaoNotaTomadaPortalBean.onDocPrestadorChange}" resetValues="true"
+							update="prestador_panel,endereco" />
+					</p:inputMask>														
+				</div>
+
+				<div class="responsivo width50px margin-top23px">
+					<p:commandButton id="btPFPrestador" widgetVar="btPFPrestador" icon="fa fa-search"
+						actionListener="#{modalPessoaFisicaPortal.openModal}" immediate="true">
+						<p:ajax event="dialogReturn" listener="#{escrituracaoNotaTomadaPortalBean.onPrestadorSelected}"
+							update="prestador_panel, endereco" resetValues="true" />
+					</p:commandButton>
+				</div>
+
+				<div class="responsivo width390px margin-right15px">
+					<p:outputLabel for="nome-prestador" value="#{msg['nome']}" />
+					<p:inputText id="nome-prestador" value="#{escrituracaoNotaTomadaPortalBean.consultarPessoaBean.pessoaFisica.nome}"
+						required="true" disabled="#{escrituracaoNotaTomadaPortalBean.consultarPessoaBean.pfFound}" />
+				</div>
+
+			</h:panelGroup>
+		</p:panelGrid>
+
+		<p:panelGrid columns="1" layout="grid" styleClass="form-panel" rendered="#{!escrituracaoNotaTomadaPortalBean.consultarPessoaBean.renderPF}">
+			<h:panelGroup>
+
+				<div class="responsivo width140px">
+					<p:outputLabel for="cnpj-prestador" value="#{msg['cnpj']}" />
+					<p:inputMask mask="99.999.999/9999-99" id="cnpj-prestador" converter="cpfCnpjConverter" required="true" requiredMessage="#{msg['prestador.obrigatorio']}"
+						value="#{escrituracaoNotaTomadaPortalBean.consultarPessoaBean.pessoaJuridica.cnpj}" validator="cpfCnpjBeanValidator">
+						<p:ajax event="change" listener="#{escrituracaoNotaTomadaPortalBean.onDocPrestadorChange}" resetValues="true"
+							update="prestador_panel, endereco" />
+					</p:inputMask>
+				</div>
+
+				<div class="responsivo width50px margin-top23px">
+					<p:commandButton id="btPJPrestador" widgetVar="btPJPrestador" icon="fa fa-search"
+						actionListener="#{modalPessoaJuridicaPortal.openModal}" immediate="true">
+						<p:ajax event="dialogReturn" listener="#{escrituracaoNotaTomadaPortalBean.onPrestadorSelected}"
+							update="prestador_panel, endereco" resetValues="true" />
+					</p:commandButton>
+				</div>
+
+				<div class="responsivo width390px margin-right15px">
+					<p:outputLabel for="razao-prestador" value="#{msg['razao.social']}" />
+					<p:inputText id="razao-prestador" value="#{escrituracaoNotaTomadaPortalBean.consultarPessoaBean.pessoaJuridica.razaoSocial}" requiredMessage="#{msg['prestador.obrigatorio']}"
+						required="true" disabled="#{escrituracaoNotaTomadaPortalBean.consultarPessoaBean.pjFound}" />
+				</div>
+				
+				<div class="fixo width200px">
+					<p:outputLabel for="optanteSimples" value="#{msg['optante.simples']}" />
+						
+					<h:selectOneRadio id="optanteSimples" value="#{escrituracaoNotaTomadaPortalBean.consultarPessoaBean.pessoaJuridica.optanteSIMPLES}"  
+						required="true" styleClass="combobox" >
+						<f:selectItems value="#{enumProducer.simNao}" var="simNao" itemLabel="#{msg[simNao.label]}" itemValue="#{simNao}" />										
+						<p:ajax event="click" process="@this"/>
+					</h:selectOneRadio>						
+				</div>
+
+			</h:panelGroup>
+		</p:panelGrid>
+	</p:outputPanel>
+
+	<div class="panel panel-default">
+				<div class="panel-heading">#{msg['endereco']}</div>
+				<div id="panel-endereco" class="panel-body">
+					<p:panelGrid  columns="1" layout="grid">
+					<h:panelGroup>
+								<div class="fixo width320px">
+									<p:outputLabel for="email" value="#{msg['email']}" />
+									<p:inputText id="email" value="#{escrituracaoNotaTomadaPortalBean.consultarPessoaBean.pessoa.email}" />
+								</div>
+								<div class="fixo width120px">
+									<p:outputLabel for="tfixo" value="#{msg['telefone.fixo']}" />
+									<p:inputText id="tfixo" value="#{escrituracaoNotaTomadaPortalBean.consultarPessoaBean.pessoa.telefoneFixo}"
+										onkeyup="mascara(this, telefone)" converter="telefoneConverter" validator="telefoneValidator" />
+								</div>
+								<div class="fixo width120px">
+									<p:outputLabel for="tfax" value="#{msg['fax']}" />
+									<p:inputText id="tfax" value="#{escrituracaoNotaTomadaPortalBean.consultarPessoaBean.pessoa.telefoneFax}"
+										onkeyup="mascara(this, telefone)" converter="telefoneConverter" validator="telefoneValidator" />
+								</div>
+								<div class="fixo width120px">
+									<p:outputLabel for="tmovel" value="#{msg['celular']}" />
+									<p:inputText id="tmovel" value="#{escrituracaoNotaTomadaPortalBean.consultarPessoaBean.pessoa.telefoneMovel}"
+										onkeyup="mascara(this, telefone)" converter="telefoneConverter" validator="telefoneValidator" />
+								</div>
+						</h:panelGroup>
+						</p:panelGrid>
+					
+					<p:outputPanel >
+
+						<p:panelGrid id="endereco" columns="1" layout="grid">
+
+							<h:panelGroup>
+
+								<div class="fixo width90px">
+									<p:outputLabel for="cep" value="#{msg['cep']}" />
+									<p:inputMask mask="99.999-999" id="cep" value="#{escrituracaoNotaTomadaPortalBean.enderecoBean.cep.cep}" converter="cepConverter" disabled="#{!escrituracaoNotaTomadaPortalBean.habilitarCamposEdicao}" required="true">
+										<p:ajax listener="#{escrituracaoNotaTomadaPortalBean.enderecoBean.onCepChange}" process="@this" update="endereco" resetValues="true" />
+									</p:inputMask>
+								</div>
+
+								<div class="fixo width135px">
+									<p:outputLabel for="uf" value="#{msg['uf']}" />
+									<p:selectOneMenu id="uf" value="#{escrituracaoNotaTomadaPortalBean.enderecoBean.uf}" converter="entityConverter" disabled="#{!escrituracaoNotaTomadaPortalBean.habilitarCamposEdicao}"
+										filter="true" filterMatchMode="contains" required="true">
+										<f:selectItem itemLabel="#{msg['selecione.uf']}" itemValue=""/>
+										<f:selectItems value="#{escrituracaoNotaTomadaPortalBean.ufs}" var="uf" itemLabel="#{uf.nome}" itemValue="#{uf}" />
+										<p:ajax listener="#{escrituracaoNotaTomadaPortalBean.enderecoBean.onUfChange}" process="@this" update="endereco" resetValues="true" />
+									</p:selectOneMenu>
+								</div>
+
+								<div class="responsivo width275px margin-right10px">
+									<p:outputLabel for="municipio" value="#{msg['municipio']}" />
+									<p:selectOneMenu id="municipio" value="#{escrituracaoNotaTomadaPortalBean.enderecoBean.logradouro.municipio}" converter="entityConverter" disabled="#{!escrituracaoNotaTomadaPortalBean.habilitarCamposEdicao}"
+										filter="true" filterMatchMode="contains" required="true">
+										<f:selectItem itemLabel="#{empty escrituracaoNotaTomadaPortalBean.enderecoBean.uf ? msg['selecione.uf'] : msg['selecione.municipio']}" itemValue=""/>
+										<f:selectItems value="#{escrituracaoNotaTomadaPortalBean.enderecoBean.municipios}" var="mun" itemLabel="#{mun.nome}" itemValue="#{mun}" />
+										<p:ajax listener="#{escrituracaoNotaTomadaPortalBean.enderecoBean.onMunicipioChange}" process="@this" update="endereco" resetValues="true" />
+									</p:selectOneMenu>
+								</div>
+								
+								<div class="fixo width275px">
+									<p:outputLabel for="distrito" value="#{msg['distrito']}" />
+									<p:selectOneMenu id="distrito" value="#{escrituracaoNotaTomadaPortalBean.enderecoBean.logradouro.distrito}" converter="entityConverter" 
+										filter="true" filterMatchMode="contains"
+										disabled="#{empty escrituracaoNotaTomadaPortalBean.enderecoBean.distritos or escrituracaoNotaTomadaPortalBean.enderecoBean.cepFound}">
+										<f:selectItem
+											itemLabel="#{empty escrituracaoNotaTomadaPortalBean.enderecoBean.distritos ? msg['nenhum.distrito'] : msg['selecione.distrito']}"
+											itemValue=""/>
+										<f:selectItems value="#{escrituracaoNotaTomadaPortalBean.enderecoBean.distritos}" var="dis" itemLabel="#{dis.nome}" itemValue="#{dis}" />
+										<p:ajax listener="#{escrituracaoNotaTomadaPortalBean.enderecoBean.onDistritoChange}" process="@this" resetValues="true"
+											update="cep, bairro, tipo, logradouro" />
+									</p:selectOneMenu>
+								</div>
+
+							</h:panelGroup>
+
+							<h:panelGroup>
+
+								<p:outputPanel id="panel-bairro" styleClass="responsivo width275px margin-right10px">
+									<p:outputLabel value="#{msg['bairro']} *" />
+									<p:spacer width="50px" height="1px" />
+									<p:commandLink id="ad-bairro" value="#{msg['adicionar']}" actionListener="#{escrituracaoNotaTomadaPortalBean.enderecoBean.addBairro}" process="@this"
+										rendered="#{escrituracaoNotaTomadaPortalBean.enderecoBean.renderBairroSelect and escrituracaoNotaTomadaPortalBean.enderecoBean.outroMunicipio 
+											and escrituracaoNotaTomadaPortalBean.habilitarCamposEdicao}"
+										update="panel-bairro, panel-logradouro, tipo"  />
+									<p:commandLink id="c-ad-bairro" value="#{msg['cancelar']}" actionListener="#{escrituracaoNotaTomadaPortalBean.enderecoBean.cancelarAddBairro}"
+										rendered="#{!escrituracaoNotaTomadaPortalBean.enderecoBean.renderBairroSelect and escrituracaoNotaTomadaPortalBean.enderecoBean.outroMunicipio 
+											and escrituracaoNotaTomadaPortalBean.habilitarCamposEdicao}"
+										process="@this" update="panel-bairro, panel-logradouro, tipo"  />
+									<p:selectOneMenu id="bairro" value="#{escrituracaoNotaTomadaPortalBean.enderecoBean.bairro}"
+										filter="true" filterMatchMode="contains" converter="entityConverter"
+										disabled="#{!escrituracaoNotaTomadaPortalBean.habilitarCamposEdicao}" required="true"
+										rendered="#{escrituracaoNotaTomadaPortalBean.enderecoBean.renderBairroSelect}">
+										<f:selectItem itemLabel="#{msg['selecione.bairro']}" itemValue=""/>
+										<f:selectItems value="#{escrituracaoNotaTomadaPortalBean.enderecoBean.bairros}" var="bairro" itemLabel="#{bairro.nome}" itemValue="#{bairro}" />
+										<p:ajax listener="#{escrituracaoNotaTomadaPortalBean.enderecoBean.onBairroChange}" process="@this" update="endereco" resetValues="true" />
+									</p:selectOneMenu>
+									<p:inputText id="bairro-add" value="#{escrituracaoNotaTomadaPortalBean.enderecoBean.bairro.nome}" required="true"
+										rendered="#{!escrituracaoNotaTomadaPortalBean.enderecoBean.renderBairroSelect}" />
+								</p:outputPanel>
+
+								<div class="fixo width135px">
+									<p:outputLabel for="tipo" value="#{msg['tipo.logradouro']}" />
+									<p:selectOneMenu id="tipo" value="#{escrituracaoNotaTomadaPortalBean.enderecoBean.logradouro.tipoLogradouro}" converter="entityConverter"
+										filter="true" filterMatchMode="contains"
+										disabled="#{escrituracaoNotaTomadaPortalBean.enderecoBean.logradouroFound or (escrituracaoNotaTomadaPortalBean.enderecoBean.renderBairroSelect 
+											and escrituracaoNotaTomadaPortalBean.enderecoBean.renderLogradouroSelect)}">
+										<f:selectItem itemLabel="#{msg['selecione.tipo']}" itemValue=""/>
+										<f:selectItems value="#{escrituracaoNotaTomadaPortalBean.tiposLogradouro}" var="tipo" itemLabel="#{tipo.nome}" itemValue="#{tipo}" />
+									</p:selectOneMenu>
+								</div>
+
+								<p:outputPanel id="panel-logradouro" styleClass="responsivo width375px margin-right10px">
+									<p:outputLabel value="#{msg['logradouro']} *" />
+									<p:spacer width="50px" height="1px" />
+									<p:commandLink id="ad-logradouro" value="#{msg['adicionar']}" actionListener="#{escrituracaoNotaTomadaPortalBean.enderecoBean.addLogradouro}" process="@this"
+										rendered="#{escrituracaoNotaTomadaPortalBean.enderecoBean.renderLogradouroSelect and escrituracaoNotaTomadaPortalBean.enderecoBean.renderBairroSelect 
+											and escrituracaoNotaTomadaPortalBean.enderecoBean.outroMunicipio and escrituracaoNotaTomadaPortalBean.habilitarCamposEdicao}"
+										update="panel-logradouro, tipo" />
+									<p:commandLink id="c-ad-logradouro" value="#{msg['cancelar']}" actionListener="#{escrituracaoNotaTomadaPortalBean.enderecoBean.cancelarAddLogradouro}"
+										rendered="#{!escrituracaoNotaTomadaPortalBean.enderecoBean.renderLogradouroSelect and escrituracaoNotaTomadaPortalBean.enderecoBean.renderBairroSelect 
+											and escrituracaoNotaTomadaPortalBean.enderecoBean.outroMunicipio and escrituracaoNotaTomadaPortalBean.habilitarCamposEdicao}"
+										process="@this" update="panel-logradouro, tipo"  />
+									<p:selectOneMenu id="logradouro" value="#{escrituracaoNotaTomadaPortalBean.enderecoBean.endereco.logradouro}"
+										disabled="#{!escrituracaoNotaTomadaPortalBean.habilitarCamposEdicao}" required="true" 
+										rendered="#{escrituracaoNotaTomadaPortalBean.enderecoBean.renderBairroSelect and escrituracaoNotaTomadaPortalBean.enderecoBean.renderLogradouroSelect}"
+										filter="true" filterMatchMode="contains" converter="entityConverter">
+										<f:selectItem itemLabel="#{msg['selecione.logradouro']}" itemValue=""/>
+										<f:selectItems value="#{escrituracaoNotaTomadaPortalBean.enderecoBean.logradouros}" var="logradouro" itemLabel="#{logradouro.nome}"
+											itemValue="#{logradouro}" />
+										<!-- <p:ajax process="@this, cep, tipo" update="cep, tipo" resetValues="true" /> -->
+										<p:ajax listener="#{escrituracaoNotaTomadaPortalBean.enderecoBean.onLogradouroChange}" process="@this, cep, tipo" update="cep, tipo" resetValues="true" />
+									</p:selectOneMenu>
+									<p:inputText id="logradouro-add" value="#{escrituracaoNotaTomadaPortalBean.enderecoBean.endereco.logradouro.nome}" required="true"
+										rendered="#{!escrituracaoNotaTomadaPortalBean.enderecoBean.renderBairroSelect or !escrituracaoNotaTomadaPortalBean.enderecoBean.renderLogradouroSelect}" />
+        						</p:outputPanel>
+
+							</h:panelGroup>
+
+							<h:panelGroup>
+							
+								<div class="fixo width90px">
+									<p:outputLabel for="numero" value="#{msg['numero']}" />
+									<p:inputText id="numero" value="#{escrituracaoNotaTomadaPortalBean.enderecoBean.endereco.numero}" disabled="#{!escrituracaoNotaTomadaPortalBean.habilitarCamposEdicao}" />
+								</div>
+							
+								<div class="responsivo width320px">
+									<p:outputLabel for="complemento" value="#{msg['complemento']}" />
+									<p:inputText id="complemento" value="#{escrituracaoNotaTomadaPortalBean.enderecoBean.endereco.complemento}" disabled="#{!escrituracaoNotaTomadaPortalBean.habilitarCamposEdicao}" />
+								</div>
+								
+							</h:panelGroup>
+
+						</p:panelGrid>
+
+					</p:outputPanel>
+				</div>
+			</div>
+	</div>
+
+
+</div>

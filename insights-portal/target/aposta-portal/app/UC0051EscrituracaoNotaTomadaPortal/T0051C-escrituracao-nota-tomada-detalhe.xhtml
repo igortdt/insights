@@ -1,0 +1,312 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template/master-template.xhtml">
+
+
+	<ui:define name="titulo_pagina">
+		<h:outputText value="#{msg['detalhes.nota.escriturada']}" />
+	</ui:define>
+
+	<ui:define name="breadcrumb">
+		<li><i class="fa fa-home"></i> #{msg['inicio']}</li>
+		<li class="active">#{msg['escrituracao.nota.tomada']}</li>
+	</ui:define>
+
+	<!-- Alguns itens do formulario estao no arquivo formulario.xhtml -->
+	<!-- Por exemplo: bloquear formulario enquanto pesquisa e foco automatico ao carregar a pagina -->
+	<!-- A barra de ferramentas e a disposicao de seus botoes tambem esta no formulatio.xhtml -->
+
+	<ui:define name="conteudo">
+		<ui:decorate template="/WEB-INF/template/formulario.xhtml">
+
+			<!-- ********************************************** -->
+			<!-- BARRA DE FERRAMENTAS - BOTOES DO LADO ESQUERDO -->
+			<!-- ********************************************** -->
+			<ui:define name="toolbar-left">
+				<p:link outcome="consulta_nfse" styleClass="btn btn-danger">
+					<i class="fa fa-reply"></i>
+					#{msg['voltar']}
+				</p:link>
+			</ui:define>
+			<!-- ********************************************* -->
+			<!-- BARRA DE FERRAMENTAS - BOTOES DO LADO DIREITO -->
+			<!-- ********************************************* -->
+			<ui:define name="toolbar-right">
+				<p:link id="optButton" styleClass="btn btn-default" onclick="return false;" 
+				rendered="#{detalharNFSEscrituradaBean.nfseEscriturada.situacaoNFSe != 'CANCELADA'}">
+					<i class="fa fa-bars"></i>#{msg['opcoes']}
+				</p:link>
+				
+				<p:menu overlay="true" trigger="optButton" my="right top" at="right bottom">
+					<p:menuitem value="#{msg['cancelar.nfse']}" icon="fa fa-ban" ajax="false"
+					action="#{cancelarNFSEscrituradaBean.prepararCancelamento(detalharNFSEscrituradaBean.nfseEscriturada)}"
+					target="_self"/>
+				</p:menu>
+			</ui:define>
+
+			<br clear="all"/>
+			<br clear="all"/>
+
+			<!-- ******************************* -->
+			<!-- INICIO DOS CAMPOS DO FORMULARIO -->
+			<!-- ******************************* -->
+			
+			
+			
+	<div class="panel panel-default">
+	<div class="panel-heading">#{msg['prestador']}</div>
+		<div class="panel-body">
+
+			<p:panelGrid columns="1" layout="grid"
+				styleClass="form-panel">
+
+				<h:panelGroup>
+					<div class="fixo width150px">
+						<p:outputLabel value="#{msg['cpf.cnpj']}" />
+						<br clear="all"/>
+						<h:outputText value="#{detalharNFSEscrituradaBean.nfseEscriturada.prestador.documento}" converter="cpfCnpjConverter" />
+					</div>
+					<div class="fixo width250px">
+						<p:outputLabel value="#{msg['nome.razao']}" />
+						<br clear="all"/>
+						<h:outputText value="#{detalharNFSEscrituradaBean.nfseEscriturada.prestador.descricao}"/>
+					</div>
+				</h:panelGroup>
+				
+				<h:panelGroup rendered="#{detalharNFSEscrituradaBean.nfseEscriturada.prestador.endereco != null}">
+					<div class="responsivo width100">
+						<p:outputLabel value="#{msg['endereco']}"/>
+						<br clear="all"/>
+						<h:outputText value="#{detalharNFSEscrituradaBean.nfseEscriturada.prestador.endereco}"/>
+					</div>
+				</h:panelGroup>
+										
+			</p:panelGrid>
+		</div>
+		
+		
+		<div class="panel-heading">#{msg['tomador']}</div>
+		<div class="panel-body">
+
+			<p:panelGrid  columns="1" layout="grid"
+				styleClass="form-panel">
+
+				<h:panelGroup>
+					<div class="fixo width150px">
+						<p:outputLabel value="#{msg['cpf.cnpj']}" />
+						<br clear="all"/>
+						<h:outputText value="#{detalharNFSEscrituradaBean.nfseEscriturada.tomador.documento}" converter="cpfCnpjConverter" />
+					</div>
+					<div class="fixo width250px">
+						<p:outputLabel value="#{msg['nome.razao']}" />
+					
+						<br clear="all"/>
+						<h:outputText value="#{detalharNFSEscrituradaBean.nfseEscriturada.tomador.descricao}"/>
+					</div>
+				</h:panelGroup>
+				
+										
+				<h:panelGroup rendered="#{detalharNFSEscrituradaBean.nfseEscriturada.tomador.endereco != null}">
+					<div class="responsivo width100">
+						<p:outputLabel value="#{msg['endereco']}"/>
+						<br clear="all"/>
+						<h:outputText value="#{detalharNFSEscrituradaBean.nfseEscriturada.tomador.endereco}"/>
+					</div>
+				</h:panelGroup>
+				
+			</p:panelGrid>
+		</div>
+		
+		<div class="panel-heading">#{msg['informacoes.nota.fiscal.servico']}</div>
+		<div class="panel-body">
+
+			<p:panelGrid  columns="1" layout="grid" styleClass="form-panel">
+
+				<h:panelGroup>
+				
+					<div class="responsivo width150px">
+						<p:outputLabel value="#{msg['numero.nota']}" />
+						<br clear="all"/>
+						<h:outputText value="#{detalharNFSEscrituradaBean.nfseEscriturada.numeroNFS}"/>
+					</div>
+					
+					
+					<div class="fixo width150px bg-calendario">
+						<p:outputLabel value="#{msg['data.emissao']}" />
+						<h:outputText value="#{detalharNFSEscrituradaBean.nfseEscriturada.dataHoraEmissao}">
+							<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-3" />
+						</h:outputText>
+			
+					</div>
+					
+					<div class="fixo width150px">
+						<p:outputLabel value="#{msg['hora.emissao']}" />
+						<br clear="all"/>
+						<h:outputText value="#{detalharNFSEscrituradaBean.nfseEscriturada.dataHoraEmissao}">
+							<f:convertDateTime pattern="HH:mm"/>
+						</h:outputText>
+					</div>
+					
+					<div class="fixo width160px">
+						<p:outputLabel value="#{msg['codigo.verificacao']}" />
+						<br clear="all"/>
+						<h:outputText value="#{detalharNFSEscrituradaBean.nfseEscriturada.codigoVerificacao}"/>
+					</div>
+	
+				</h:panelGroup>
+				
+			</p:panelGrid>
+					
+		</div>
+			
+		<div class="panel-heading">#{msg['servico.prestado']}</div>
+		<div class="panel-body">
+				<p:panelGrid  columns="1" layout="grid" styleClass="form-panel">
+				
+					<h:panelGroup>
+							<div class="fixo width650px">
+								<p:outputLabel value="#{msg['servico']}"/>
+								<br clear="all"/>
+								<h:outputText value="#{detalharNFSEscrituradaBean.nfseEscriturada.servico.codigo} - #{detalharNFSEscrituradaBean.nfseEscriturada.servico.descricao}" converter="cpfCnpjConverter" />
+							</div>
+
+							<div class="fixo width250px">
+								<p:outputLabel value="#{msg['aliquota']}"/>
+								<br clear="all"/>
+								<h:outputText value="#{detalharNFSEscrituradaBean.nfseEscriturada.aliquota} %">
+									<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+								</h:outputText>	
+							</div>
+							
+						</h:panelGroup>
+						
+						<br clear="all"/>
+						
+						<h:panelGroup>
+							<div class="fixo width100">
+								<p:outputLabel value="#{msg['local.tributacao.servico']}"/>
+								<br clear="all"/>
+								<h:outputText value="#{msg[detalharNFSEscrituradaBean.nfseEscriturada.servico.localTributacaoServico.label]}"/>
+							</div>
+							
+							
+						</h:panelGroup>
+						<h:panelGroup>
+						<div class="responsivo width100">
+							<p:outputLabel value="#{msg['descricao.servico']}" />
+							<p:spacer width="10px" /><h:outputText />
+							<p:inputTextarea  value="#{detalharNFSEscrituradaBean.nfseEscriturada.discriminacaoServico}" disabled="true"
+								autoResize="true" maxlength="255"  counterTemplate="(Restam {0} caracteres)" />
+						</div>
+						</h:panelGroup>
+				
+					
+				</p:panelGrid>
+		</div>	
+			
+		<div class="panel-heading">#{msg['local.execucao.servico']}</div>
+		<div class="panel-body">			
+			<p:panelGrid columns="1" layout="grid" styleClass="form-panel">	
+				<h:panelGroup>
+					<div class="fixo width250px">
+						<h:outputText value="#{detalharNFSEscrituradaBean.nfseEscriturada.localPrestacao}"/>
+					</div>
+				</h:panelGroup>
+			</p:panelGrid>	
+		</div>	
+		
+		
+		<div class="panel-heading">#{msg['local.tributacao.nfs']}</div>
+		<div class="panel-body">	
+			<p:panelGrid columns="1" layout="grid"  styleClass="form-panel">		
+				<h:panelGroup>
+					<div class="fixo width250px">
+						<h:outputText value="#{msg[detalharNFSEscrituradaBean.nfseEscriturada.localTributacaoNFS.label]}"/>
+					</div>
+				</h:panelGroup>
+			</p:panelGrid>
+		</div>
+			
+		
+		<div class="panel-body">				
+		<p:panelGrid columns="1" layout="grid" styleClass="form-panel">
+			
+			<h:panelGroup>
+						
+				<div class="fixo width120px float-left">
+					<p:outputLabel  value="#{msg['valor.servico']}"  />
+					<br clear="all"/>
+					<h:outputText value="#{detalharNFSEscrituradaBean.nfseEscriturada.valorTotal}" converter="moneyConverter"/>				
+				</div>
+				
+				<div class="fixo width120px float-left">
+					<p:outputLabel  value="#{msg['valor.deducoes']}" />
+					<br clear="all"/>
+					<h:outputText value="#{detalharNFSEscrituradaBean.nfseEscriturada.valorDeducoes}" converter="moneyConverter"/>					
+				</div>
+				
+				<div class="fixo width120px float-left">
+					<p:outputLabel  value="#{msg['base.calculo']}" />
+					<br clear="all"/>
+					<h:outputText value="#{detalharNFSEscrituradaBean.nfseEscriturada.valorBaseCalculo}" converter="moneyConverter"/>	
+				</div>
+				
+			</h:panelGroup>
+			
+			<h:panelGroup>
+				
+				<div class="fixo width120px float-left">
+					<p:outputLabel value="#{msg['valor.iss']}" />
+					<br clear="all"/>
+					<h:outputText value="#{detalharNFSEscrituradaBean.nfseEscriturada.valorISS}" converter="moneyConverter"/>					
+				</div>
+				
+				<div class="fixo width120px float-left">
+					<p:outputLabel  value="#{msg['pisPasep']}" />
+					<br clear="all"/>
+					<h:outputText value="#{detalharNFSEscrituradaBean.nfseEscriturada.pisPasep}" converter="moneyConverter"/>	
+				</div>
+				
+				<div class="fixo width120px float-left">
+					<p:outputLabel value="#{msg['cofins']}" />
+					<br clear="all"/>
+					<h:outputText value="#{detalharNFSEscrituradaBean.nfseEscriturada.cofins}" converter="moneyConverter"/>	
+				</div>
+				
+			</h:panelGroup>
+			
+			<h:panelGroup>
+				
+				<div class="fixo width120px float-left">
+					<p:outputLabel value="#{msg['irrf']}" />
+					<br clear="all"/>
+					<h:outputText value="#{detalharNFSEscrituradaBean.nfseEscriturada.irrf}" converter="moneyConverter"/>
+				</div>
+				
+				<div class="fixo width120px float-left">
+					<p:outputLabel  value="#{msg['csll']}" />
+					<br clear="all"/>
+					<h:outputText value="#{detalharNFSEscrituradaBean.nfseEscriturada.csll}" converter="moneyConverter"/>
+				</div>
+				
+				<div class="fixo width120px float-left">
+					<p:outputLabel value="#{msg['inss']}" />
+					<br clear="all"/>
+					<h:outputText value="#{detalharNFSEscrituradaBean.nfseEscriturada.inss}" converter="moneyConverter"/>
+				</div>
+				
+			</h:panelGroup>
+		</p:panelGrid>
+
+	</div>
+
+	</div>	
+	</ui:decorate>
+	</ui:define>
+
+</ui:composition>

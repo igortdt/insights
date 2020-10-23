@@ -1,0 +1,188 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template/master-template.xhtml">
+
+	<ui:define name="titulo_pagina">
+			<h:outputText value="#{msg['informacoes.dam']}" />
+	</ui:define>
+
+	<ui:define name="breadcrumb">
+		<li><i class="fa fa-home"></i><p:link outcome="inicio" value=" #{msg['inicio']}" /></li>
+		<li class="active"><i class="fa fa-barcode"></i> #{msg['dam']}</li>
+	</ui:define>
+
+	<!-- Alguns itens do formulario estao no arquivo display.xhtml -->
+	<!-- A barra de ferramentas e a disposicao de seus botoes tambem esta no display.xhtml -->
+
+	<ui:define name="conteudo">
+		<ui:decorate template="/WEB-INF/template/display.xhtml">
+
+			<!-- ********************************************** -->
+			<!-- BARRA DE FERRAMENTAS - BOTOES DO LADO ESQUERDO -->
+			<!-- ********************************************** -->
+			<ui:define name="toolbar-left">
+				<p:link outcome="pesquisar_dam_nfse" styleClass="btn btn-danger">
+					<i class="fa fa-reply"></i>
+					#{msg['voltar']} 
+				</p:link>
+			</ui:define>
+
+			<!-- ********************************************* -->
+			<!-- BARRA DE FERRAMENTAS - BOTOES DO LADO DIREITO -->
+			<!-- ********************************************* -->
+			<ui:define name="toolbar-right">
+				<p:link id="optButton" styleClass="btn btn-default" onclick="return false;"
+					rendered="#{empty detalharDAMBean.evento.situacaoDAM 
+						or detalharDAMBean.evento.situacaoDAM eq 'PENDENTE' 
+						or detalharDAMBean.evento.situacaoDAM eq 'EMITIDO'}">
+					<i class="fa fa-bars"></i>
+					#{msg['opcoes']}
+				</p:link>
+				<p:menu overlay="true" trigger="optButton" my="right top" at="right bottom">
+					<p:menuitem value="#{msg['emitir']}" icon="fa fa-check-square-o" action="#{detalharDAMBean.emitir}"
+						rendered="#{empty detalharDAMBean.evento.situacaoDAM or detalharDAMBean.evento.situacaoDAM eq 'PENDENTE'}"
+						update="@form">
+						<f:param name="cid" value="#{javax.enterprise.context.conversation.id}" />
+						<p:confirm message="#{msg['confirma.emissao.dam']}?" />
+					</p:menuitem>
+					
+					<p:menuitem value="#{msg['visualizar']}" icon="fa fa-print" ajax="false"
+						action="#{visualizarDAMPortalBean.visualizar(detalharDAMBean.evento.dam, 1)}"
+						target="_blank" rendered="#{detalharDAMBean.evento.situacaoDAM eq 'EMITIDO'}" />
+						
+					<p:menuitem value="#{msg['reemitir.dam']}" icon="fa fa-barcode" ajax="false" 
+						action="#{reemissaoEscrituracaoCompetenciaBean.prepararReemissao(detalharDAMBean.evento.dam)}" 
+						rendered="#{reemissaoEscrituracaoCompetenciaBean.podeSerReemitidoDam(detalharDAMBean.evento.dam)}" target="_self"/>
+					<!-- <p:menuitem value="#{msg['cancelar']}" icon="fa fa-ban" action="#{detalharDAMBean.cancelar}"
+						rendered="#{detalharDAMBean.evento.situacaoDAM eq 'EMITIDO'}" update="@form">
+						<f:param name="cid" value="#{javax.enterprise.context.conversation.id}" />
+						<p:confirm message="#{msg['confirma.cancelamento.dam']}?" />
+					</p:menuitem> -->
+				</p:menu>
+
+				<p:confirmDialog global="true" showEffect="fade" hideEffect="fade" closeOnEscape="true" closable="false" width="100%" styleClass="modal-confirmacao">
+					<div class="modal-confirmacao-botoes">
+						<p:commandButton value="#{msg['sim']}" type="button" styleClass="ui-confirmdialog-yes modal-confirmacao-botao-verde" />
+						<p:commandButton value="#{msg['nao']}" type="button" styleClass="ui-confirmdialog-no modal-confirmacao-botao-vermelho" />
+					</div>
+				</p:confirmDialog>
+
+			</ui:define>
+
+			<br clear="all"/>
+			<br clear="all"/>
+
+			<!-- ******************************* -->
+			<!-- INICIO DOS CAMPOS DO FORMULARIO -->
+			<!-- ******************************* -->
+			<div class="panel panel-default">
+				<div class="panel-heading">#{msg['dados.dam']}</div>
+				<div class="panel-body">
+					<p:panelGrid columns="1" layout="grid" id="form-alvara" styleClass="form-panel">
+						<h:panelGroup>
+
+							<div class="responsivo width100px">
+								<p:outputLabel value="#{msg['numero']}" styleClass="width100" />
+								<h:outputText value="#{detalharDAMBean.evento.dam.numero}" />
+							</div>
+
+							<div class="fixo width150px">
+								<p:outputLabel value="#{msg['situacao.dam']}" styleClass="width100" />
+								<h:outputText value="#{msg[detalharDAMBean.evento.situacaoDAM.label]}" />
+							</div>
+
+							<div class="fixo width150px">
+								<p:outputLabel value="#{msg['valor.total.iss']}" styleClass="width100" />
+								<h:outputText value="#{detalharDAMBean.evento.dam.valorTotal}" converter="moneyConverter" />
+							</div>
+
+						</h:panelGroup>
+						<h:panelGroup>
+
+							<div class="responsivo width100">
+								<p:outputLabel value="#{msg['pessoa']}" styleClass="width100" />
+								<h:outputText value="#{detalharDAMBean.evento.dam.pessoa}" />
+							</div>
+
+						</h:panelGroup>
+						<h:panelGroup>
+
+							<div class="fixo width100px">
+								<p:outputLabel value="#{msg['competencia']}" styleClass="width100" />
+								<h:outputText value="#{detalharDAMBean.evento.dam.competencia}" converter="competenciaConverter" />
+							</div>
+
+							<div class="fixo width120px">
+								<p:outputLabel value="#{msg['data.emissao']}" styleClass="width100" />
+								<h:outputText value="#{detalharDAMBean.evento.dam.dataEmissao}">
+									<f:convertDateTime pattern="dd/MM/yyyy" />
+								</h:outputText>
+							</div>
+
+							<div class="fixo width150px">
+								<p:outputLabel value="#{msg['data.vencimento']}" styleClass="width100" />
+								<h:outputText value="#{detalharDAMBean.evento.dam.dataVencimento}">
+									<f:convertDateTime pattern="dd/MM/yyyy" />
+								</h:outputText>
+							</div>
+
+						</h:panelGroup>
+					</p:panelGrid>
+
+					<p:dataTable id="tab-dam" value="#{detalharDAMBean.listaNotas}" var="item"
+						emptyMessage="#{msg['sem.dados']}" styleClass=" panel panel-default table-responsive tabela-de-dados">
+						<f:facet name="header">
+							#{msg['lista.notas']}
+						</f:facet>
+						<p:column headerText="#{msg['numero']}">
+							#{item.lancamentoISS.nfSe.numeroNFSe}
+						</p:column>
+						<p:column headerText="#{msg['emissao']}">
+							<h:outputText value="#{item.lancamentoISS.nfSe.dataHoraEmissao}">
+								<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" />
+							</h:outputText>
+						</p:column>
+						<p:column headerText="#{msg['valor.iss']}">
+							<h:outputText value="#{item.lancamentoISS.nfSe.valorISS}" converter="moneyConverter" />
+						</p:column>
+						<!-- <p:column styleClass="width85px" rendered="#{detalharAlvaraConstrucaoBean.evento.situacaoAlvara eq 'GERADO'}">
+							<p:commandButton styleClass="btn btn-default fix-botao-imprimir" icon="fa fa-barcode" iconPos="left" value="DAM" ajax="false"
+								action="#{visualizarDAMBean.visualizar(dam, 1)}"
+								onclick="this.form.target='_blank';"
+								onmouseout="this.form.target='_self';" />
+						</p:column> -->
+					</p:dataTable>
+
+				</div>
+			</div>
+			<div class="panel panel-default">
+				<div class="panel-heading">#{msg['historico']}</div>
+				<div id="historico" class="panel-body">
+
+					<p:dataTable value="#{detalharDAMBean.historico}" var="evento"
+						styleClass="tabela-de-dados panel panel-default table-responsive"
+						rendered="#{!empty detalharDAMBean.historico}">
+						<p:column headerText="#{msg['data']}" styleClass="width170px">
+							<h:outputText value="#{evento.dataEvento}">
+								<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" timeZone="GMT-3"/>
+							</h:outputText>
+						</p:column>
+						<p:column headerText="#{msg['descricao']}">
+							<h:outputText value="#{msg[evento.descricaoEvento]}" />
+						</p:column>
+						<p:column headerText="#{msg['situacao.dam']}" styleClass="width250px">
+							<h:outputText value="#{msg[evento.situacaoDAM]}" />
+						</p:column>
+					</p:dataTable>
+
+				</div>
+			</div>
+		</ui:decorate>
+	</ui:define>
+
+</ui:composition>

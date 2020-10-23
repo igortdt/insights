@@ -1,0 +1,229 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template/master-template.xhtml">
+
+
+	<ui:define name="titulo_pagina">
+		<h:outputText value="#{msg['escrituracao.cosif']}" />
+	</ui:define>
+
+	<ui:define name="breadcrumb">
+		<li><i class="fa fa-home"></i> #{msg['inicio']}</li>
+		<li class="active">#{msg['escrituracao.cosif']}</li>
+	</ui:define>
+
+	<!-- Alguns itens do formulario estao no arquivo formulario.xhtml -->
+	<!-- Por exemplo: bloquear formulario enquanto pesquisa e foco automatico ao carregar a pagina -->
+	<!-- A barra de ferramentas e a disposicao de seus botoes tambem esta no formulatio.xhtml -->
+
+	<ui:define name="conteudo">
+		<ui:decorate template="/WEB-INF/template/formulario.xhtml">
+
+			<!-- ********************************************** -->
+			<!-- BARRA DE FERRAMENTAS - BOTOES DO LADO ESQUERDO -->
+			<!-- ********************************************** -->
+			<ui:define name="toolbar-left">
+				<p:link outcome="pesquisar_escrituracao_cosif_portal"
+					styleClass="btn btn-danger">
+					<i class="fa fa-reply"></i>
+					#{msg['voltar']}
+				</p:link>
+			</ui:define>
+
+			<!-- ********************************************* -->
+			<!-- BARRA DE FERRAMENTAS - BOTOES DO LADO DIREITO -->
+			<!-- ********************************************* -->
+			<ui:define name="toolbar-right">
+				<p:link id="optButton" styleClass="btn btn-default" onclick="return false;">
+					<i class="fa fa-bars"></i>
+					#{msg['opcoes']}
+				</p:link>
+				<p:menu overlay="true" trigger="optButton" my="right top" at="right bottom">
+					<p:menuitem value="#{msg['retificar']}"
+							icon="fa fa-search" ajax="false"
+							action="#{escrituracaoCosifPortalBean.confirmarRetificacao}">
+							<f:param name="cid" value="#{javax.enterprise.context.conversation.id}" />
+							<!-- <f:param name="retificaocaoParam" value="S"></f:param> -->
+					</p:menuitem>
+				</p:menu>		
+			</ui:define>
+
+			<br clear="all" />
+			<br clear="all" />
+
+			<!-- ******************************* -->
+			<!-- INICIO DOS CAMPOS DO FORMULARIO -->
+			<!-- ******************************* -->
+			<div class="panel panel-default" id="panelConfirm">
+				<div class="panel-body">
+					<p:panelGrid columns="1" layout="grid">
+
+						<h:panelGroup>
+							<div class="fixo width140px">
+								<p:outputLabel value="#{msg['cnpj']}" styleClass="width100" />
+								<h:outputText value="#{escrituracaoCosifPortalBean.escrituracaoCosif.prestador.documento}"
+									converter="cpfCnpjConverter" />
+							</div>
+							<div class="responsivo width100">
+								<p:outputLabel value="#{msg['razao.social']}" styleClass="width100" />
+								<h:outputText value="#{escrituracaoCosifPortalBean.escrituracaoCosif.prestador.descricao}" />
+							</div>
+						</h:panelGroup>
+
+						<h:panelGroup>
+							<div class="fixo width150px bg-calendario">
+								<p:outputLabel value="#{msg['data.encerramento']}" />
+								<h:outputText value="#{escrituracaoCosifPortalBean.escrituracaoCosif.dataEncerramento}">
+									<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-3" />
+								</h:outputText>
+					
+							</div>
+							<div class="fixo width90px">
+								<p:outputLabel id="compentenciaLabel" value="#{msg['competencia']}" />
+								<h:outputText value="#{escrituracaoCosifPortalBean.escrituracaoCosif.competencia}"
+									converter="competenciaConverter" />
+							</div>
+							<div class="fixo width150px bg-calendario">
+								<p:outputLabel value="#{msg['data.vencimento']}" />
+								<h:outputText
+									value="#{escrituracaoCosifPortalBean.escrituracaoCosif.dataVencimento}">
+									<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-3" />
+								</h:outputText>
+							</div>
+							<div class="fixo width150px bg-calendario">
+								<p:outputLabel value="#{msg['data.para.pagamento']}" />
+								<h:outputText value="#{escrituracaoCosifPortalBean.escrituracaoCosif.dataPagamento}">
+									<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-3" />
+								</h:outputText>
+							</div>
+						</h:panelGroup>
+
+						<h:panelGroup>
+							<div class="fixo width160px">
+								<p:outputLabel value="#{msg['total.base.calculo']}"
+									styleClass="width100" />
+								<h:outputText
+									value="#{escrituracaoCosifPortalBean.escrituracaoCosif.totalBaseCalculo}"
+									converter="moneyConverter" styleClass="money" />
+							</div>
+							<div class="fixo width160px">
+								<p:outputLabel value="#{msg['valor.total.iss']}"
+									styleClass="width100" />
+								<h:outputText
+									value="#{escrituracaoCosifPortalBean.escrituracaoCosif.valorTotalIss}"
+									converter="moneyConverter" styleClass="money" />
+							</div>
+							<div class="fixo width100px">
+								<p:outputLabel value="#{msg['correcao']}" styleClass="width100"/>
+								<h:outputText id="correcao" value="#{escrituracaoCosifPortalBean.lancamentoISS.valorCorrecao}" converter="moneyConverter" styleClass="money"/>
+							</div>
+							<div class="fixo width100px">
+								<p:outputLabel value="#{msg['juros']}" styleClass="width100"/>
+								<h:outputText id="juros" value="#{escrituracaoCosifPortalBean.lancamentoISS.valorJuros}" converter="moneyConverter" styleClass="money"/>
+							</div>
+							<div class="fixo width100px">
+								<p:outputLabel value="#{msg['multa']}" styleClass="width100"/>
+								<h:outputText id="multa" value="#{escrituracaoCosifPortalBean.lancamentoISS.valorMulta}" converter="moneyConverter" styleClass="money"/>
+							</div>
+							<div class="fixo width200px">
+								<p:outputLabel value="#{msg['valor.total.iss.atualizado']}" styleClass="width100"/>
+								<h:outputText id="total" value="#{escrituracaoCosifPortalBean.lancamentoISS.valorTotalLancamento}" converter="moneyConverter" styleClass="money"/>
+							</div>
+						</h:panelGroup>
+
+						<!-- <h:panelGroup>
+							<div class="panel panel-default">
+								<div class="panel-body"> -->
+									<p:dataTable id="tab-dam"
+										value="#{escrituracaoCosifPortalBean.lancamentoISS.parcelas.get(0).dams}"
+										var="dam" emptyMessage="#{msg['sem.dados']}"
+										tableStyleClass="table table-striped table-hover"
+										styleClass=" panel panel-default table-responsive tabela-de-dados">
+										<f:facet name="header">
+											#{msg['lista.dam.pagamento']}
+										</f:facet>
+										<p:column headerText="#{msg['numero']}">
+											#{dam.numero}
+										</p:column>
+										<p:column headerText="#{msg['vencimento']}">
+											<h:outputText value="#{dam.dataVencimento}">
+												<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-3" />
+											</h:outputText>
+										</p:column>
+										<p:column headerText="#{msg['valor']}">
+											<h:outputText value="#{dam.valorTotal}"
+												converter="moneyConverter" />
+										</p:column>
+										<p:column styleClass="width85px">
+											<p:commandButton
+												styleClass="btn btn-default fix-botao-imprimir"
+												icon="fa fa-barcode" iconPos="left" value="DAM" ajax="false"
+												action="#{visualizarDAMPortalBean.visualizar(dam, 1)}"
+												onclick="this.form.target='_blank';"
+												onmouseout="this.form.target='_self';" />
+										</p:column>
+									</p:dataTable>
+								<!-- </div>
+							</div>
+						</h:panelGroup>
+						<h:panelGroup> -->
+							<p:dataTable
+								value="#{escrituracaoCosifPortalBean.escrituracaoCosif.listaCompetenciaCOSIF}"
+								var="compCOSIF" id="tableResult"
+								emptyMessage="#{msg['sem.dados']}"
+								tableStyleClass="table table-striped table-hover"
+								styleClass="tabela-de-dados panel panel-default table-responsive"
+								paginator="true" rows="50" paginatorPosition="bottom"
+								paginatorAlwaysVisible="false" lazy="true">
+								<p:column headerText="#{msg['plano.contabil.cosif']}">
+									<h:outputText
+										value="#{compCOSIF.cosif.codigo} #{compCOSIF.cosif.descricao}"
+										style="font-weight: bold;"
+										rendered="#{compCOSIF.cosif.COSIFPai}" />
+									<h:outputText
+										value="#{compCOSIF.cosif.codigo} #{compCOSIF.cosif.descricao}"
+										rendered="#{!compCOSIF.cosif.COSIFPai}" />
+								</p:column>
+								<p:column headerText="#{msg['lc116']}" style="width: 80px;">
+									<h:outputText value="#{compCOSIF.servico.codigo}"
+										rendered="#{compCOSIF.servico != null}" />
+									<h:outputText value="-" rendered="#{compCOSIF.servico == null}" />
+								</p:column>
+								<p:column headerText="#{msg['base.calculo']}" style="width: 140px;">
+									<h:outputText value="#{compCOSIF.baseCalculo}"
+										converter="moneyConverter" styleClass="money" />
+								</p:column>
+								<p:column headerText="#{msg['aliquota']}" style="width: 80px;">
+									<h:outputText value="#{compCOSIF.aliquota}" converter="percentConverter"
+										rendered="#{compCOSIF.aliquota != null}" />
+									<h:outputText value="-"
+										rendered="#{compCOSIF.aliquota == null}" />
+								</p:column>
+								<p:column headerText="#{msg['valor.iss']}" style="width: 140px;">
+									<h:outputText value="#{compCOSIF.valorISS}"
+										converter="moneyConverter"
+										rendered="#{compCOSIF.valorISS != null}" />
+									<h:outputText value="-"
+										rendered="#{compCOSIF.valorISS == null}" />
+								</p:column>
+							</p:dataTable>
+
+							<!-- </h:panelGroup> -->
+					</p:panelGrid>
+					
+				</div>
+			</div>
+			
+<!-- 			<f:metadata> -->
+<!-- 				<f:event listener="#{conversationBean.begin}" type="preRenderView" /> -->
+<!-- 			</f:metadata> -->
+
+		</ui:decorate>
+	</ui:define>
+
+</ui:composition>

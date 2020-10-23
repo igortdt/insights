@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:head>
+		<title>#{msg['contribuintes']} - #{msg['tipo.pessoa.fisica']}</title>
+		<h:outputStylesheet library="css" name="insights.css" />
+		<link href="#{request.contextPath}/theme/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+		<link href="#{request.contextPath}/theme/css/theme.css" rel="stylesheet" />
+		<link href="#{request.contextPath}/theme/css/colorbox/colorbox.css" rel="stylesheet" />
+	</h:head>
+
+	<h:body>
+		<h:form prependId="false">
+
+			<p:inputText id="query" value="#{modalContribuintePortal.query}">
+				<p:ajax event="keyup" update="result" listener="#{modalContribuintePortal.filtrarContribuintePF}" delay="500" resetValues="true" />
+			</p:inputText>
+			<p:watermark for="query" value="#{msg['cpf.ou.nome']}" />
+
+			<br clear="all"/>
+			<br clear="all"/>
+
+			<p:dataTable id="result" value="#{modalContribuintePortal.contribuintes}" var="contribuinte"
+				emptyMessage="#{msg['sem.dados']}" styleClass="tabela-de-dados panel panel-default table-responsive"
+				paginator="true" rows="15" paginatorAlwaysVisible="false" paginatorPosition="bottom">
+
+				<p:column headerText="#{msg['cpf']}" sortBy="#{contribuinte.documento}" styleClass="width130px">
+					<p:commandLink actionListener="#{modalContribuintePortal.selectFromDialog(contribuinte)}">
+						<h:outputText value="#{contribuinte.documento}" converter="cpfCnpjConverter" />
+					</p:commandLink>
+				</p:column>
+				<p:column headerText="#{msg['nome']}" sortBy="#{contribuinte.nomePessoa}">
+					<p:commandLink value="#{contribuinte.nomePessoa}" actionListener="#{modalContribuintePortal.selectFromDialog(contribuinte)}" />
+				</p:column>
+
+			</p:dataTable>
+
+			<p:focus context="@form" />
+
+			<p:blockUI block="@form" trigger="query">
+				<i class="fa fa-spin fa-circle-o-notch"></i>
+				<span class="m-left-xs">Aguarde...</span>
+			</p:blockUI>
+
+		</h:form>
+	</h:body>
+
+	<f:metadata>
+		<f:event listener="#{conversationBean.begin}" type="preRenderView" />
+	</f:metadata>
+</html>

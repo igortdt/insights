@@ -1,0 +1,138 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template/master-template.xhtml">
+
+	<ui:define name="titulo_pagina">
+			<h:outputText value="#{msg['consulta.usuarios.vinculados']}" />
+	</ui:define>
+
+	<ui:define name="breadcrumb">
+		<li><i class="fa fa-home"></i><p:link outcome="inicio" value=" #{msg['inicio']}" /></li>
+		<li class="active">#{msg['seguranca']}</li>
+	</ui:define>
+
+	<!-- Alguns itens do formulario estao no arquivo formulario.xhtml -->
+	<!-- Por exemplo: bloquear formulario enquanto pesquisa e foco automatico ao carregar a pagina -->
+	<!-- A barra de ferramentas e a disposicao de seus botoes tambem esta no formulatio.xhtml -->
+
+	<ui:define name="conteudo">
+		<ui:decorate template="/WEB-INF/template/formulario.xhtml">
+
+			<!-- ********************************************** -->
+			<!-- BARRA DE FERRAMENTAS - BOTOES DO LADO ESQUERDO -->
+			<!-- ********************************************** -->
+			<ui:define name="toolbar-left">
+				<p:link outcome="/app/UC0079SegurancaPortal/T0079C-seguranca-portal-form" styleClass="btn btn-default">
+					<i class="fa fa-file-o"></i>
+					#{msg['novo']}
+				</p:link>
+			</ui:define>
+
+			<!-- ********************************************* -->
+			<!-- BARRA DE FERRAMENTAS - BOTOES DO LADO DIREITO -->
+			<!-- ********************************************* -->
+			<ui:define name="toolbar-right">
+				<p:commandLink id="btSubmit" action="#{segurancaPortalBean.pesquisar()}" update="@form"
+					styleClass="btn btn-success">
+					<i class="fa fa-search"></i>
+					#{msg['pesquisar']}
+				</p:commandLink>
+			</ui:define>
+
+			<br clear="all"/>
+			<br clear="all"/>
+
+			<!-- ******************************* -->
+			<!-- INICIO DOS CAMPOS DO FORMULARIO -->
+			<!-- ******************************* -->
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<p:panelGrid columns="1" layout="grid" styleClass="form-panel" >
+						<h:panelGroup>
+
+							<div class="responsivo width145px margin-right10px">
+							
+								<p:outputLabel for="cpf" value="#{msg['cpf']}" />
+								<p:inputMask mask="999.999.999-99" id="cpf" value="#{segurancaPortalBean.usuario.cpf}" size="30"
+										styleClass="form-control input-sm"  converter="cpfCnpjConverter" validator="cpfCnpjBeanValidator">
+										<f:passThroughAttribute name="pattern" value="[0-9]*" />
+								</p:inputMask>
+								<p:message for="cpf" />
+							</div>
+
+							<div class="responsivo width345px margin-right10px">			
+								<p:outputLabel for="email" value="#{msg['email']}"  /> 
+								<p:inputText id="email" value="#{segurancaPortalBean.usuario.email}" size="30"  validatorMessage="#{msg['email.invalido']}"
+										styleClass="form-control input-sm" type="email">	
+<!-- 									<f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$" /> -->
+								</p:inputText>	
+								<p:message for="email"/>
+							</div>
+
+						</h:panelGroup>
+					</p:panelGrid>
+				</div>
+			</div>
+
+			<!-- ******************** -->
+			<!-- TABELA DE RESULTADOS -->
+			<!-- ******************** -->
+			<div class="scroll-lateral-responsivo">
+  			<p:dataTable value="#{segurancaPortalBean.listaConsulta}" var="item"
+				emptyMessage="#{msg['sem.dados']}" styleClass="tabela-de-dados panel panel-default table-responsive"
+				paginator="true" rows="20" paginatorAlwaysVisible="false">
+				
+				<p:column headerText="#{msg['cpf']}" sortBy="#{item.cpf}">
+						<h:outputText value="#{item.cpf}" converter="cpfCnpjConverter" />				
+				</p:column>
+								
+				<p:column headerText="#{msg['nome']}" sortBy="#{item.cpf}">
+  					<h:outputText value="#{item.nome}" />
+				</p:column>
+				
+				<p:column headerText="#{msg['email']}" sortBy="#{item.email}">
+  					<h:outputText value="#{item.email}" />
+				</p:column>
+				
+				<p:column headerText="#{msg['matricula']}" sortBy="#{item.matricula}">
+  					<h:outputText value="#{item.matricula}" />
+				</p:column>
+				
+				
+				<p:column headerText="#{msg['acoes']}" styleClass="width50px">
+					<p:commandButton id="optButton" type="button" icon="ui-icon-gear" />
+					<p:menu overlay="true" trigger="optButton" my="right top" at="right bottom">						
+						<p:menuitem value="#{msg['desvincular']}" icon="ui-icon-trash" oncomplete="PF('confirmDesvincular#{item.id}').show();return false;" />
+					</p:menu>
+					<p:dialog widgetVar="confirmDesvincular#{item.id}" fitViewport="true" modal="true"
+						width="100%" closable="false" draggable="false" resizable="false" showEffect="fade"
+						closeOnEscape="true" hideEffect="fade" styleClass="modal-confirmacao">
+						<h:outputText value="#{msg['confirma.desnvicular']}" styleClass="modal-confirmacao-texto" />
+						<div class="modal-confirmacao-botoes">
+							<p:commandButton id="btSim" value="#{msg['sim']}" action="#{vincularUsuarioPessoaPortalBean.desvincular(item)}"
+								ajax="false" styleClass="modal-confirmacao-botao-verde">
+								
+								<p:collector unique="true" value="#{item}" removeFrom="#{segurancaPortalBean.listaConsulta}" />
+																
+							</p:commandButton>	
+							<p:commandButton value="#{msg['nao']}" type="button" onclick="PF('confirmDesvincular#{item.id}').hide();"
+								styleClass="modal-confirmacao-botao-vermelho" />
+						</div>
+					</p:dialog>
+				</p:column>
+			</p:dataTable>
+			</div>
+			
+			<f:metadata>
+				<f:event listener="#{conversationBean.end}" type="preRenderView" />
+			</f:metadata>
+
+		</ui:decorate>
+	</ui:define>
+
+</ui:composition>

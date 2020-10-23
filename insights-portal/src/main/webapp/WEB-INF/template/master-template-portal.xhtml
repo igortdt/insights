@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title><ui:insert name="titulo">#{msg['personality.insights']}</ui:insert></title>
+
+		<h:outputStylesheet library="css" name="insights.css" />
+
+		<link href="#{request.contextPath}/theme/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+		<link href="#{request.contextPath}/theme/css/font-awesome.min.css" rel="stylesheet" />
+		<link href="#{request.contextPath}/theme/css/endless.min.css" rel="stylesheet" />
+
+		<link rel="shortcut icon" href="#{request.contextPath}/resources/img/favicon.ico" type="image/x-icon" />
+		<link rel="icon" href="#{request.contextPath}/resources/img/favicon.ico" type="image/x-icon" />
+
+	</h:head>
+
+	<h:body styleClass="overflow-hidden">
+	
+		<div id="overlay" class="transparent"></div>
+
+		<div id="wrapper" class="preload novo-portal-body">
+		
+			<header class="navbar bg-white novo-portal-header-logo-form">
+				<div class="container">
+					<div class="col-sm-6 no-padding">
+						
+						<div class="novo-portal-logo-entidade">
+							<div class="novo-portal-logo padding-right25px">
+								<p:link outcome="/home.xhtml">
+									<img src="#{request.contextPath}/resources/img/personality-insights.png"  />
+								</p:link>
+							</div>
+							
+							<div class="novo-portal-nome-entidade">
+								<h4>#{msg['personality.insights']}</h4>
+							</div>
+						</div>
+						
+					</div>
+					
+					
+				</div><!-- container -->
+			</header>
+			
+			<div class="padding-l-r-20">		
+				<p:messages id="messages" autoUpdate="true" closable="true" />
+			</div>
+			<!-- Include das áreas de menu e conteúdo principal -->
+			<ui:insert name="conteudo" />
+		
+		</div><!-- Wrapper -->
+		
+		<footer class="margin-zero bg-light">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-3 padding-md">
+					
+					</div>
+					
+					<div class="col-sm-3 padding-md">
+						
+					</div><!-- /.col -->
+					
+					<div class="col-sm-3 padding-md">
+						
+					</div><!-- /.col -->
+							
+					<div class="col-sm-3 padding-md">
+					</div><!-- /.col -->
+				</div><!-- /.row -->
+			</div>
+		</footer>
+
+		<script src="#{request.contextPath}/theme/js/theme.js"></script>
+		
+		<script src="#{request.contextPath}/theme/js/documents.js"></script>
+		
+		<!-- 
+		<p:blockUI widgetVar="block" id="block" block="frm" trigger="btSelecionar, btEntrar">
+			<i class="fa fa-spin fa-circle-o-notch"></i>
+			<span class="m-left-xs">#{msg['aguarde']}</span>
+		</p:blockUI>
+ -->
+	</h:body>
+
+</html>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PROCESS model-entity="JSFProcess">
+ <PROCESS-ITEM NAME="rules:" SHAPE="32,17,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules::0" NAME="item" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="emitir_nfse_portal::#app#UC0045NFSe#T0045C-emitir-nfse-portal.xhtml"
+    NAME="output" PATH="/app/UC0045NFSe/T0045C-emitir-nfse-portal.xhtml"
+    TARGET="rules:#app#UC0045NFSe#T0045C-emitir-nfse-portal.xhtml"
+    TITLE="emitir_nfse_portal" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="sucesso:#{emitirNFSePortalBean.salvar}:#app#UC0045NFSe#T0045C-emitir-nfse-portal-display.xhtml"
+    NAME="output1"
+    PATH="/app/UC0045NFSe/T0045C-emitir-nfse-portal-display.xhtml"
+    TARGET="rules:#app#UC0045NFSe#T0045C-emitir-nfse-portal-display.xhtml"
+    TITLE="#{emitirNFSePortalBean.salvar}:sucesso" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="sucesso:#{emitirNFSePortalBean.confirmarCancelamento}:#app#index.xhtml"
+    NAME="output2" PATH="/app/index.xhtml"
+    TARGET="rules:#app#index.xhtml"
+    TITLE="#{emitirNFSePortalBean.confirmarCancelamento}:sucesso" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM
+  NAME="rules:#app#UC0045NFSe#T0045C-emitir-nfse-portal.xhtml"
+  PATH="/app/UC0045NFSe/T0045C-emitir-nfse-portal.xhtml"
+  SHAPE="256,33,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#app#UC0045NFSe#T0045C-emitir-nfse-portal-display.xhtml"
+  PATH="/app/UC0045NFSe/T0045C-emitir-nfse-portal-display.xhtml"
+  SHAPE="256,177,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM NAME="rules:#app#index.xhtml" PATH="/app/index.xhtml"
+  SHAPE="272,321,0,0" model-entity="JSFProcessGroup"/>
+</PROCESS>

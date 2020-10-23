@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:head>
+		<title>#{msg['pessoas']}</title>
+		<h:outputStylesheet library="css" name="insights.css" />
+		<link href="#{request.contextPath}/theme/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+		<link href="#{request.contextPath}/theme/css/theme.css" rel="stylesheet" />
+		<link href="#{request.contextPath}/theme/css/colorbox/colorbox.css" rel="stylesheet" />
+	</h:head>
+
+	<h:body>
+		<h:form prependId="false">
+
+			<p:inputText id="query" value="#{modalPessoaExteriorPortal.query}" styleClass="form-control">
+				<p:ajax event="keyup" update="result" listener="#{modalPessoaExteriorPortal.filtrar}" delay="500" resetValues="true" />
+			</p:inputText>
+			<p:watermark for="query" value="#{msg['documento.ou.nome']}" />
+
+			<br clear="all"/>
+			<br clear="all"/>
+
+			<p:dataTable id="result" value="#{modalPessoaExteriorPortal.pessoas}" var="pessoa"
+				emptyMessage="#{msg['sem.dados']}" styleClass="tabela-de-dados panel panel-default table-responsive"
+				tableStyleClass="table table-hover table-striped"
+				paginator="true" rows="15" paginatorAlwaysVisible="false" paginatorPosition="bottom"
+				selectionMode="single" rowKey="#{pessoa.id}">
+				<p:ajax event="rowSelect" listener="#{modalPessoaExteriorPortal.onRowSelect}" />
+				<p:column headerText="#{msg['documento']}" sortBy="#{pessoa.documento}" styleClass="width130px">
+						<h:outputText value="#{pessoa.documento}"  />
+				</p:column>
+				<p:column headerText="#{msg['nome']}" sortBy="#{pessoa.nome}">
+					<h:outputText value="#{pessoa.nome}" />
+				</p:column>
+
+			</p:dataTable>
+
+			<p:focus context="@form" />
+
+			<p:blockUI block="@form" trigger="query">
+				<i class="fa fa-spin fa-circle-o-notch"></i>
+				<span class="m-left-xs">Aguarde...</span>
+			</p:blockUI>
+
+		</h:form>
+	</h:body>
+
+</html>

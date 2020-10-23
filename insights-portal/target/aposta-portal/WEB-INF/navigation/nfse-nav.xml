@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<faces-config version="2.2" xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
+
+	<navigation-rule id="nfse_navigation">
+
+		<navigation-case id="pesquisar_solicitacao_nfse">
+			<from-outcome>pesquisar_solicitacao_nfse</from-outcome>
+			<to-view-id>/app/UC0047SolicitacaoEmissaoNFSe/T0047L-solicitacao-nfse.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+
+		<navigation-case id="nova_solicitacao_nfse">
+			<from-outcome>nova_solicitacao_nfse</from-outcome>
+			<to-view-id>/app/UC0047SolicitacaoEmissaoNFSe/T0047C-solicitacao-nfse-form.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+
+		<navigation-case id="detalhar_solicitacao_nfse">
+			<from-outcome>detalhar_solicitacao_nfse</from-outcome>
+			<to-view-id>/app/UC0047SolicitacaoEmissaoNFSe/T0047C-solicitacao-nfse-detalhe.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+
+		<navigation-case id="preparar_cancelamento_solicitacao_nfse">
+			<from-outcome>preparar_cancelamento_solicitacao_nfse</from-outcome>
+			<to-view-id>/app/UC0047SolicitacaoEmissaoNFSe/T0047C-solicitacao-nfse-cancelamento.xhtml</to-view-id>
+		</navigation-case>
+
+		<navigation-case>
+			<from-action>#{cadastrarSolicitacaoNFSeBean.salvar}</from-action>
+			<from-outcome>sucesso</from-outcome>
+			<to-view-id>/app/UC0047SolicitacaoEmissaoNFSe/T0047C-solicitacao-nfse-display.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		
+		<navigation-case>
+			<from-outcome>cancelar_nfse_escriturada_display</from-outcome>
+			<to-view-id>/app/UC0051EscrituracaoNotaTomadaPortal/T0051C-cancelar-nfse-escriturada-display.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		
+		<!-- <navigation-case>
+			<from-action>#{editarSetorBean.salvar}</from-action>
+			<from-outcome>sucesso</from-outcome>
+			<to-view-id>/app/UC0006Setor/T0006C-setor-edit-display.xhtml</to-view-id>
+			<redirect />
+		</navigation-case> -->
+
+	</navigation-rule>
+
+</faces-config>

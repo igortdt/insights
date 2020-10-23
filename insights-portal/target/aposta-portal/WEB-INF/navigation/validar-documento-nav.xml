@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<faces-config version="2.2" xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
+
+	<navigation-rule id="validar_navigation">
+
+		<navigation-case id="validar_habitese">
+			<from-outcome>validar_habitese</from-outcome>
+			<to-view-id>/UC0035ValidarDocumento/T0035L-validar-habitese.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+
+		<navigation-case id="validar_nfse_avulsa">
+			<from-outcome>validar_nfse_avulsa</from-outcome>
+			<to-view-id>/UC0035ValidarDocumento/T0035L-validar-nfse-avulsa.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+
+		<navigation-case id="validar_alvara_construcao">
+			<from-outcome>validar_alvara_construcao</from-outcome>
+			<to-view-id>/UC0035ValidarDocumento/T0035L-validar-alvara-construcao.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+
+		<navigation-case id="validar_alvara_funcionamento">
+			<from-outcome>validar_alvara_funcionamento</from-outcome>
+			<to-view-id>/UC0035ValidarDocumento/T0035L-validar-alvara-funcionamento.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+
+		<navigation-case id="validar_alvara_sanitario">
+			<from-outcome>validar_alvara_sanitario</from-outcome>
+			<to-view-id>/UC0035ValidarDocumento/T0035L-validar-alvara-sanitario.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+
+		<navigation-case id="validar_alvara_transporte">
+			<from-outcome>validar_alvara_transporte</from-outcome>
+			<to-view-id>/UC0035ValidarDocumento/T0035L-validar-alvara-transporte.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		
+		<navigation-case id="validar_certidao_negativa">
+			<from-outcome>validar_certidao_negativa</from-outcome>
+			<to-view-id>/UC0035ValidarDocumento/T0035L-validar-certidao-negativa.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		
+		<navigation-case id="validar_certidao_negativa_imovel">
+			<from-outcome>validar_certidao_negativa_imovel</from-outcome>
+			<to-view-id>/UC0035ValidarDocumento/T0035L-validar-certidao-negativa-imovel.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		
+		<navigation-case id="validar_nfse">
+			<from-outcome>validar_nfse</from-outcome>
+			<to-view-id>/UC0035ValidarDocumento/T0035L-validar-nfse.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+
+	</navigation-rule>
+
+</faces-config>

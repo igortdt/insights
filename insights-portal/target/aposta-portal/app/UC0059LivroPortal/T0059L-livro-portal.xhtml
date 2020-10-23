@@ -1,0 +1,228 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template/master-template.xhtml">
+
+	<ui:define name="titulo_pagina">
+		<h:outputText value="#{msg['livro']}" />
+	</ui:define>
+
+	<ui:define name="breadcrumb">
+		<li><i class="fa fa-home"></i><p:link outcome="inicio" value=" #{msg['inicio']}" /></li>
+		<li><i class="fa fa-file-text"></i> #{msg['livro']}</li>
+	
+	</ui:define>
+
+	<!-- Alguns itens do formulario estao no arquivo formulario.xhtml -->
+	<!-- Por exemplo: bloquear formulario enquanto pesquisa e foco automatico ao carregar a pagina -->
+	<!-- A barra de ferramentas e a disposicao de seus botoes tambem esta no formulatio.xhtml -->
+
+	<ui:define name="conteudo">
+		<ui:decorate template="/WEB-INF/template/formulario.xhtml">
+
+
+			<!-- ********************************************* -->
+			<!-- BARRA DE FERRAMENTAS - BOTOES DO LADO DIREITO -->
+			<!-- ********************************************* -->
+			<ui:define name="toolbar-right">
+			
+				<p:link id="optButton" styleClass="btn btn-default" onclick="return false;" 
+				rendered="#{livroPortalBean.livro.competencia != null and livroPortalBean.exibirBotaoVisualizar()}">
+					<i class="fa fa-bars"></i>#{msg['opcoes']}
+				</p:link>
+				
+				<p:menu overlay="true" trigger="optButton" my="right top" at="right bottom">
+					
+					<p:menuitem value="#{msg['visualizar']}" icon="fa fa-search" ajax="false" target="_blank"
+						rendered="#{livroPortalBean.primeiraAbaSelecionada() and !sessaoBean.cosif}"
+						action="#{livroPortalBean.visualizarLivroPrestador()}" />
+						
+					<p:menuitem value="#{msg['visualizar']}" icon="fa fa-search" ajax="false" target="_blank"
+						rendered="#{livroPortalBean.primeiraAbaSelecionada() == false}"
+						action="#{livroPortalBean.visualizarLivroTomador()}" />
+			
+				
+				</p:menu>
+			
+				<p:commandLink id="btSubmit" action="#{livroPortalBean.pesquisar()}" update="@form"
+					styleClass="btn btn-success" process="@this #{livroPortalBean.primeiraAbaSelecionada() ? 'tvConsultas:tabUm' :'tvConsultas:tabDois'}">
+					<i class="fa fa-search"></i>
+					#{msg['pesquisar']}
+				</p:commandLink>
+			</ui:define>
+
+			<br clear="all"/>
+			<br clear="all"/>
+
+			<!-- ******************************* -->
+			<!-- INICIO DOS CAMPOS DO FORMULARIO -->
+			<!-- ******************************* -->
+				
+			<p:tabView id="tvConsultas">
+			<p:ajax event="tabChange" listener="#{livroPortalBean.onTabChange()}" update="@form"/>
+			
+				<!--######## PRIMEIRA ABA ##########################-->
+				<p:tab title="#{msg['prestador']}" id="tabUm" rendered="#{!sessaoBean.cosif}">
+					<div class="panel panel-default">
+						<div id="panel-prestador" class="panel-body">
+							<h:panelGroup>
+	
+								<div class="fixo width90px">
+									<p:outputLabel for="competenciaPrestador" value="#{msg['competencia']}" />
+									<p:inputMask mask="99/9999" id="competenciaPrestador"
+										value="#{livroPortalBean.livro.competencia}"
+										converter="competenciaConverter" />
+								</div>
+							</h:panelGroup>
+								
+						</div>
+						
+						<div class="scroll-lateral-responsivo">
+							<p:dataTable value="#{livroPortalBean.registrosLivroPrestador}" var="livro"
+								emptyMessage="#{msg['sem.movimento']}" styleClass="tabela-de-dados panel panel-default table-responsive"
+								paginator="true" rows="20" paginatorPosition="bottom" paginatorAlwaysVisible="false" lazy="true"
+								tableStyleClass="table table-striped table-hover">
+								
+								<p:column headerText="#{msg['numero.nfse']}" style="width: 90px;">
+									<h:outputText value="#{livro.numeroNFSe}" /> 
+								</p:column>
+								
+								<p:column headerText="#{msg['data.emissao']}" style="width: 120px;">
+									<h:outputText value="#{livro.dataHoraEmissao}" >
+										<f:convertDateTime pattern="dd/MM/yyyy"/>
+									</h:outputText> 
+								</p:column>
+								
+								<p:column headerText="#{msg['situacao']}" style="width: 80px;">
+									<h:outputText value="#{msg[livro.situacaoNFSe]}" /> 
+								</p:column>
+								
+								<p:column headerText="#{msg['tomador']}">
+									<h:outputText value="#{livro.razaoSocialTomador}" rendered="#{livro.tipoPessoaTomador eq 'PESSOA_JURIDICA'}"/>
+									<h:outputText value="#{livro.nomeTomador}" rendered="#{livro.tipoPessoaTomador eq 'PESSOA_FISICA'}"/>  
+								</p:column>
+								
+								<p:column headerText="#{msg['valor']}" style="width: 130px;">
+									<h:outputText value="#{livro.valorTotal}" converter="moneyConverter"/> 
+								</p:column>
+								
+								<p:column headerText="#{msg['deducoes']}" style="width: 130px;">
+									<h:outputText value="#{livro.valorDeducoes}" converter="moneyConverter"/> 
+								</p:column>
+								
+								<p:column headerText="#{msg['base.calculo']}" style="width: 130px;">
+									<h:outputText value="#{livro.valorBaseCalculo}" converter="moneyConverter"/> 
+								</p:column>
+								
+								<p:column headerText="#{msg['aliquota']}" style="width: 80px;">
+									<h:outputText value="#{livro.aliquota} %" /> 
+								</p:column>
+								
+								<p:column headerText="#{msg['valor.iss']}" style="width: 100px;">
+									<h:outputText value="#{livro.valorISS}" converter="moneyConverter"/> 
+								</p:column>
+								
+								<p:column headerText="#{msg['iss.reter']}" style="width: 80px;">
+									<h:outputText value="#{msg[livro.issRetidoPeloTomador]}" /> 
+								</p:column>
+								
+								
+							</p:dataTable>
+						</div>		
+					</div>						
+				</p:tab>		
+						
+				<!--######## SEGUNDA ABA ########################################-->
+				
+				<p:tab title="#{msg['tomador']}" id="tabDois">
+					<div class="panel panel-default">
+						<div id="panel-prestador" class="panel-body">
+							<h:panelGroup>
+	
+								<div class="fixo width90px">
+									<p:outputLabel for="competenciaTomador" value="#{msg['competencia']}" />
+									<p:inputMask mask="99/9999" id="competenciaTomador"
+										value="#{livroPortalBean.livro.competencia}"
+										converter="competenciaConverter" />
+								</div>
+							</h:panelGroup>
+								
+						</div>
+						
+						<div class="scroll-lateral-responsivo">
+							<p:dataTable value="#{livroPortalBean.registrosLivroTomador}" var="livro"
+								emptyMessage="#{msg['sem.movimento']}" styleClass="tabela-de-dados panel panel-default table-responsive"
+								paginator="true" rows="20" paginatorPosition="bottom" paginatorAlwaysVisible="false" lazy="true"
+								tableStyleClass="table table-striped table-hover">
+								
+								<p:column headerText="#{msg['numero.nfse']}" style="width: 90px;">
+									<h:outputText value="#{livro.numeroNFSe}" /> 
+								</p:column>
+								
+								<p:column headerText="#{msg['data.emissao']}" style="width: 120px;">
+									<h:outputText value="#{livro.dataHoraEmissao}" >
+										<f:convertDateTime pattern="dd/MM/yyyy"/>
+									</h:outputText> 
+								</p:column>
+								
+								<p:column headerText="#{msg['situacao']}" style="width: 80px;">
+									<h:outputText value="#{msg[livro.situacaoNFSe]}" /> 
+								</p:column>
+								
+								<p:column headerText="#{msg['prestador']}">
+									<h:outputText value="#{livro.razaoSocialPrestador}" rendered="#{livro.tipoPessoaPrestador eq 'PESSOA_JURIDICA'}"/>
+									<h:outputText value="#{livro.nomePrestador}" rendered="#{livro.tipoPessoaPrestador eq 'PESSOA_FISICA'}"/>  
+								</p:column>
+								
+								<p:column headerText="#{msg['valor']}" style="width: 130px;">
+									<h:outputText value="#{livro.valorTotal}" converter="moneyConverter"/> 
+								</p:column>
+								
+								<p:column headerText="#{msg['deducoes']}" style="width: 130px;">
+									<h:outputText value="#{livro.valorDeducoes}" converter="moneyConverter"/> 
+								</p:column>
+								
+								<p:column headerText="#{msg['base.calculo']}" style="width: 130px;">
+									<h:outputText value="#{livro.valorBaseCalculo}" converter="moneyConverter"/> 
+								</p:column>
+								
+								<p:column headerText="#{msg['aliquota']}" style="width: 80px;">
+									<h:outputText value="#{livro.aliquota} %"/> 
+								</p:column>
+								
+								<p:column headerText="#{msg['valor.iss']}" style="width: 100px;">
+									<h:outputText value="#{livro.valorISS}" converter="moneyConverter"/> 
+								</p:column>
+								
+								<p:column headerText="#{msg['iss.reter']}" style="width: 80px;">
+									<h:outputText value="#{msg[livro.issRetidoPeloTomador]}" /> 
+								</p:column>
+								
+								
+							</p:dataTable>
+						</div>		
+					</div>
+				</p:tab>
+			</p:tabView>
+	
+
+			<br clear="all"/>
+
+
+			<!-- <p:blockUI widgetVar="block" block="@form" trigger="uf, municipio">
+				<i class="fa fa-spin fa-circle-o-notch"></i>
+				<span class="m-left-xs">#{msg['aguarde']}</span>
+			</p:blockUI> -->
+
+			<f:metadata>
+				<f:event listener="#{conversationBean.begin()}" type="preRenderView" />
+			</f:metadata>
+
+		</ui:decorate>
+	</ui:define>
+
+</ui:composition>

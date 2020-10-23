@@ -1,0 +1,318 @@
+<div id="geral"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+	<div class="panel panel-default">
+	<div class="panel-heading">#{msg['prestador']}</div>
+		<div class="panel-body">
+
+			<p:panelGrid columns="1" layout="grid"
+				styleClass="form-panel">
+
+				<h:panelGroup>
+					<div class="fixo width150px">
+						<p:outputLabel value="#{msg['cpf']}" rendered="#{escrituracaoNotaTomadaPortalBean.consultarPessoaBean.renderPF}"/>
+						<p:outputLabel value="#{msg['cnpj']}" rendered="#{!escrituracaoNotaTomadaPortalBean.consultarPessoaBean.renderPF}"/>
+						<br clear="all"/>
+						<h:outputText value="#{escrituracaoNotaTomadaPortalBean.nfsEscriturada.prestador.documento}" converter="cpfCnpjConverter" />
+					</div>
+					<div class="fixo width250px">
+						<p:outputLabel value="#{msg['nome']}" rendered="#{escrituracaoNotaTomadaPortalBean.consultarPessoaBean.renderPF}"/>
+						<p:outputLabel value="#{msg['razao.social']}" rendered="#{!escrituracaoNotaTomadaPortalBean.consultarPessoaBean.renderPF}"/>
+						<br clear="all"/>
+						<h:outputText value="#{escrituracaoNotaTomadaPortalBean.nfsEscriturada.prestador.descricao}"/>
+					</div>
+				</h:panelGroup>
+				
+				<h:panelGroup>
+					<div class="fixo width200px">
+						<p:outputLabel value="#{msg['email']}" styleClass="width100" />
+						<h:outputText  value="#{escrituracaoNotaTomadaPortalBean.consultarPessoaBean.pessoa.email}" />
+					</div>
+
+					<div class="responsivo width140px">
+						<p:outputLabel  value="#{msg['telefone.fixo']}" styleClass="width100" />
+						<h:outputText  value="#{escrituracaoNotaTomadaPortalBean.consultarPessoaBean.pessoa.telefoneFixo}"
+							converter="telefoneConverter" />
+					</div>
+
+					<div class="fixo width140px">
+						<p:outputLabel value="#{msg['fax']}" styleClass="width100" />
+						<h:outputText  value="#{escrituracaoNotaTomadaPortalBean.consultarPessoaBean.pessoa.telefoneFax}"
+							converter="telefoneConverter" />
+					</div>
+					
+					<div class="fixo width100px">
+						<p:outputLabel value="#{msg['celular']}" styleClass="width100" />
+						<h:outputText  value="#{escrituracaoNotaTomadaPortalBean.consultarPessoaBean.pessoa.telefoneMovel}"
+						converter="telefoneConverter" />
+					</div>
+				</h:panelGroup>
+				
+				<h:panelGroup rendered="#{escrituracaoNotaTomadaPortalBean.nfsEscriturada.prestador.endereco != null}">
+					<div class="responsivo width100">
+						<p:outputLabel value="#{msg['endereco']}"/>
+						<br clear="all"/>
+						<h:outputText value="#{escrituracaoNotaTomadaPortalBean.nfsEscriturada.prestador.endereco}"/>
+					</div>
+				</h:panelGroup>
+										
+			</p:panelGrid>
+		</div>
+		
+		
+		<div class="panel-heading">#{msg['tomador']}</div>
+		<div class="panel-body">
+
+			<p:panelGrid  columns="1" layout="grid"
+				styleClass="form-panel">
+
+				<h:panelGroup>
+					<div class="fixo width150px">
+						<p:outputLabel value="#{msg['cpf']}" rendered="#{escrituracaoNotaTomadaPortalBean.consultarPessoaBean.renderPF}"/>
+						<p:outputLabel value="#{msg['cnpj']}" rendered="#{!escrituracaoNotaTomadaPortalBean.consultarPessoaBean.renderPF}"/>
+						<br clear="all"/>
+						<h:outputText value="#{escrituracaoNotaTomadaPortalBean.nfsEscriturada.tomador.documento}" converter="cpfCnpjConverter" />
+					</div>
+					<div class="fixo width250px">
+						<p:outputLabel value="#{msg['nome']}" rendered="#{escrituracaoNotaTomadaPortalBean.consultarPessoaBean.renderPF}"/>
+						<p:outputLabel value="#{msg['razao.social']}" rendered="#{!escrituracaoNotaTomadaPortalBean.consultarPessoaBean.renderPF}"/>
+						<br clear="all"/>
+						<h:outputText value="#{escrituracaoNotaTomadaPortalBean.nfsEscriturada.tomador.descricao}"/>
+					</div>
+				</h:panelGroup>
+				
+										
+				<h:panelGroup rendered="#{escrituracaoNotaTomadaPortalBean.nfsEscriturada.tomador.endereco != null}">
+					<div class="responsivo width100">
+						<p:outputLabel value="#{msg['endereco']}"/>
+						<br clear="all"/>
+						<h:outputText value="#{escrituracaoNotaTomadaPortalBean.nfsEscriturada.tomador.endereco}"/>
+					</div>
+				</h:panelGroup>
+				
+			</p:panelGrid>
+		</div>
+		
+		<div class="panel-heading">#{msg['informacoes.nota.fiscal.servico']}</div>
+		<div class="panel-body">
+
+			<p:panelGrid  columns="1" layout="grid" styleClass="form-panel">
+
+				<h:panelGroup>
+				
+					<div class="responsivo width100">
+						<p:outputLabel value="#{msg['numero.nota']}" />
+						<br clear="all"/>
+						<h:outputText value="#{escrituracaoNotaTomadaPortalBean.nfsEscriturada.numeroNFS}"/>
+					</div>
+				
+				</h:panelGroup>
+
+				<h:panelGroup>
+				
+					<div class="fixo width110px bg-calendario">
+						<p:outputLabel value="#{msg['data.emissao']}" />
+						<h:outputText value="#{escrituracaoNotaTomadaPortalBean.nfsEscriturada.dataHoraEmissao}">
+							<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-3" />
+						</h:outputText>
+			
+					</div>
+					
+					<div class="fixo width90px">
+						<p:outputLabel value="#{msg['hora.emissao']}" />
+						<br clear="all"/>
+						<h:outputText value="#{escrituracaoNotaTomadaPortalBean.horaEmissao}"/>
+					</div>
+					
+					<div class="fixo width160px">
+						<p:outputLabel value="#{msg['codigo.verificacao']}" />
+						<br clear="all"/>
+						<h:outputText value="#{escrituracaoNotaTomadaPortalBean.nfsEscriturada.codigoVerificacao}"/>
+					</div>
+	
+				</h:panelGroup>
+				
+			</p:panelGrid>
+					
+		</div>
+			
+		<div class="panel-heading">#{msg['servico.prestado']}</div>
+		<div class="panel-body">
+				<p:panelGrid  columns="1" layout="grid" styleClass="form-panel">
+				
+						<h:panelGroup>
+							<div class="fixo width100">
+								<p:outputLabel value="#{msg['servico']}"/>
+								<br clear="all"/>
+								<h:outputText value="#{escrituracaoNotaTomadaPortalBean.nfsEscriturada.servico.codigo} - #{escrituracaoNotaTomadaPortalBean.nfsEscriturada.servico.descricao}" converter="cpfCnpjConverter" />
+							</div>
+
+						</h:panelGroup>
+						
+						<br clear="all"/>
+						
+						<h:panelGroup>
+							<div class="fixo width100">
+								<p:outputLabel value="#{msg['local.execucao.servico']}"/>
+								<br clear="all"/>
+								<h:outputText value="#{escrituracaoNotaTomadaPortalBean.nfsEscriturada.localPrestacao}"/>
+							</div>
+
+						</h:panelGroup>
+						
+					
+						
+						<br clear="all"/>
+						
+						<h:panelGroup>
+						
+							<div class="fixo width65px">
+								<p:outputLabel value="#{msg['aliquota']}"/>
+								<br clear="all"/>
+								<h:outputText value="#{escrituracaoNotaTomadaPortalBean.nfsEscriturada.aliquota} %">
+									<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+								</h:outputText>	
+							</div>
+						
+							<div class="fixo width100">
+								<p:outputLabel value="#{msg['local.tributacao.servico']}"/>
+								<br clear="all"/>
+								<h:outputText value="#{msg[escrituracaoNotaTomadaPortalBean.nfsEscriturada.servico.localTributacaoServico.label]}"/>
+							</div>
+						</h:panelGroup>
+				
+						<h:panelGroup>
+							<div class="responsivo width100">
+								<p:outputLabel value="#{msg['descricao.servico']}" />
+								<p:spacer width="10px" /><h:outputText />
+								<p:inputTextarea  value="#{escrituracaoNotaTomadaPortalBean.nfsEscriturada.discriminacaoServico}" disabled="true"
+									autoResize="true" maxlength="255" counter="disp-observacao" counterTemplate="(Restam {0} caracteres)" />
+							</div>
+						</h:panelGroup>
+					
+				</p:panelGrid>
+		</div>	
+			
+		
+		
+		
+<!-- 		<div class="panel-heading">#{msg['local.tributacao.nfs']}</div> -->
+<!-- 		<div class="panel-body">	 -->
+<!-- 			<p:panelGrid columns="1" layout="grid"  styleClass="form-panel">		 -->
+<!-- 				<h:panelGroup> -->
+<!-- 					<div class="fixo width250px"> -->
+<!-- 						<h:outputText value="#{msg[escrituracaoNotaTomadaPortalBean.nfsEscriturada.localTributacaoNFS.label]}"/> -->
+<!-- 					</div> -->
+<!-- 				</h:panelGroup> -->
+<!-- 			</p:panelGrid> -->
+<!-- 		</div> -->
+
+		<div class="panel-heading">#{msg['iss.retido.tomador']}?</div>
+		<div class="panel-body">	
+			<p:panelGrid columns="1" layout="grid"  styleClass="form-panel">		
+				<h:panelGroup>
+					<div class="fixo width250px">
+						<h:outputText value="#{msg[escrituracaoNotaTomadaPortalBean.nfsEscriturada.issRetidoPeloTomador.label]}"/>
+					</div>
+				</h:panelGroup>
+			</p:panelGrid>
+		</div>
+			
+		
+		<div class="panel-body">				
+		<p:panelGrid columns="1" layout="grid" styleClass="form-panel">
+			
+			<h:panelGroup>
+						
+				<div class="fixo width120px float-left">
+					<p:outputLabel  value="#{msg['valor.servico']}"  />
+					<br clear="all"/>
+					<h:outputText value="#{escrituracaoNotaTomadaPortalBean.nfsEscriturada.valorTotal}" converter="moneyConverter"/>				
+				</div>
+				
+				<div class="fixo width120px float-left">
+					<p:outputLabel  value="#{msg['valor.deducoes']}" />
+					<br clear="all"/>
+					<h:outputText value="#{escrituracaoNotaTomadaPortalBean.nfsEscriturada.valorDeducoes}" converter="moneyConverter"/>					
+				</div>
+				
+				<div class="fixo width120px float-left">
+					<p:outputLabel  value="#{msg['base.calculo']}" />
+					<br clear="all"/>
+					<h:outputText value="#{escrituracaoNotaTomadaPortalBean.nfsEscriturada.valorBaseCalculo}" converter="moneyConverter"/>	
+				</div>
+				
+			</h:panelGroup>
+			
+			<h:panelGroup>
+				
+				<div class="fixo width120px float-left">
+					<p:outputLabel value="#{msg['valor.iss']}" />
+					<br clear="all"/>
+					<h:outputText value="#{escrituracaoNotaTomadaPortalBean.nfsEscriturada.valorISS}" converter="moneyConverter"/>					
+				</div>
+				
+				<div class="fixo width120px float-left">
+					<p:outputLabel  value="#{msg['pisPasep']}" />
+					<br clear="all"/>
+					<h:outputText value="#{escrituracaoNotaTomadaPortalBean.nfsEscriturada.pisPasep}" converter="moneyConverter"/>	
+				</div>
+				
+				<div class="fixo width120px float-left">
+					<p:outputLabel value="#{msg['cofins']}" />
+					<br clear="all"/>
+					<h:outputText value="#{escrituracaoNotaTomadaPortalBean.nfsEscriturada.cofins}" converter="moneyConverter"/>	
+				</div>
+				
+			</h:panelGroup>
+			
+			<h:panelGroup>
+				
+				<div class="fixo width120px float-left">
+					<p:outputLabel value="#{msg['irrf']}" />
+					<br clear="all"/>
+					<h:outputText value="#{escrituracaoNotaTomadaPortalBean.nfsEscriturada.irrf}" converter="moneyConverter"/>
+				</div>
+				
+				<div class="fixo width120px float-left">
+					<p:outputLabel  value="#{msg['csll']}" />
+					<br clear="all"/>
+					<h:outputText value="#{escrituracaoNotaTomadaPortalBean.nfsEscriturada.csll}" converter="moneyConverter"/>
+				</div>
+				
+				<div class="fixo width120px float-left">
+					<p:outputLabel value="#{msg['inss']}" />
+					<br clear="all"/>
+					<h:outputText value="#{escrituracaoNotaTomadaPortalBean.nfsEscriturada.inss}" converter="moneyConverter"/>
+				</div>
+				
+			</h:panelGroup>
+		</p:panelGrid>
+
+	</div>
+
+	</div>	
+	
+	<p:panelGrid styleClass="margin-top15pxforce">
+		<h:panelGroup>
+			<p:commandButton onclick="PF('confirmSave').show();return false;" id="btConfirmaEscritura2" styleClass="botao-verde toolbar-right" icon="fa fa-floppy-o" value="#{msg['escriturar']}">
+				<f:param name="cid" value="#{javax.enterprise.context.conversation.id}" />
+			 </p:commandButton> 
+			 
+			 <p:dialog widgetVar="confirmSave" fitViewport="true" modal="true"
+				width="100%" closable="false" draggable="false" resizable="false" showEffect="fade"
+				closeOnEscape="true" hideEffect="fade" styleClass="modal-confirmacao" >
+				<h:outputText value="#{msg['confirma.escrituracao.nota.tomada']}" styleClass="modal-confirmacao-texto" />
+				<div class="modal-confirmacao-botoes">
+					<p:commandButton id="btSim2" value="#{msg['sim']}" action="#{escrituracaoNotaTomadaPortalBean.salvar}" update="@form" styleClass="modal-confirmacao-botao-verde" />
+					<p:commandButton value="#{msg['nao']}" type="button" onclick="PF('confirmSave').hide();" styleClass="modal-confirmacao-botao-vermelho" />
+				</div>
+			</p:dialog>
+		</h:panelGroup>
+	</p:panelGrid>
+				
+</div>

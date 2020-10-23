@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title><ui:insert name="titulo">#{msg['nome.sistema']}</ui:insert></title>
+
+		<link href="/#{initParam['context-root']}/resources/css/insights.css" rel="stylesheet" />
+		<link href="/#{initParam['context-root']}/theme/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+		<link href="/#{initParam['context-root']}/theme/css/theme.css" rel="stylesheet" />
+		<link href="/#{initParam['context-root']}/theme/css/colorbox/colorbox.css" rel="stylesheet" />
+
+		<link rel="shortcut icon" href="/#{initParam['context-root']}/resources/img/favicon-aspec.ico" type="image/x-icon" />
+		<link rel="icon" href="/#{initParam['context-root']}/resources/img/favicon-aspec.ico" type="image/x-icon" />
+
+	</h:head>
+
+	<h:body styleClass="overflow-hidden">
+
+		<div class="wrapper">
+
+			<div class="main-container">
+
+				<div class="padding-l-r-20">		
+					<p:messages id="messages" autoUpdate="true" closable="true" />
+				</div>
+
+				<div class="main-header clearfix">
+					<div class="page-title">
+						<h3 class="no-margin">
+							<ui:insert name="titulo_pagina"></ui:insert>
+						</h3>
+					</div>
+				</div>
+
+				<div class="padding-md">
+					<div class="row">
+
+						<h:form id="frm" prependId="false" styleClass="form-login">
+							<div id="toolbar" class="grey-container shortcut-wrapper toolbar">
+								<div class="toolbar-left">
+									<ui:insert name="toolbar-left" />
+								</div>
+								<div class="toolbar-right">
+									<ui:insert name="toolbar-right" />
+								</div>
+							</div>
+							<div class="panel-body">
+								<ui:insert name="conteudo" />
+							</div>
+							<p:focus context="frm" />
+						</h:form>
+					</div>
+				</div>
+				<p>© 2016 Aspec. Todos os direitos reservados.</p>
+			</div>
+
+		</div>
+
+		<script src="/#{initParam['context-root']}/theme/js/theme.js"></script>
+
+	</h:body>
+
+</html>

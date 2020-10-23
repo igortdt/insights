@@ -1,0 +1,276 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template/master-template-portal.xhtml">
+	
+	<ui:define name="conteudo">
+	<h:form>
+		<div class="bg-light">
+				<div class="container">
+					<div class="col-lg-7 col-md-7 col-sm-7">
+						<ul class="list-inline margin-top5px">
+							<li>
+								<p:link outcome="/login.xhtml">
+									Página Inicial
+								</p:link>
+							</li>
+							<li>/</li>
+							<li>
+								<p:link outcome="/UC0035ValidarDocumento/T0035L-validar-documento.xhtml">
+									Validação de Documentos
+								</p:link>
+							</li>
+							<li>/</li>
+							<li>
+								<a href="#">
+									Informações Gerais do Alvará de Transporte
+								</a>
+							</li>
+							<li>/</li>
+						</ul>
+					</div>
+					
+					<div class="col-lg-5 col-md-5 col-sm-5">
+						<ul class="list-inline pull-right margin-top5px">
+							<li><i class="fa fa-adjust" aria-hidden="true"></i></li>
+							<li><b>A</b><i class="fa fa-plus" aria-hidden="true"></i></li>
+							<li><small><b>A</b><i class="fa fa-minus" aria-hidden="true"></i></small></li>
+						</ul>
+					</div>
+					
+				</div>
+			</div>
+			
+			<section class="bg-white min-height-680px">
+				<div class="container">
+					<div class="row">
+						
+						<div class="col-lg-3">
+
+							<h2 class="novo-portal-chamada-servicos">Serviços</h2>
+						
+							<div class="novo-portal-menu-principal">
+								<!-- Include de componente de Menu -->
+								<ui:include src="/WEB-INF/template/menu-portal.xhtml" />
+							</div>
+							
+							<!-- O INCLUDE DOS BANNERS DEVERÃO  FICAR AQUI -->
+							
+						</div>
+						
+						<div class="col-lg-9">
+							<div class="row novo-portal-texto-principal">
+								<div class="col-lg-12">
+									<h1>Informações Gerais do Alvará de Transporte</h1>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-9">
+							<div class="panel panel-default">
+								<div class="panel-heading">#{msg['dados.alvara']}</div>
+								<div class="panel-body">
+									<p:panelGrid columns="1" layout="grid" id="form-alvara" styleClass="form-panel">
+										<h:panelGroup>
+				
+											<div class="fixo width150px">
+												<p:outputLabel value="#{msg['numero']}" styleClass="width100" />
+												<h:outputText value="#{validarAlvaraTransporteBean.alvara.numero}" />
+											</div>
+				
+											<div class="fixo width150px">
+												<p:outputLabel value="#{msg['data.emissao']}" />
+												<h:outputText value="#{validarAlvaraTransporteBean.alvara.dataEmissao}">
+													<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-3" />
+												</h:outputText>
+											</div>
+				
+											<div class="fixo width150px">
+												<p:outputLabel value="#{msg['data.validade']}" />
+																					
+												<h:outputText value="#{validarAlvaraTransporteBean.alvara.dataValidade}">
+													<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-3" />
+												</h:outputText>	
+											</div>
+										
+										</h:panelGroup>
+										
+										<h:panelGroup>
+											<div class="responsivo width100">
+												<p:outputLabel value="#{msg['item.taxa']}" />
+												<br class="clear" />
+												<h:outputText value="#{validarAlvaraTransporteBean.lancamentoTaxa.itemTaxa}" ></h:outputText>
+											</div>
+										</h:panelGroup>
+										
+										<h:panelGroup>
+				
+											<div class="fixo width150px">
+												<p:outputLabel  value="#{msg['vencimento.taxa']}" />								
+												<h:outputText value="#{validarAlvaraTransporteBean.lancamentoTaxa.dataVencimento}">
+													<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-3" />
+												</h:outputText>	
+											</div>
+				
+										</h:panelGroup>
+									</p:panelGrid>
+								
+						<!-- 		<p:outputPanel rendered="#{detalharAlvaraTransporteBean.evento.situacaoAlvara eq 'GERADO'}">
+									<p:dataTable id="tab-dam" value="#{detalharAlvaraTransporteBean.dams}" var="dam" 
+										emptyMessage="#{msg['sem.dados']}" styleClass=" panel panel-default table-responsive tabela-de-dados">
+										<f:facet name="header">
+											#{msg['lista.dam.pagamento']}
+										</f:facet>
+										<p:column headerText="#{msg['numero']}">
+											#{dam.numero}
+										</p:column>
+										<p:column headerText="#{msg['vencimento']}">
+											<h:outputText value="#{dam.dataVencimento}">
+												<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-3" />
+											</h:outputText>
+										</p:column>
+										<p:column headerText="#{msg['valor']}">
+											<h:outputText value="#{dam.valorTotal}" converter="moneyConverter" />
+										</p:column>
+										<p:column styleClass="width85px" rendered="#{detalharAlvaraTransporteBean.evento.situacaoAlvara eq 'GERADO'}">
+											<p:commandButton styleClass="btn btn-default fix-botao-imprimir" icon="fa fa-barcode" iconPos="left" value="DAM" ajax="false"
+												action="#{visualizarDAMBean.visualizar(dam, 1)}"
+												onclick="this.form.target='_blank';"
+												onmouseout="this.form.target='_self';" />
+										</p:column>
+									</p:dataTable>
+								</p:outputPanel> -->
+				
+								</div>
+							</div>
+				
+							<p:outputPanel  id="opHistorico" class="panel panel-default">
+								<div class="panel-heading">#{msg['historico']}</div>
+								<div id="historico" class="panel-body">
+				
+									<p:dataTable value="#{validarAlvaraTransporteBean.historico}" var="evento"
+										styleClass="tabela-de-dados panel panel-default table-responsive"
+										rendered="#{!empty validarAlvaraTransporteBean.historico}">
+										<p:column headerText="#{msg['data']}" styleClass="width170px">
+											<h:outputText value="#{evento.dataEvento}">
+												<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" timeZone="GMT-3"/>
+											</h:outputText>
+										</p:column>
+										<p:column headerText="#{msg['descricao']}">
+											<h:outputText value="#{msg[evento.descricaoEvento]}" />
+										</p:column>
+										<p:column headerText="#{msg['situacao']}" styleClass="width250px">
+											<h:outputText value="#{msg[evento.situacaoAlvara]}" />
+										</p:column>
+									</p:dataTable>
+				
+								</div>
+							</p:outputPanel>
+							
+							
+				
+							
+				
+							<div class="panel panel-default">
+								<div class="panel-heading">#{msg['dados.pessoa']}</div>
+				
+				
+									<div class="panel-body">
+				
+									<p:panelGrid columns="1" layout="grid" id="form-prop-pf" styleClass="form-panel" rendered="#{!empty validarAlvaraTransporteBean.alvara.cpfPessoa}">
+										<h:panelGroup>
+				
+											<div class="responsivo width140px">
+												<p:outputLabel value="#{msg['cpf']}" styleClass="width100" />
+												<h:outputText converter="cpfCnpjConverter"
+													value="#{validarAlvaraTransporteBean.alvara.cpfPessoa}" />
+											</div>
+				
+											<div class="responsivo width390px margin-right15px">
+												<p:outputLabel value="#{msg['nome']}" styleClass="width100" />
+												<h:outputText value="#{validarAlvaraTransporteBean.alvara.nomePessoa}" />
+											</div>
+				
+										</h:panelGroup>
+									</p:panelGrid>
+				
+									<p:panelGrid columns="1" layout="grid" id="form-prop-pj" styleClass="form-panel" rendered="#{!empty validarAlvaraTransporteBean.alvara.cnpjPessoa}">
+										<h:panelGroup>
+				
+											<div class="responsivo width140px">
+												<p:outputLabel value="#{msg['cnpj']}" styleClass="width100" />
+												<h:outputText converter="cpfCnpjConverter"
+													value="#{validarAlvaraTransporteBean.alvara.cnpjPessoa}" />
+											</div>
+				
+											<div class="responsivo width390px margin-right15px">
+												<p:outputLabel value="#{msg['razao.social']}" styleClass="width100" />
+												<h:outputText value="#{validarAlvaraTransporteBean.alvara.razaoSocialPessoa }" />
+											</div>
+				
+										</h:panelGroup>
+									</p:panelGrid>
+								</div>
+							</div>
+							
+							<!-- <div class="panel panel-default">
+								<div class="panel-heading">#{msg['informacoes.fiscais']}</div>
+								<div class="panel-body">
+				
+									<p:panelGrid columns="1" layout="grid" styleClass="form-panel" >
+										<h:panelGroup>
+											<div class="responsivo width100">
+												<h:outputText value="#{msg[detalharAlvaraTransporteBean.alvara.situacaoFiscal.label]}"></h:outputText>	
+											</div>
+										</h:panelGroup>
+										
+										<h:panelGroup rendered="#{not empty detalharAlvaraTransporteBean.alvara.fundamentacaoLegal}">
+											<div class="fixo width100">
+												<p:outputLabel value="#{msg['fundamentacao.legal']}" styleClass="clear" />
+												<br class="clear" />
+												<h:outputText value="#{detalharAlvaraTransporteBean.alvara.fundamentacaoLegal}"></h:outputText>
+											</div>
+										</h:panelGroup>
+									</p:panelGrid>
+								</div>
+							</div> -->
+							
+							
+							<div class="panel panel-default">
+								<div class="panel-heading">#{msg['dados.transporte']}</div>
+								<div class="panel-body">
+									<p:panelGrid columns="1" layout="grid" id="form-dados-transporte">
+									<h:panelGroup>
+										<p:outputPanel class="fixo width100px">
+											<p:outputLabel value="#{msg['placa']}" />
+											<br class="clear" />
+											<h:outputText value="#{validarAlvaraTransporteBean.alvara.placa}" style="text-transform: uppercase;" />	
+										</p:outputPanel>
+									</h:panelGroup>
+									
+									<h:panelGroup id="form-observacao">
+										<div class="responsivo width100">
+											<p:outputLabel value="#{msg['informacoes.complementares']}" />
+											<br class="clear" />
+											<h:outputText value="#{validarAlvaraTransporteBean.alvara.observacao}" />
+										</div>
+									</h:panelGroup>	
+									</p:panelGrid>
+								</div>
+							</div>
+						</div><!-- End of Col LG 9 -->	
+					
+						
+					</div><!-- End of row -->
+				</div><!-- End of container -->
+			</section>			
+			
+			<f:metadata>
+				<f:event listener="#{conversationBean.begin}" type="preRenderView" />
+			</f:metadata>
+	</h:form>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,139 @@
+<ul xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:shiro="http://shiro.apache.org/tags">
+
+	<li class="#{menuMark.returnClass('index', view.viewId)}">
+		<p:link outcome="inicio">
+			<span class="menu-icon">
+				<i class="fa fa-home fa-lg"></i> 
+			</span>
+			<span class="text">
+				#{msg['inicio']}
+			</span>
+			<span class="menu-hover"></span>
+		</p:link>
+		<p:link outcome="cadastro_economico">
+			<span class="menu-icon">
+				<i class="fa fa-users fa-lg"></i> 
+			</span>
+			<span class="text">
+				#{msg['cadastro.economico']}
+			</span>
+			<span class="menu-hover"></span>
+		</p:link>
+		
+		
+		<p:link outcome="pesquisar_solicitacao_nfse">
+			<span class="menu-icon">
+				<i class="fa fa-check-square fa-lg"></i> 
+			</span>
+			<span class="text">
+				#{msg['credenciamento']}
+			</span>
+			<span class="menu-hover"></span>
+		</p:link>
+		
+		
+		<p:link outcome="emitir_nfse_portal" rendered="#{sessaoBean.pessoaAutorizada}">
+			<span class="menu-icon">
+				<i class="fa fa-file-text-o fa-lg"></i> 
+			</span>
+			<span class="text">
+				#{msg['emitir.nfse']}
+			</span>
+			<span class="menu-hover"></span>
+		</p:link>
+				
+		<p:link outcome="consulta_nfse">
+			<span class="menu-icon">
+				<i class="fa fa-search"></i> 
+			</span>
+			<span class="text">
+				#{msg['consultar.nfse']}
+			</span>
+			<span class="menu-hover"></span>
+		</p:link>
+		
+		<p:link outcome="pesquisar_dam_nfse" rendered="#{sessaoBean.pessoaAutorizada and sessaoBean.mostrarMenuEscriturarCompetencia() and !sessaoBean.contribuinteOptanteDoSimples()}">
+			<span class="menu-icon">
+				<i class="fa fa-barcode fa-lg"></i> 
+			</span>
+			<span class="text">
+				#{msg['dam']}
+			</span>
+			<span class="menu-hover"></span>
+		</p:link>		
+		
+		<!-- <p:link outcome="escriturar_competencia" rendered="#{sessaoBean.mostrarMenuEscriturarCompetencia() and sessaoBean.pessoaComCadastroEconomico()}">
+			<span class="menu-icon">
+				<i class="fa fa-pencil-square-o fa-lg"></i> 
+			</span>
+			<span class="text fontEm085">
+				#{msg['escriturar.competencia']}
+			</span>
+			<span class="menu-hover"></span>
+		</p:link> -->
+
+		<p:commandLink action="#{escriturarCompetenciaPortalBean.init}" rendered="#{sessaoBean.mostrarMenuEscriturarCompetencia() and sessaoBean.pessoaComCadastroEconomico()}">
+			<span class="menu-icon">
+				<i class="fa fa-pencil-square-o fa-lg"></i> 
+			</span>
+			<span class="text fontEm085">
+				#{msg['escriturar.competencia']}
+			</span>
+			<span class="menu-hover"></span>
+		</p:commandLink>
+		
+		<p:link outcome="escriturar_nota_tomada" rendered="#{sessaoBean.mostrarMenuEscriturarCompetencia() and sessaoBean.pessoaComCadastroEconomico()}">
+			<span class="menu-icon">
+				<i class="fa fa-file-text-o fa-lg"></i> 
+			</span>
+			<span class="text fontEm085">
+				#{msg['escrituracao.nota.tomada']}
+			</span>
+			<span class="menu-hover"></span>
+		</p:link>
+		
+		<p:link outcome="pesquisar_livro" rendered="#{sessaoBean.mostrarMenuEscriturarCompetencia() and sessaoBean.pessoaComCadastroEconomico()}">
+			<span class="menu-icon">
+				<i class="fa fa-book fa-lg"></i> 
+			</span>
+			<span class="text">
+				#{msg['livro']}
+			</span>
+			<span class="menu-hover"></span>
+		</p:link>		
+				
+	
+		<p:link outcome="pesquisar_escrituracao_cosif_portal" rendered="#{sessaoBean.isCosif() and sessaoBean.pessoaComCadastroEconomico()}">
+			<span class="menu-icon">
+				<i class="fa fa-university fa-lg"></i> 
+			</span>
+			<span class="text">
+				#{msg['escrituracao.cosif']}
+			</span>
+			<span class="menu-hover"></span>
+		</p:link>
+					
+	
+		
+		<p:link outcome="pesquisar_seguranca_portal" rendered="#{sessaoBean.pessoaComCadastroEconomico()}">		
+		
+			<span class="menu-icon">
+				<i class="fa fa-lock fa-lg"></i> 
+			</span>			
+			<span class="text fontEm085">
+				#{msg['seguranca']}
+			</span>
+			<span class="menu-hover"></span>
+		</p:link>
+		
+	</li>
+	
+	
+	
+
+</ul>

@@ -1,0 +1,106 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template/master-template-portal.xhtml">
+
+	<ui:define name="conteudo">
+		<div class="bg-light">
+			<div class="container">
+				<div class="col-lg-6 col-md-6 col-sm-6">
+					<ul class="list-inline margin-top5px">
+						<li><p:link outcome="/home.xhtml">
+								<i class="fa fa-home fa-lg"></i> 
+									Home 
+								</p:link></li>
+					</ul>
+				</div>
+
+			</div>
+		</div>
+
+		<section class="bg-white min-height-680px">
+		<div class="padding-md">
+		
+			<div id="toolbar" class="grey-container shortcut-wrapper toolbar">
+				<div class="toolbar-left">
+					
+				</div>
+				<div class="toolbar-right">
+					<p:link outcome="/profile-novo" styleClass="btn btn-default">
+						<i class="fa fa-file-o"></i>
+						#{msg['novo']} #{msg['twitter.analyzer']}
+					</p:link>
+				</div>
+			</div>
+			
+			<br clear="all"/>
+			<br clear="all"/>
+			
+			
+			<h:form prependId="false">
+			<div class="row">
+
+				<div class="col-md-12">
+					
+
+					<div class="col-md-12 novo-portal-item-home-area">
+
+						<!-- ******************** -->
+						<!-- TABELA DE RESULTADOS -->
+						<!-- ******************** -->
+						<div class="scroll-lateral-responsivo">
+							<p:dataTable value="#{profileBean.profiles}" var="profile"
+								emptyMessage="#{msg['sem.dados']}"
+								styleClass="tabela-de-dados panel panel-default table-responsive"
+								paginator="true" rows="20" paginatorAlwaysVisible="false">
+
+								<p:column headerText="#{msg['perfil.twitter']}" styleClass="width130px">
+									<h:outputText value="#{profile.perfilTwitter}" />
+								</p:column>
+
+								<p:column headerText="#{msg['data.criacao']}" styleClass="width130px">
+									<h:outputText value="#{profile.dataCriacao}">
+										<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" timeZone="GMT-3" />
+									</h:outputText>
+								</p:column>
+
+								<p:column headerText="#{msg['processed.language']}" styleClass="width130px">
+									<h:outputText value="#{profile.processed_language}" />
+								</p:column>
+
+								<p:column headerText="#{msg['word.count']}" styleClass="width130px">
+									<h:outputText value="#{profile.word_count}" />
+								</p:column>
+
+								<p:column headerText="#{msg['word.count.message']}">
+									<h:outputText value="#{profile.word_count_message}" />
+								</p:column>
+
+								<p:column headerText="#{msg['acoes']}" styleClass="width50px">
+									<p:commandButton id="optButton" type="button"
+										icon="ui-icon-gear" />
+									<p:menu overlay="true" trigger="optButton" my="right top"
+										at="right bottom">
+										<p:menuitem value="#{msg['detalhar']}" icon="ui-icon-pencil"
+											ajax="false"
+											action="#{profileBean.prepararEdicao(profile)}" />
+
+									</p:menu>
+								</p:column>
+							</p:dataTable>
+						</div>
+
+
+
+					</div>
+				</div>
+			</div>
+			</h:form>
+		</div>
+		</section>
+	</ui:define>
+</ui:composition>

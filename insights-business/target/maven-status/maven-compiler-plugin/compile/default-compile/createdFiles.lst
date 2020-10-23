@@ -1,0 +1,9 @@
+br/com/juremal/insights/entity/insightsdorCompeticao.class
+br/com/juremal/insights/entity/insights.class
+br/com/juremal/insights/entity/Jogo.class
+br/com/juremal/insights/entity/Role.class
+br/com/juremal/insights/entity/Grupo.class
+br/com/juremal/insights/entity/Competicao.class
+br/com/juremal/insights/entity/insightsdor.class
+br/com/juremal/insights/validation/InsertOnlyChecks.class
+br/com/juremal/insights/entity/Time.class

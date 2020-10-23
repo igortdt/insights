@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PROCESS model-entity="JSFProcess">
+ <PROCESS-ITEM NAME="rules:" SHAPE="32,17,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules::0" NAME="item" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="validar_habitese::#UC0035ValidarDocumento#T0035L-validar-habitese.xhtml"
+    NAME="output"
+    PATH="/UC0035ValidarDocumento/T0035L-validar-habitese.xhtml"
+    TARGET="rules:#UC0035ValidarDocumento#T0035L-validar-habitese.xhtml"
+    TITLE="validar_habitese" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="validar_nfse_avulsa::#UC0035ValidarDocumento#T0035L-validar-nfse-avulsa.xhtml"
+    NAME="output1"
+    PATH="/UC0035ValidarDocumento/T0035L-validar-nfse-avulsa.xhtml"
+    TARGET="rules:#UC0035ValidarDocumento#T0035L-validar-nfse-avulsa.xhtml"
+    TITLE="validar_nfse_avulsa" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="validar_alvara_construcao::#UC0035ValidarDocumento#T0035L-validar-alvara-construcao.xhtml"
+    NAME="output2"
+    PATH="/UC0035ValidarDocumento/T0035L-validar-alvara-construcao.xhtml"
+    TARGET="rules:#UC0035ValidarDocumento#T0035L-validar-alvara-construcao.xhtml"
+    TITLE="validar_alvara_construcao" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="validar_alvara_funcionamento::#UC0035ValidarDocumento#T0035L-validar-alvara-funcionamento.xhtml"
+    NAME="output3"
+    PATH="/UC0035ValidarDocumento/T0035L-validar-alvara-funcionamento.xhtml"
+    TARGET="rules:#UC0035ValidarDocumento#T0035L-validar-alvara-funcionamento.xhtml"
+    TITLE="validar_alvara_funcionamento" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="validar_alvara_sanitario::#UC0035ValidarDocumento#T0035L-validar-alvara-sanitario.xhtml"
+    NAME="output4"
+    PATH="/UC0035ValidarDocumento/T0035L-validar-alvara-sanitario.xhtml"
+    TARGET="rules:#UC0035ValidarDocumento#T0035L-validar-alvara-sanitario.xhtml"
+    TITLE="validar_alvara_sanitario" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="validar_alvara_transporte::#UC0035ValidarDocumento#T0035L-validar-alvara-transporte.xhtml"
+    NAME="output5"
+    PATH="/UC0035ValidarDocumento/T0035L-validar-alvara-transporte.xhtml"
+    TARGET="rules:#UC0035ValidarDocumento#T0035L-validar-alvara-transporte.xhtml"
+    TITLE="validar_alvara_transporte" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="validar_certidao_negativa::#UC0035ValidarDocumento#T0035L-validar-certidao-negativa.xhtml"
+    NAME="output6"
+    PATH="/UC0035ValidarDocumento/T0035L-validar-certidao-negativa.xhtml"
+    TARGET="rules:#UC0035ValidarDocumento#T0035L-validar-certidao-negativa.xhtml"
+    TITLE="validar_certidao_negativa" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="validar_certidao_negativa_imovel::#UC0035ValidarDocumento#T0035L-validar-certidao-negativa-imovel.xhtml"
+    NAME="output7"
+    PATH="/UC0035ValidarDocumento/T0035L-validar-certidao-negativa-imovel.xhtml"
+    TARGET="rules:#UC0035ValidarDocumento#T0035L-validar-certidao-negativa-imovel.xhtml"
+    TITLE="validar_certidao_negativa_imovel" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM
+  NAME="rules:#UC0035ValidarDocumento#T0035L-validar-habitese.xhtml"
+  PATH="/UC0035ValidarDocumento/T0035L-validar-habitese.xhtml"
+  SHAPE="304,33,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#UC0035ValidarDocumento#T0035L-validar-nfse-avulsa.xhtml"
+  PATH="/UC0035ValidarDocumento/T0035L-validar-nfse-avulsa.xhtml"
+  SHAPE="304,305,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#UC0035ValidarDocumento#T0035L-validar-alvara-construcao.xhtml"
+  PATH="/UC0035ValidarDocumento/T0035L-validar-alvara-construcao.xhtml"
+  SHAPE="304,305,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#UC0035ValidarDocumento#T0035L-validar-alvara-funcionamento.xhtml"
+  PATH="/UC0035ValidarDocumento/T0035L-validar-alvara-funcionamento.xhtml"
+  SHAPE="304,305,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#UC0035ValidarDocumento#T0035L-validar-alvara-sanitario.xhtml"
+  PATH="/UC0035ValidarDocumento/T0035L-validar-alvara-sanitario.xhtml"
+  SHAPE="304,305,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#UC0035ValidarDocumento#T0035L-validar-alvara-transporte.xhtml"
+  PATH="/UC0035ValidarDocumento/T0035L-validar-alvara-transporte.xhtml"
+  SHAPE="304,305,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#UC0035ValidarDocumento#T0035L-validar-certidao-negativa.xhtml"
+  PATH="/UC0035ValidarDocumento/T0035L-validar-certidao-negativa.xhtml"
+  SHAPE="304,337,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#UC0035ValidarDocumento#T0035L-validar-nfse.xhtml"
+  PATH="/UC0035ValidarDocumento/T0035L-validar-nfse.xhtml"
+  SHAPE="304,369,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#UC0035ValidarDocumento#T0035L-validar-certidao-negativa-imovel.xhtml"
+  PATH="/UC0035ValidarDocumento/T0035L-validar-certidao-negativa-imovel.xhtml"
+  SHAPE="304,369,0,0" model-entity="JSFProcessGroup"/>
+</PROCESS>

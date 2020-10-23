@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Built-By: IgorBezerra
+Class-Path: gson-1.7.1.jar json-simple-1.1.1.jar junit-4.10.jar hamcre
+ st-core-1.1.jar core-2.2.jar javase-2.2.jar
+Build-Jdk: 1.8.0_73
+Created-By: Maven Integration for Eclipse
+

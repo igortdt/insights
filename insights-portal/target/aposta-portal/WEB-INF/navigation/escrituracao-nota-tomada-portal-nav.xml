@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<faces-config version="2.2" xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
+
+	<navigation-rule id="escrituracao_nota_tomada_navigation">
+
+		<navigation-case id="escriturar_nota_tomada">
+			<from-outcome>escriturar_nota_tomada</from-outcome>
+			<to-view-id>/app/UC0051EscrituracaoNotaTomadaPortal/T0051C-escrituracao-nota-tomada-form-portal.xhtml</to-view-id>
+		</navigation-case>
+
+		<navigation-case>
+			<from-action>#{escrituracaoNotaTomadaPortalBean.salvar}</from-action>
+			<from-outcome>sucesso</from-outcome>
+			<to-view-id>/app/UC0051EscrituracaoNotaTomadaPortal/T0051C-escrituracao-nota-tomada-display-portal.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		
+		<navigation-case>
+			<from-outcome>cancelar_nfse_escriturada</from-outcome>
+			<to-view-id>/app/UC0051EscrituracaoNotaTomadaPortal/T0051C-cancelar-nfse-escriturada.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		
+		<navigation-case>
+			<from-outcome>detalhar_nfse_escriturada</from-outcome>
+			<to-view-id>/app/UC0051EscrituracaoNotaTomadaPortal/T0051C-escrituracao-nota-tomada-detalhe.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		
+	</navigation-rule>
+
+</faces-config>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PROCESS model-entity="JSFProcess">
+ <PROCESS-ITEM NAME="rules:" SHAPE="32,17,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules::0" NAME="item" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="enviar_aviso:#{recuperarSenhaPortalBean.recuperar}:#UC0039RecuperarSenha#T0039C-recuperar-portal-aviso.xhtml"
+    NAME="output"
+    PATH="/UC0039RecuperarSenha/T0039C-recuperar-portal-aviso.xhtml"
+    TARGET="rules:#UC0039RecuperarSenha#T0039C-recuperar-portal-aviso.xhtml"
+    TITLE="#{recuperarSenhaPortalBean.recuperar}:enviar_aviso" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="sucesso:#{recuperarSenhaPortalBean.confirmarAlteracaoSenha}:login.xhtml"
+    NAME="output1" PATH="login.xhtml" TARGET="rules:login.xhtml"
+    TITLE="#{recuperarSenhaPortalBean.confirmarAlteracaoSenha}:sucesso" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:login.xhtml" PATH="login.xhtml"
+  SHAPE="256,177,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#UC0039RecuperarSenha#T0039C-recuperar-portal-aviso.xhtml"
+  PATH="/UC0039RecuperarSenha/T0039C-recuperar-portal-aviso.xhtml"
+  SHAPE="256,33,0,0" model-entity="JSFProcessGroup"/>
+</PROCESS>

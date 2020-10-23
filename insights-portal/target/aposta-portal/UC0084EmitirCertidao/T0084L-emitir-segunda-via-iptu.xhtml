@@ -1,0 +1,271 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template/master-template-portal.xhtml">
+	
+	<ui:define name="conteudo">
+	<h:form id="form-certidao">
+		<div class="bg-light">
+				<div class="container">
+					<div class="col-lg-6 col-md-6 col-sm-6">
+						<ul class="list-inline margin-top5px">
+							<li>
+								<p:link outcome="/login.xhtml">
+									#{msg['pagina.inicial']}
+								</p:link>
+							</li>
+							<li>/</li>
+							<li>
+								<p:link outcome="/UC0085IPTU/T0085L-display-iptu.xhtml">
+									#{msg['iptu']}
+								</p:link>
+							</li>
+							<li>/</li>
+							<li>
+								<a href="#">
+									#{msg['emitir.segunda.via.iptu']}
+								</a>
+							</li>
+							<li>/</li>
+						</ul>
+					</div>
+					<!--  
+					<div class="col-lg-6 col-md-6 col-sm-6">
+						<ul class="list-inline pull-right margin-top5px">
+							<li><i class="fa fa-adjust" aria-hidden="true"></i></li>
+							<li><b>A</b><i class="fa fa-plus" aria-hidden="true"></i></li>
+							<li><small><b>A</b><i class="fa fa-minus" aria-hidden="true"></i></small></li>
+						</ul>
+					</div>
+					-->
+				</div>
+			</div>
+			
+			<section class="bg-white min-height-680px">
+				<div class="container">
+					<div class="row">
+						
+						<div class="col-lg-3">
+
+							<h2 class="novo-portal-chamada-servicos">#{msg['servicos']}</h2>
+						
+							<div class="novo-portal-menu-principal">
+								<!-- Include de componente de Menu -->
+								<ui:include src="/WEB-INF/template/menu-portal.xhtml" />
+							</div>
+							
+							<!-- O INCLUDE DOS BANNERS DEVERÃO  FICAR AQUI -->
+							
+						</div>
+						
+						<div class="col-lg-9">
+							<div class="row novo-portal-texto-principal">
+								<div class="col-lg-12">
+									<h1>#{msg['emitir.segunda.via.iptu']}</h1>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-9">
+							
+							<div class="padding-l-r-20">		
+								<p:messages id="messages" autoUpdate="true" closable="true" />
+							</div>
+													
+							<div class="panel panel-default">
+								<div class="panel-heading">#{msg['filtros.consulta']}</div>
+								<div class="panel-body">
+				
+								<p:panelGrid columns="1" layout="grid">
+				
+									<h:panelGroup>
+										<div class="fixo width110px">
+											<p:outputLabel for="exercicio" value="#{msg['exercicio']}" />
+											<p:selectOneMenu id="exercicio"
+												value="#{emitirSegundaViaIPTUPortalBean.exercicio}"
+												required="true">
+												<f:selectItems
+													value="#{emitirSegundaViaIPTUPortalBean.listaAnos}" var="ano"
+													itemLabel="#{ano.label}" itemValue="#{ano.value}" />
+											</p:selectOneMenu>
+										</div>
+				
+										<div class="responsivo width180px margin-left10px">
+											<p:outputLabel for="inscricao" value="#{msg['inscricao']}" />
+											<p:inputText id="inscricao"
+												value="#{emitirSegundaViaIPTUPortalBean.inscricao}"
+												required="true">
+												<f:convertNumber integerOnly="true" type="number" />
+											</p:inputText>
+				
+										</div>
+									</h:panelGroup>
+								</p:panelGrid>
+				
+								<br />
+								
+								<div class="margin-top15px">
+								
+									<p:commandLink id="btPesquisar" action="#{emitirSegundaViaIPTUPortalBean.pesquisar()}" update="@form" resetValues="true"
+										styleClass="btn btn-success pull-right">
+										<i class="fa fa-search"></i>
+										#{msg['pesquisar']}
+									</p:commandLink>
+										
+												
+								</div>	
+								
+								
+								<p:dataTable value="#{emitirSegundaViaIPTUPortalBean.dams}" var="dam"
+									styleClass="tabela-de-dados panel panel-default table-responsive"
+									rendered="#{emitirSegundaViaIPTUPortalBean.dams != null}">
+									<f:facet name="header">
+										#{msg['lista.dam.pagamento']}
+									</f:facet>
+							
+									<p:column headerText="#{msg['parcela']}">
+										<h:outputText value="#{dam.parcela eq '0' ? msg['unica'] : dam.parcela}" />
+									</p:column>
+									<p:column headerText="#{msg['vencimento.parcela']}">
+										<h:outputText value="#{dam.dataVencimento}">
+											<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-3" />
+										</h:outputText>
+									</p:column>
+									
+									<p:column headerText="#{msg['valor.parcela']}">
+										<h:outputText value="#{dam.valorImposto}" converter="moneyConverter" />
+									</p:column>
+									
+									<p:column headerText="#{msg['correcao']}">
+										<h:outputText value="#{dam.valorCorrecao}" converter="moneyConverter" />
+									</p:column>
+									
+									<p:column headerText="#{msg['juros']}">
+										<h:outputText value="#{dam.valorJuros}" converter="moneyConverter" />
+									</p:column>
+									
+									<p:column headerText="#{msg['multa']}">
+										<h:outputText value="#{dam.valorMulta}" converter="moneyConverter" />
+									</p:column>
+									
+									<p:column headerText="#{msg['valor.total']}">
+										<h:outputText value="#{dam.valorTotal}" converter="moneyConverter" />
+									</p:column>
+									
+									<p:column headerText="#{msg['pagar.ate']}">
+										<h:outputText value="#{dam.dataPrevistaPagamento}">
+											<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-3" />
+										</h:outputText>
+									</p:column>
+									
+									<p:column headerText="#{msg['situacao']}">
+										<h:outputText value="#{dam.situacaoDAM eq 'RETORNO_BANCO' ? msg['pago'] : msg['em.aberto']}" />
+									</p:column>
+									
+									<p:column headerText="#{msg['acoes']}" styleClass="width50px">
+										<p:commandButton id="optButton" type="button" icon="ui-icon-gear" />
+										
+										<p:menu overlay="true" trigger="optButton" my="right top" at="right bottom">
+											<p:menuitem value="#{msg['reemitir.dam']}" icon="fa fa-search" 
+											onsuccess="PF('wvReemitir').show();"
+											actionListener="#{modalReemissaoIPTUPortal.openModal(dam,emitirSegundaViaIPTUPortalBean.iptu)}"
+											process="@this" update="form-certidao:pg-pagamento form-certidao:pagamento" rendered="#{!(dam.parcela eq '0') and !emitirSegundaViaIPTUPortalBean.isDamVencido(dam)}">
+											</p:menuitem>
+												
+											<p:menuitem value="#{msg['segunda.via.dam']}" icon="ui-icon-print" ajax="false"
+												action="#{visualizarDAMBean.visualizar(dam, emitirSegundaViaIPTUPortalBean.qtdParcelas)}" 
+												target="_blank" />
+										</p:menu>
+									</p:column>
+								</p:dataTable>	
+								
+								<h:panelGroup rendered="#{emitirSegundaViaIPTUPortalBean.mostrarBotaoVisualizarBoleto()}">
+									<div class="width100" style="text-align: center;">
+										<p:commandButton icon="fa fa-print" ajax="false" value="#{msg['visualizar.boleto.iptu']}"
+											action="#{emitirSegundaViaIPTUPortalBean.visualizarIptu()}"
+											onclick="this.form.target='_blank';"
+											onmouseout="this.form.target='_self';" />
+									</div>
+								</h:panelGroup>	
+								
+								</div>
+							</div>
+							
+						</div><!-- End of COL LG 9 -->
+					
+					</div><!-- End of row -->
+				</div><!-- End of container -->
+			</section>			
+			
+			<f:metadata>
+				<f:event listener="#{conversationBean.begin}" type="preRenderView" />
+			</f:metadata>
+			
+			<p:dialog id="idReemitir" widgetVar="wvReemitir"  draggable="false" modal="true" styleClass="fix-dialog-iptu"  
+						closeOnEscape="true" header="#{msg['nova.emissao.dam']}" >
+					
+							<div class="fixo width130px bg-calendario">
+								<p:outputLabel for="pagamento" value="#{msg['data.pagamento']}" />
+								<p:calendar id="pagamento" pattern="dd/MM/yyyy" mask="true" navigator="false"
+									value="#{modalReemissaoIPTUPortal.dataPrevistaPagamento}" locale="pt_BR"
+									 mindate="#{modalReemissaoIPTUPortal.dataPrevistaPagamento}"
+									 maxdate="#{modalReemissaoIPTUPortal.dataMaximaParaPagamento()}" validator="minMaxDateValidator" >
+								 	<p:ajax event="dateSelect" listener="#{modalReemissaoIPTUPortal.recalcular}" update="@this, pg-pagamento" resetValues="true" />
+									<p:ajax event="change" listener="#{modalReemissaoIPTUPortal.recalcular}" update="@this, pg-pagamento" resetValues="true" />
+								</p:calendar>
+							</div>
+							
+							<p:commandLink onclick="PF('wvReemitir').hide();return false;"
+								styleClass="btn btn-danger margin-right5px">
+								<i class="fa fa-reply"></i>
+								#{msg['voltar']}
+							</p:commandLink>
+				
+							
+							<p:commandLink  id="btSubmit" styleClass="btn btn-success margin-left5px" ajax="false"
+							actionListener="#{modalReemissaoIPTUPortal.reemitir()}"
+							action="#{emitirSegundaViaIPTUPortalBean.prepararDams()}">
+								<f:param name="cid" value="#{javax.enterprise.context.conversation.id}" />
+								<i class="fa fa-floppy-o margin-top4px pull-right"></i>
+								#{msg['reemitir']}
+								<p:confirm message="#{msg['confirma.inclusao']}"  />
+								
+							</p:commandLink>
+							
+							<h:panelGroup id="pg-pagamento" styleClass="margin-top10px">
+								<p:dataTable value="#{modalReemissaoIPTUPortal.dams}" var="dam"
+									rendered="#{!empty modalReemissaoIPTUPortal.dams}"
+									styleClass="tabela-de-dados panel panel-default table-responsive">
+									<f:facet name="header">
+										#{msg['dados.pagamento']}
+									</f:facet>
+									<p:column headerText="#{msg['correcao.monetaria']}">
+										<h:outputText value="#{dam.valorCorrecao}" converter="moneyConverter" />
+									</p:column>
+									<p:column headerText="#{msg['juros']}">
+										<h:outputText value="#{dam.valorJuros}" converter="moneyConverter" />
+									</p:column>
+									<p:column headerText="#{msg['multa']}">
+										<h:outputText value="#{dam.valorMulta}" converter="moneyConverter" />
+									</p:column>
+									<p:column headerText="#{msg['valor.total']}">
+										<h:outputText value="#{dam.valorTotal}" converter="moneyConverter" />
+									</p:column>
+								</p:dataTable>
+							</h:panelGroup>
+						</p:dialog>	
+						
+						
+						<p:confirmDialog global="true" showEffect="fade" hideEffect="fade" closeOnEscape="true" closable="false" width="100%" styleClass="modal-confirmacao">
+					       <div class="modal-confirmacao-botoes">
+						        <p:commandButton value="#{msg['sim']}" type="button" styleClass="ui-confirmdialog-yes modal-confirmacao-botao-verde"  />
+						        <p:commandButton value="#{msg['nao']}" type="button" styleClass="ui-confirmdialog-no modal-confirmacao-botao-vermelho" />
+					    	</div>
+					    </p:confirmDialog>
+	
+	</h:form>
+	</ui:define>
+</ui:composition>

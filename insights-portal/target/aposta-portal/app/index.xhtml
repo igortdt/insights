@@ -1,0 +1,226 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template/master-template.xhtml">
+	
+	<ui:define name="conteudo">
+	
+		<div class="row margin-bottom30px margin-top10px">
+			<div class="col-sm-6 col-md-6 margin-topMinus57px">
+				<img src="#{request.contextPath}/resources/#{initParam['uf_municipio']}/img/brasao-sistema.jpg" class="brasao-prefeitura-img margin-top5px" />
+		
+				<h4>#{msg[request.contextPath.substring(1).concat('.pref')]}</h4>
+				<h4 class="negrito font80em">#{msg[request.contextPath.substring(1).concat('.nome')]}</h4>
+			</div>
+		</div>
+		
+		<!-- ********************************************** -->
+		<!-- BARRA DE FERRAMENTAS - BOTOES DO LADO DIREITO -->
+		<!-- ********************************************** -->
+		
+		<ui:decorate template="/WEB-INF/template/formulario.xhtml">
+		<ui:define name="toolbar-right">
+			<p:commandLink id="bt-edit" action="#{editarCadastroEconomicoBean.prepararEdicao()}" 
+				rendered="#{editarCadastroEconomicoBean.permitirEditarContribuinte()}" styleClass="btn btn-default margin-bottom20px">
+				<i class="fa fa-file-o"></i>
+				#{msg['editar']}
+			</p:commandLink>
+		</ui:define>
+		
+		<div class="panel panel-default ">
+				
+				<div class="panel-heading">#{msg['dados.pessoa']}</div>
+				<div id="pessoa" class="panel-body">
+
+					<p:panelGrid id="pf_panel" columns="1" layout="grid">
+						<h:panelGroup>
+							<div class="responsivo width160px">
+								<p:outputLabel value="#{msg['cpf.cnpj']}" styleClass="width100" />
+								<h:outputText value="#{indexBean.pessoaLogada.documento}" converter="cpfCnpjConverter" />
+							</div>
+							<div class="fixo width100">
+								<p:outputLabel value="#{msg['nome']}" styleClass="width100" />
+								<h:outputText value="#{indexBean.pessoaLogada.descricao}" />
+							</div>
+						</h:panelGroup>
+						
+						<h:panelGroup>
+							<div class="fixo width140px">
+								<p:outputLabel value="#{msg['optante.simples']}" styleClass="width100" />
+								<h:outputText value="#{msg[indexBean.pessoaOptanteSimples().label]}" />
+							</div>
+							<div class="responsivo width200px">
+								<p:outputLabel value="#{msg['escritura.cosif']}" styleClass="width100" />
+								<h:outputText value="#{msg['sim']}" rendered="#{sessaoBean.isCosif()}" />
+								<h:outputText value="#{msg['nao']}" rendered="#{!sessaoBean.isCosif()}" />
+							</div>
+						</h:panelGroup>
+
+						<h:panelGroup>
+							<div class="responsivo width130px margin-right15px">
+								<p:outputLabel value="#{msg['substituto.tributario']}" styleClass="width100" />
+								<h:outputText  value="#{msg[indexBean.ehSubstitutoTributario().label]}" />
+								
+							</div>
+						
+							<div class="responsivo width300px">
+								<p:outputLabel value="#{msg['regime.tributacao']}" styleClass="width100" />
+								<h:outputText  value="#{indexBean.regimeDeTributacaoDaPessoa}" />
+							</div>
+							
+							<div class="responsivo width350px margin-right20px">
+								<p:outputLabel value="#{msg['numero.inscricao']}" styleClass="width100" />
+								<h:outputText value="#{indexBean.pessoaLogada.inscricaoMunicipal}" />
+							</div>
+						</h:panelGroup>
+					</p:panelGrid>
+				</div>
+			</div>
+			
+			
+			<div class="panel panel-default">
+				<div class="panel-heading">#{msg['endereco']}</div>
+				<div id="endereco" class="panel-body">
+
+					<p:panelGrid  columns="1" layout="grid">
+						<h:panelGroup>
+							<div class="responsivo width140px">
+								<p:outputLabel value="#{msg['uf']}" styleClass="width100" />
+								<h:outputText value="#{indexBean.pessoaLogada.endereco.logradouro.municipio.uf}" converter="cpfCnpjConverter" />
+							</div>
+							<div class="fixo width155px">
+								<p:outputLabel value="#{msg['municipio']}" styleClass="width100" />
+								<h:outputText value="#{indexBean.pessoaLogada.endereco.logradouro.municipio}" />
+							</div>
+							<div class="fixo width140px">
+								<p:outputLabel value="#{msg['tipo.logradouro']}" styleClass="width100" />
+								<h:outputText value="#{indexBean.pessoaLogada.endereco.logradouro.tipoLogradouro}" />
+							</div>
+							<div class="responsivo width200px">
+								<p:outputLabel value="#{msg['logradouro']}" styleClass="width100" />
+								<h:outputText value="#{indexBean.pessoaLogada.endereco.logradouro}" />
+							</div>
+						</h:panelGroup>
+
+					</p:panelGrid>
+
+					<p:panelGrid  columns="1" layout="grid">
+
+						<h:panelGroup>
+							<div class="responsivo width100px margin-right15px">
+								<p:outputLabel value="#{msg['numero']}" styleClass="width150px" />
+								<h:outputText value="#{indexBean.pessoaLogada.endereco.numero}" />
+								
+							</div>
+							<div class="responsivo width140px">
+								<p:outputLabel value="#{msg['complemento']}" styleClass="width150px" />
+								<h:outputText value="#{indexBean.pessoaLogada.endereco.complemento}" />
+							</div>
+							
+							<div class="responsivo width150px margin-right20px">
+								<p:outputLabel value="#{msg['bairro']}" styleClass="width100" />
+								<h:outputText value="#{indexBean.pessoaLogada.endereco.bairro}" />
+							</div>
+							
+							<div class="responsivo width350px margin-right20px">
+								<p:outputLabel value="#{msg['cep']}" styleClass="width100" />
+								<h:outputText value="#{indexBean.pessoaLogada.endereco.cep}" />
+							</div>
+							
+						</h:panelGroup>
+
+					</p:panelGrid>
+				</div>
+			</div>
+			
+			
+			
+			
+			<div class="panel panel-default">
+				<div class="panel-heading">#{msg['contato']}</div>
+				<div id="contato" class="panel-body">
+					
+					<p:panelGrid  columns="1" layout="grid">
+
+						<h:panelGroup>
+							<div class="responsivo width150px margin-right15px">
+								<p:outputLabel value="#{msg['telefone.fixo']}" styleClass="width150px" />
+								<h:outputText value="#{indexBean.pessoaLogada.telefoneFixo}" />
+							</div>
+							
+							<div class="responsivo width150px margin-right15px">
+								<p:outputLabel value="#{msg['telefoneMovel']}" styleClass="width150px" />
+								<h:outputText value="#{indexBean.pessoaLogada.telefoneMovel}" />
+							</div>
+							
+							<div class="responsivo width150px margin-right15px">
+								<p:outputLabel value="#{msg['telefoneFax']}" styleClass="width150px" />
+								<h:outputText value="#{indexBean.pessoaLogada.telefoneFax}" />
+							</div>
+							
+							<div class="responsivo width140px">
+								<p:outputLabel value="#{msg['email']}" styleClass="width150px" />
+								<h:outputText value="#{indexBean.pessoaLogada.email}" />
+							</div>
+						</h:panelGroup>
+
+					</p:panelGrid>
+				</div>
+			</div>
+			
+			<div class="scroll-lateral-responsivo no-header">
+  			 <p:dataTable value="#{indexBean.listarMensagensPorUsuario()}" var="msgs"
+				emptyMessage="#{msg['sem.dados']}" styleClass="tabela-de-dados panel panel-default table-responsive"
+				paginator="true" rows="20" paginatorAlwaysVisible="false">
+				<f:facet name="header">
+			        Mensagens
+			    </f:facet>
+				<p:column headerText="#{msg['remetente']}" styleClass="width70px text-upper">
+					<h:outputText value="#{msgs.mensagem.titulo}" />
+				</p:column>
+				<p:column headerText="#{msg['assunto']}" styleClass="width200px">
+					<h:outputText value="#{msgs.mensagem.mensagem}"  />
+				</p:column>
+				<p:column headerText="#{msg['data']}" styleClass="width50px">
+					<h:outputText value="#{msgs.mensagem.dataCadastro}" >
+					 	<f:convertDateTime pattern="dd/MM/yyyy"/>
+					</h:outputText>
+				</p:column>
+				<p:column headerText="#{msg['lida']}" styleClass="width15px #{empty msgs.dataLeitura ? 'color-red' : 'color-green'}">
+					<h:outputText value="#{empty msgs.dataLeitura ? 'Não lido' : 'Lido'}"  />
+				</p:column>
+				<p:column headerText="#{msg['acoes']}" styleClass="width10px">
+					<p:commandButton styleClass="btn btn-default" icon="fa fa-search" action="#{indexBean.visualizarMensagem}" title="Visualizar Mensagem" >
+						<f:setPropertyActionListener value="#{msgs}" target="#{indexBean.mensagem}"></f:setPropertyActionListener>
+					</p:commandButton>
+				</p:column>
+
+			</p:dataTable>
+			</div>
+			
+			<p:dialog id="idMensagem" widgetVar="wvMensagem"  draggable="false" modal="true" height="50%"
+			styleClass="fix-dialog-iptu" closeOnEscape="true" header="#{msg['mensagem']}" >
+			 <p:ajax event="close" update="@form" />
+				<div class="scroll-lateral-responsivo">
+					<p:panelGrid columns="1" layout="grid">
+						<h:outputLabel value="#{msg['remetente']}: #{indexBean.mensagem.usuario.nome}" />
+						<h:outputLabel value="#{msg['assunto']}" />
+						<h:inputText value="#{indexBean.mensagem.mensagem.titulo}" readonly="true" />
+						<h:outputLabel value="#{msg['mensagem']}" />
+						<h:inputTextarea value="#{indexBean.mensagem.mensagem.mensagem}" readonly="true" style="width:100%; height: 300px" />
+					</p:panelGrid>
+				</div>		
+			</p:dialog>	
+			
+	
+		<f:metadata>
+			<f:event listener="#{conversationBean.end}" type="preRenderView" />
+		</f:metadata>
+	</ui:decorate>
+	</ui:define>
+
+</ui:composition>

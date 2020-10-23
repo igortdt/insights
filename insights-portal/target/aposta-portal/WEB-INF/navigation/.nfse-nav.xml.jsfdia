@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PROCESS model-entity="JSFProcess">
+ <PROCESS-ITEM NAME="rules:" SHAPE="32,17,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules::0" NAME="item" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="pesquisar_solicitacao_nfse::#app#UC0047SolicitacaoEmissaoNFSe#T0047L-solicitacao-nfse.xhtml"
+    NAME="output"
+    PATH="/app/UC0047SolicitacaoEmissaoNFSe/T0047L-solicitacao-nfse.xhtml"
+    TARGET="rules:#app#UC0047SolicitacaoEmissaoNFSe#T0047L-solicitacao-nfse.xhtml"
+    TITLE="pesquisar_solicitacao_nfse" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="nova_solicitacao_nfse::#app#UC0047SolicitacaoEmissaoNFSe#T0047C-solicitacao-nfse-form.xhtml"
+    NAME="output1"
+    PATH="/app/UC0047SolicitacaoEmissaoNFSe/T0047C-solicitacao-nfse-form.xhtml"
+    TARGET="rules:#app#UC0047SolicitacaoEmissaoNFSe#T0047C-solicitacao-nfse-form.xhtml"
+    TITLE="nova_solicitacao_nfse" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="detalhar_solicitacao_nfse::#app#UC0047SolicitacaoEmissaoNFSe#T0047C-solicitacao-nfse-detalhe.xhtml"
+    NAME="output2"
+    PATH="/app/UC0047SolicitacaoEmissaoNFSe/T0047C-solicitacao-nfse-detalhe.xhtml"
+    TARGET="rules:#app#UC0047SolicitacaoEmissaoNFSe#T0047C-solicitacao-nfse-detalhe.xhtml"
+    TITLE="detalhar_solicitacao_nfse" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="preparar_cancelamento_solicitacao_nfse::#app#UC0047SolicitacaoEmissaoNFSe#T0047C-solicitacao-nfse-cancelamento.xhtml"
+    NAME="output3"
+    PATH="/app/UC0047SolicitacaoEmissaoNFSe/T0047C-solicitacao-nfse-cancelamento.xhtml"
+    TARGET="rules:#app#UC0047SolicitacaoEmissaoNFSe#T0047C-solicitacao-nfse-cancelamento.xhtml"
+    TITLE="preparar_cancelamento_solicitacao_nfse" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="sucesso:#{cadastrarSolicitacaoNFSeBean.salvar}:#app#UC0047SolicitacaoEmissaoNFSe#T0047C-solicitacao-nfse-display.xhtml"
+    NAME="output4"
+    PATH="/app/UC0047SolicitacaoEmissaoNFSe/T0047C-solicitacao-nfse-display.xhtml"
+    TARGET="rules:#app#UC0047SolicitacaoEmissaoNFSe#T0047C-solicitacao-nfse-display.xhtml"
+    TITLE="#{cadastrarSolicitacaoNFSeBean.salvar}:sucesso" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="cancelar_nfse_escriturada_display::#app#UC0051EscrituracaoNotaTomadaPortal#T0051C-cancelar-nfse-escriturada-display.xhtml"
+    NAME="output5"
+    PATH="/app/UC0051EscrituracaoNotaTomadaPortal/T0051C-cancelar-nfse-escriturada-display.xhtml"
+    TARGET="rules:#app#UC0051EscrituracaoNotaTomadaPortal#T0051C-cancelar-nfse-escriturada-display.xhtml"
+    TITLE="cancelar_nfse_escriturada_display" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM
+  NAME="rules:#app#UC0047SolicitacaoEmissaoNFSe#T0047C-solicitacao-nfse-cancelamento.xhtml"
+  PATH="/app/UC0047SolicitacaoEmissaoNFSe/T0047C-solicitacao-nfse-cancelamento.xhtml"
+  SHAPE="304,497,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#app#UC0047SolicitacaoEmissaoNFSe#T0047L-solicitacao-nfse.xhtml"
+  PATH="/app/UC0047SolicitacaoEmissaoNFSe/T0047L-solicitacao-nfse.xhtml"
+  SHAPE="304,33,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#app#UC0047SolicitacaoEmissaoNFSe#T0047C-solicitacao-nfse-display.xhtml"
+  PATH="/app/UC0047SolicitacaoEmissaoNFSe/T0047C-solicitacao-nfse-display.xhtml"
+  SHAPE="304,609,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#app#UC0047SolicitacaoEmissaoNFSe#T0047C-solicitacao-nfse-detalhe.xhtml"
+  PATH="/app/UC0047SolicitacaoEmissaoNFSe/T0047C-solicitacao-nfse-detalhe.xhtml"
+  SHAPE="304,385,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#app#UC0047SolicitacaoEmissaoNFSe#T0047C-solicitacao-nfse-form.xhtml"
+  PATH="/app/UC0047SolicitacaoEmissaoNFSe/T0047C-solicitacao-nfse-form.xhtml"
+  SHAPE="304,273,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#app#UC0051EscrituracaoNotaTomadaPortal#T0051C-cancelar-nfse-escriturada-display.xhtml"
+  PATH="/app/UC0051EscrituracaoNotaTomadaPortal/T0051C-cancelar-nfse-escriturada-display.xhtml"
+  SHAPE="304,305,0,0" model-entity="JSFProcessGroup"/>
+</PROCESS>

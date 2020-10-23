@@ -1,0 +1,266 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template/master-template.xhtml">
+
+	<ui:define name="titulo_pagina">
+		<h:outputText value="#{msg['escriturar.competencia']}" />
+	</ui:define>
+
+	<ui:define name="breadcrumb">
+		<li><i class="fa fa-home"></i><p:link outcome="inicio" value=" #{msg['inicio']}" /></li>
+		<li><i class="fa fa-file-text"></i> #{msg['escriturar.competencia']}</li>
+	
+	</ui:define>
+
+	<!-- Alguns itens do formulario estao no arquivo formulario.xhtml -->
+	<!-- Por exemplo: bloquear formulario enquanto pesquisa e foco automatico ao carregar a pagina -->
+	<!-- A barra de ferramentas e a disposicao de seus botoes tambem esta no formulatio.xhtml -->
+
+	<ui:define name="conteudo">
+		<ui:decorate template="/WEB-INF/template/formulario.xhtml">
+
+
+			<!-- ********************************************* -->
+			<!-- BARRA DE FERRAMENTAS - BOTOES DO LADO DIREITO -->
+			<!-- ********************************************* -->
+			<ui:define name="toolbar-right">
+			<!-- 
+				<p:link id="optButton" styleClass="btn btn-default" onclick="return false;" 
+				rendered="#{escriturarCompetenciaPortalBean.livro.competencia != null and escriturarCompetenciaPortalBean.exibirBotaoVisualizar()}">
+					<i class="fa fa-bars"></i>#{msg['opcoes']}
+				</p:link>
+				
+				<p:menu overlay="true" trigger="optButton" my="right top" at="right bottom">
+					
+					<p:menuitem value="#{msg['visualizar']}" icon="fa fa-search" ajax="false" target="_blank"
+						rendered="#{escriturarCompetenciaPortalBean.primeiraAbaSelecionada()}"
+						action="#{escriturarCompetenciaPortalBean.visualizarLivroPrestador()}" />
+						
+					<p:menuitem value="#{msg['visualizar']}" icon="fa fa-search" ajax="false" target="_blank"
+						rendered="#{escriturarCompetenciaPortalBean.primeiraAbaSelecionada() == false}"
+						action="#{escriturarCompetenciaPortalBean.visualizarLivroTomador()}" />
+			
+				
+				</p:menu>
+			 -->
+				<!-- <p:commandLink id="btSubmit" action="#{escriturarCompetenciaPortalBean.pesquisar()}" update="@form"
+					styleClass="btn btn-success" process="@this #{!escriturarCompetenciaPortalBean.abaPrestadorSelecionada ? 'tvConsultas:tabDois' : 'tvConsultas:tabUm'}">
+					<i class="fa fa-search"></i>
+					#{msg['pesquisar']}
+				</p:commandLink> -->
+			</ui:define>
+
+			<br clear="all"/>
+			<br clear="all"/>
+
+			<!-- ******************************* -->
+			<!-- INICIO DOS CAMPOS DO FORMULARIO -->
+			<!-- ******************************* -->
+				
+			<p:tabView id="tvConsultas" activeIndex="#{escriturarCompetenciaPortalBean.activeIndex}">
+				<p:ajax event="tabChange" listener="#{escriturarCompetenciaPortalBean.onTabChange()}" update="@form"/>
+			
+				<!--######## PRIMEIRA ABA ##########################-->
+				<p:tab title="#{msg['prestador']}" id="tabUm">
+					<div class="panel panel-default">
+						<div id="panel-prestador" class="panel-body">
+							<h:panelGroup>
+	
+								<div class="fixo width90px">
+									<p:outputLabel for="anoPrestador" value="#{msg['ano']}" />
+									<p:selectOneMenu id="anoPrestador" value="#{escriturarCompetenciaPortalBean.ano}"  required="true">
+										<f:selectItems value="#{escriturarCompetenciaPortalBean.listaAnos}" var="ano" itemLabel="#{ano.label}" itemValue="#{ano.value}" />
+										<p:ajax event="change" update="tvConsultas" listener="#{escriturarCompetenciaPortalBean.onAnoPrestadorChange()}" />	
+									</p:selectOneMenu>
+								</div>
+							</h:panelGroup>
+								
+						</div>
+						
+						<div class="scroll-lateral-responsivo">
+							<p:dataTable value="#{escriturarCompetenciaPortalBean.listaEscrituracaoPrestador}" var="escrituracao"
+								emptyMessage="#{msg['sem.dados']}" styleClass="tabela-de-dados panel panel-default table-responsive"
+								paginator="true" rows="20" paginatorPosition="bottom" paginatorAlwaysVisible="false" lazy="true">
+								
+								<p:column headerText="#{msg['competencia']}">
+									<h:outputText value="#{escrituracao.nomeCompetencia}" /> 
+								</p:column>
+								
+								<p:column headerText="#{msg['data.escrituracao']}">
+									<h:outputText value="#{escrituracao.encerramentoCompetenciaPrestador.dataEncerramento}" rendered="#{escrituracao.encerramentoCompetenciaPrestador.dataEncerramento != null}" >
+										<f:convertDateTime pattern="dd/MM/yyyy"/>
+									</h:outputText> 
+								</p:column>
+								
+								<p:column headerText="#{msg['data.vencimento']}">
+									<h:outputText value="#{escrituracao.encerramentoCompetenciaPrestador.dataVencimento}" rendered="#{escrituracao.encerramentoCompetenciaPrestador.dataVencimento != null}" >
+										<f:convertDateTime pattern="dd/MM/yyyy"/>
+									</h:outputText> 
+								</p:column>
+								
+								
+								<p:column headerText="#{msg['situacao']}">
+									<h:outputText value="#{escrituracao.encerramentoCompetenciaPrestador.id == null ? msg['em.aberto'] : msg['encerrada'] } " /> 
+								</p:column>
+								
+								<p:column headerText="#{msg['valor.total.iss']}">
+									<h:outputText value="#{escrituracao.encerramentoCompetenciaPrestador.issRecolher}" 
+									converter="moneyConverter" styleClass="money"/> 
+								</p:column>
+								
+								<p:column headerText="#{msg['situacao.iss']}">
+									<!-- <h:outputText value="#{msg[consultarEscrituracaoCosifPortalBean.situacaoLancamentoPorEscrituracao(escrituracaoCOSIF)]}" /> -->
+									<h:outputText value="#{msg[escriturarCompetenciaPortalBean.lancamentoPorEsCrituracaoDeCompetencia(escrituracao)]}" />
+								</p:column>
+													
+								<p:column headerText="#{msg['acoes']}" styleClass="width50px">									
+									<p:commandButton id="optButton2" type="button" icon="ui-icon-gear" />
+									
+									<p:menu overlay="true" trigger="optButton2" my="right top" at="right bottom">
+										<p:menuitem value="#{msg['detalhar']}" icon="fa fa-search" ajax="false" target="_self"
+										rendered="#{escrituracao.encerramentoCompetenciaPrestador.id != null}" 
+										action="#{escriturarCompetenciaPortalBean.detalharEncerrarCompetenciaPrestador(escrituracao.competencia)}" />
+									
+										<p:menuitem value="#{msg['visualizar.declaracao']}" icon="fa fa-print" ajax="false" target="_blank"
+										rendered="#{escrituracao.encerramentoCompetenciaPrestador.id != null}"	
+										action="#{visualizarEscrituracaoCompetenciaBean.visualizarPrestador(escrituracao.encerramentoCompetenciaPrestador)}" />
+										
+										<p:menuitem value="#{msg['retificar']}" icon="ui-icon-pencil" ajax="false"
+											rendered="#{escriturarCompetenciaPortalBean.mostrarBotaoRetificar(escrituracao)}" 
+											action="#{retificarCompetenciaPortalBean.prepararRetificacaoPrestador(escrituracao.encerramentoCompetenciaPrestador)}" target="_self" />
+										
+										<p:menuitem value="#{msg['encerrar']}" icon="ui-icon-pencil" ajax="false" action="#{escriturarCompetenciaPortalBean.encerrarCompetenciaPrestador(escrituracao)}" 
+											rendered="#{escrituracao.encerramentoCompetenciaPrestador.id == null and escriturarCompetenciaPortalBean.podeEncerrar(escrituracao) }" target="_self"/>
+											
+										<p:menuitem value="#{msg['reemitir.dam']}" icon="fa fa-barcode" ajax="false" action="#{reemissaoEscrituracaoCompetenciaBean.prepararReemissao(escrituracao)}" 
+										rendered="#{reemissaoEscrituracaoCompetenciaBean.podeSerReemitidoDam(escrituracao)}" target="_self"/>
+										
+										<p:menuitem value="#{msg['segunda.via.dam']}" icon="fa fa-print" ajax="false"
+										action="#{visualizarDAMPortalBean.visualizar(escrituracao.dam, 1)}"
+										target="_blank" rendered="#{escrituracao.dam.situacaoDAM eq 'EMITIDO'}" />
+									</p:menu>
+									
+								</p:column> 
+								
+								
+							</p:dataTable>
+						</div>		
+					</div>						
+				</p:tab>		
+						
+				<!--######## SEGUNDA ABA ########################################-->
+				
+				<p:tab title="#{msg['tomador']}" id="tabDois">
+					<div class="panel panel-default">
+						<div id="panel-prestador" class="panel-body">
+							<h:panelGroup>
+	
+								<div class="fixo width90px">
+									<p:outputLabel for="anoTomador" value="#{msg['ano']}" />
+									<p:selectOneMenu id="anoTomador" value="#{escriturarCompetenciaPortalBean.ano}" required="true" 
+										filter="true" filterMatchMode="contains">
+										<f:selectItems value="#{escriturarCompetenciaPortalBean.listaAnos}" var="ano" itemLabel="#{ano.label}" itemValue="#{ano.value}" />
+										<p:ajax event="change" update="tvConsultas" listener="#{escriturarCompetenciaPortalBean.onAnoTomadorChange()}" />	
+									</p:selectOneMenu>
+									<!-- <p:inputMask id="anoTomador" mask="9999" value="#{escriturarCompetenciaPortalBean.ano}" required="true"
+										rendered="#{empty escriturarCompetenciaPortalBean.credenciamento}">
+										<p:ajax event="change" update="tvConsultas" listener="#{escriturarCompetenciaPortalBean.onAnoTomadorChange()}" />
+									</p:inputMask> -->
+								</div>
+							</h:panelGroup>
+								
+						</div>
+						
+						<div class="scroll-lateral-responsivo">
+							<p:dataTable value="#{escriturarCompetenciaPortalBean.listaEscrituracaoTomador}" var="escrituracao"
+								emptyMessage="#{msg['sem.dados']}" styleClass="tabela-de-dados panel panel-default table-responsive"
+								paginator="true" rows="20" paginatorPosition="bottom" paginatorAlwaysVisible="false" lazy="true">
+								
+								<p:column headerText="#{msg['competencia']}">
+									<h:outputText value="#{escrituracao.nomeCompetencia}" /> 
+								</p:column>
+								
+								<p:column headerText="#{msg['data.escrituracao']}">
+									<h:outputText value="#{escrituracao.encerramentoCompetenciaTomador.dataEncerramento}" rendered="#{escrituracao.encerramentoCompetenciaTomador.dataEncerramento != null}" >
+										<f:convertDateTime pattern="dd/MM/yyyy"/>
+									</h:outputText> 
+								</p:column>
+								
+								<p:column headerText="#{msg['data.vencimento']}">
+									<h:outputText value="#{escrituracao.encerramentoCompetenciaTomador.dataVencimento}" rendered="#{escrituracao.encerramentoCompetenciaTomador.dataVencimento != null}" >
+										<f:convertDateTime pattern="dd/MM/yyyy"/>
+									</h:outputText> 
+								</p:column>
+								
+								
+								<p:column headerText="#{msg['situacao']}">
+									<h:outputText value="#{escrituracao.encerramentoCompetenciaTomador.id == null ? msg['em.aberto'] : msg['encerrada'] } " /> 
+								</p:column>
+								
+								<p:column headerText="#{msg['valor.total.iss']}">
+									<h:outputText value="#{escrituracao.encerramentoCompetenciaTomador.issRecolher}" 
+									converter="moneyConverter" styleClass="money"/> 
+								</p:column>
+								
+								<p:column headerText="#{msg['situacao.iss']}">
+									<!-- <h:outputText value="#{msg[consultarEscrituracaoCosifPortalBean.situacaoLancamentoPorEscrituracao(escrituracaoCOSIF)]}" /> -->
+									<h:outputText value="#{msg[escriturarCompetenciaPortalBean.lancamentoPorEsCrituracaoDeCompetencia(escrituracao)]}" />
+								</p:column>
+							
+								
+								<p:column headerText="#{msg['acoes']}" styleClass="width50px">									
+									<p:commandButton id="optButton2" type="button" icon="ui-icon-gear" />
+									
+									<p:menu overlay="true" trigger="optButton2" my="right top" at="right bottom">
+										<p:menuitem value="#{msg['detalhar']}" icon="fa fa-search" ajax="false"
+											rendered="#{escrituracao.encerramentoCompetenciaTomador.id != null}" target="_self"
+											action="#{escriturarCompetenciaPortalBean.detalharEncerrarCompetenciaTomador(escrituracao.competencia)}" />
+										
+										<p:menuitem value="#{msg['visualizar.declaracao']}" icon="fa fa-print" ajax="false" target="_blank"
+										rendered="#{escrituracao.encerramentoCompetenciaTomador.id != null}"	
+										action="#{visualizarEscrituracaoCompetenciaBean.visualizarTomador(escrituracao.encerramentoCompetenciaTomador)}" />
+										
+										<p:menuitem value="#{msg['detalhe.iss.retido']}" icon="fa fa-print" ajax="false" target="_self"
+										rendered="#{escrituracao.encerramentoCompetenciaTomador.id != null}"	
+										action="#{detalheDeclaracaoRetencaoIssBean.prepararDetalhe(escrituracao.encerramentoCompetenciaTomador)}" />
+
+										<!-- rendered="#{escrituracao.encerramentoCompetenciaTomador.id != null}" target="_self" -->
+										<p:menuitem value="#{msg['retificar']}" icon="ui-icon-pencil" ajax="false"
+											rendered="#{escriturarCompetenciaPortalBean.mostrarBotaoRetificarTomador(escrituracao.encerramentoCompetenciaTomador)}" target="_self"
+											action="#{retificarCompetenciaPortalBean.prepararRetificacaoTomador(escrituracao.encerramentoCompetenciaTomador)}" />
+										
+										<p:menuitem value="#{msg['encerrar']}" icon="ui-icon-pencil" ajax="false" 
+											action="#{escriturarCompetenciaPortalBean.encerrarCompetenciaTomador(escrituracao)}"  target="_self"
+											rendered="#{escrituracao.encerramentoCompetenciaTomador.id == null and escriturarCompetenciaPortalBean.podeEncerrar(escrituracao) }"/>
+										
+										<p:menuitem value="#{msg['reemitir.dam']}" icon="fa fa-barcode" ajax="false" action="#{reemissaoEscrituracaoCompetenciaBean.prepararReemissao(escrituracao)}" 
+										rendered="#{reemissaoEscrituracaoCompetenciaBean.podeSerReemitidoDam(escrituracao)}" target="_self"/>
+									
+									</p:menu>
+									
+								</p:column> 
+								
+							</p:dataTable>
+						</div>		
+					</div>
+				</p:tab>
+			</p:tabView>
+	
+
+			<br clear="all"/>
+
+
+			<p:blockUI widgetVar="block" block="@form" trigger="tvConsultas:anoPrestador, tvConsultas:anoTomador">
+				<i class="fa fa-spin fa-circle-o-notch"></i>
+				<span class="m-left-xs">#{msg['aguarde']}</span>
+			</p:blockUI>
+
+		</ui:decorate>
+	</ui:define>
+
+</ui:composition>

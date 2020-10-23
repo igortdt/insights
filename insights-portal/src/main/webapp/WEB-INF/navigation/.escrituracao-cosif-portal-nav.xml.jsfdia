@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PROCESS model-entity="JSFProcess">
+ <PROCESS-ITEM NAME="rules:" SHAPE="32,17,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules::0" NAME="item" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="pesquisar_escrituracao_cosif_portal::#app#UC0046EscrituracaoCosifPortal#T0046L-escrituracao-cosif-portal.xhtml"
+    NAME="output"
+    PATH="/app/UC0046EscrituracaoCosifPortal/T0046L-escrituracao-cosif-portal.xhtml"
+    TARGET="rules:#app#UC0046EscrituracaoCosifPortal#T0046L-escrituracao-cosif-portal.xhtml"
+    TITLE="pesquisar_escrituracao_cosif_portal" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="sucesso:#{escrituracaoCosifPortalBean.confirmaEscrituracao}:#app#UC0046EscrituracaoCosifPortal#T0046C-escrituracao-cosif-display-portal.xhtml"
+    NAME="output1"
+    PATH="/app/UC0046EscrituracaoCosifPortal/T0046C-escrituracao-cosif-display-portal.xhtml"
+    TARGET="rules:#app#UC0046EscrituracaoCosifPortal#T0046C-escrituracao-cosif-display-portal.xhtml"
+    TITLE="#{escrituracaoCosifPortalBean.confirmaEscrituracao}:sucesso" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="sucesso:#{retificarEscrituracaoCOSIFPortalBean.confirmarRetificacao}:#app#UC0046EscrituracaoCosifPortal#T0046C-escrituracao-cosif-form-portal.xhtml"
+    NAME="output2"
+    PATH="/app/UC0046EscrituracaoCosifPortal/T0046C-escrituracao-cosif-form-portal.xhtml"
+    TARGET="rules:#app#UC0046EscrituracaoCosifPortal#T0046C-escrituracao-cosif-form-portal.xhtml"
+    TITLE="#{retificarEscrituracaoCOSIFPortalBean.confirmarRetificacao}:sucesso" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM
+  NAME="rules:#app#UC0046EscrituracaoCosifPortal#T0046L-escrituracao-cosif-portal.xhtml"
+  PATH="/app/UC0046EscrituracaoCosifPortal/T0046L-escrituracao-cosif-portal.xhtml"
+  SHAPE="240,33,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#app#UC0046EscrituracaoCosifPortal#T0046C-escrituracao-cosif-display-portal.xhtml"
+  PATH="/app/UC0046EscrituracaoCosifPortal/T0046C-escrituracao-cosif-display-portal.xhtml"
+  SHAPE="256,177,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#app#UC0046EscrituracaoCosifPortal#T0046C-escrituracao-cosif-form-portal.xhtml"
+  PATH="/app/UC0046EscrituracaoCosifPortal/T0046C-escrituracao-cosif-form-portal.xhtml"
+  SHAPE="272,321,0,0" model-entity="JSFProcessGroup"/>
+</PROCESS>

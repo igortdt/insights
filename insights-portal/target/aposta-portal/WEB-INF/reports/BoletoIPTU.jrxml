@@ -1,0 +1,717 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.0.1.final using JasperReports Library version 6.0.0  -->
+<!-- 2017-07-12T09:29:29 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="BoletoIPTU" pageWidth="595" pageHeight="842" columnWidth="575" leftMargin="10" rightMargin="10" topMargin="10" bottomMargin="10" uuid="8c504b7b-622e-4efc-9295-8c5282cbc42b">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<parameter name="prefeitura" class="java.lang.String"/>
+	<parameter name="orgao" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+	</parameter>
+	<parameter name="path_img" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+	</parameter>
+	<parameter name="parcelas" class="java.lang.Integer"/>
+	<parameter name="path_dams_iptu" class="java.lang.String"/>
+	<parameter name="telefone" class="java.lang.String"/>
+	<parameter name="dataVencimento" class="java.util.Date"/>
+	<parameter name="exibeCodigoBarra" class="java.lang.Boolean"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="dams" class="java.util.List">
+		<fieldDescription><![CDATA[dams]]></fieldDescription>
+	</field>
+	<field name="iptu" class="br.com.juremal.insights.entity.IPTU">
+		<fieldDescription><![CDATA[iptu]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="158" splitType="Stretch">
+			<property name="local_mesure_unitheight" value="pixel"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<image scaleImage="FillFrame" hAlign="Center" vAlign="Middle">
+				<reportElement x="1" y="1" width="57" height="45" uuid="105ea61d-c8db-4af1-b0b4-cea0e8c4d296"/>
+				<imageExpression><![CDATA[$P{path_img}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="59" y="4" width="514" height="11" uuid="6da84750-4ec4-4ba6-bb75-922c1cad4eb7">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="SansSerif" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{prefeitura}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="59" y="15" width="514" height="11" uuid="22d0b794-34c3-4682-968a-482fe7237c86">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{orgao}.toUpperCase()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="59" y="31" width="216" height="12" uuid="db73ef7a-60d0-469f-98ad-6d7cf2dcd5cf">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[IMPOSTO PREDIAL E TERRITORIAL URBANO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="413" y="28" width="160" height="18" uuid="49a284f7-015e-47b7-b423-7e6515edaa71"/>
+				<textElement textAlignment="Right" verticalAlignment="Bottom">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[VIA DO CONTRIBUINTE]]></text>
+			</staticText>
+			<frame>
+				<reportElement x="0" y="48" width="400" height="18" uuid="c21cafe1-acd2-4c88-bc19-9060132f1acf">
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<staticText>
+					<reportElement x="0" y="0" width="179" height="8" uuid="846d40fb-47de-4dfe-a232-49a244ec7dec">
+						<property name="local_mesure_unitx" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+						<property name="local_mesure_unity" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="local_mesure_unitheight" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement>
+						<font size="6.5" isBold="true"/>
+						<paragraph leftIndent="3"/>
+					</textElement>
+					<text><![CDATA[NOME DO CONTRIBUINTE]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="0" y="8" width="400" height="10" uuid="fbeb3c47-cd42-406d-b219-4d4beb002116">
+						<property name="local_mesure_unitwidth" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="local_mesure_unitx" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+						<property name="local_mesure_unity" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="local_mesure_unitheight" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement verticalAlignment="Top">
+						<font size="7"/>
+						<paragraph leftIndent="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{iptu}.getCalculoIPTU() == null ? " - " : $F{iptu}.getCalculoIPTU().getNomeProprietarioImovel() == null || $F{iptu}.getCalculoIPTU().getNomeProprietarioImovel().isEmpty() ? " - " : $F{iptu}.getCalculoIPTU().getNomeProprietarioImovel().toUpperCase()]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement x="400" y="48" width="70" height="18" uuid="0a4e3b76-3705-4324-ab96-2eaf7145ebfe">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<staticText>
+					<reportElement x="0" y="0" width="60" height="8" uuid="8bbdf174-9c21-4a47-98bb-c9f3f9184c03">
+						<property name="local_mesure_unitheight" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement>
+						<font size="6.5" isBold="true"/>
+						<paragraph leftIndent="3"/>
+					</textElement>
+					<text><![CDATA[EXERCÍCIO]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="0" y="8" width="70" height="10" uuid="e26aab0f-af29-4a84-a66f-38f17a74ecee">
+						<property name="local_mesure_unity" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="local_mesure_unitheight" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Center" verticalAlignment="Top">
+						<font size="7"/>
+						<paragraph leftIndent="0"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{iptu}.getExercicio() == null ? " - " : $F{iptu}.getExercicio()]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement x="470" y="48" width="105" height="18" uuid="708825b6-1abb-4277-bcc0-4a3724365c52">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<staticText>
+					<reportElement x="0" y="0" width="100" height="8" uuid="5dca642e-6890-40f5-a8d5-d153c086482b">
+						<property name="local_mesure_unitheight" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement>
+						<font size="6.5" isBold="true"/>
+						<paragraph leftIndent="3"/>
+					</textElement>
+					<text><![CDATA[INSCRIÇÃO IPTU]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="0" y="8" width="105" height="10" uuid="295eab3f-c9a2-4cd7-aa65-84a816c95c01">
+						<property name="local_mesure_unity" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="local_mesure_unitheight" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Right" verticalAlignment="Top">
+						<font size="7"/>
+						<paragraph leftIndent="0" rightIndent="15"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{iptu}.getCalculoIPTU() == null ? " - " : $F{iptu}.getCalculoIPTU().getInscricaoImovel() == null ? " - " : $F{iptu}.getCalculoIPTU().getInscricaoImovel()]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement x="0" y="66" width="575" height="18" uuid="b10c4143-d174-4326-b455-8fa424229dbc">
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<staticText>
+					<reportElement x="0" y="0" width="179" height="8" uuid="93784684-946f-4c37-9c78-9cb2fae3e352">
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="local_mesure_unitheight" value="pixel"/>
+					</reportElement>
+					<textElement>
+						<font size="6.5" isBold="true"/>
+						<paragraph leftIndent="3"/>
+					</textElement>
+					<text><![CDATA[ENDEREÇO DO CONTRIBUINTE]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="0" y="8" width="575" height="10" uuid="ddb7b7cd-c5f0-4e51-ab2e-2fca3e461021">
+						<property name="local_mesure_unitheight" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="local_mesure_unitx" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+						<property name="local_mesure_unitwidth" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="local_mesure_unity" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					</reportElement>
+					<textElement verticalAlignment="Top">
+						<font size="7"/>
+						<paragraph leftIndent="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{iptu}.getCalculoIPTU() == null ? " - " : $F{iptu}.getCalculoIPTU().getEnderecoNotificacaoImovel() == null || $F{iptu}.getCalculoIPTU().getEnderecoNotificacaoImovel().isEmpty() ? " - " : $F{iptu}.getCalculoIPTU().getEnderecoNotificacaoImovel().toUpperCase()]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement x="0" y="84" width="575" height="18" uuid="cf07e33d-6d07-40ca-877f-fa64fd17d2c2">
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<staticText>
+					<reportElement x="0" y="0" width="179" height="8" uuid="4e0cad95-9fb5-47fd-b437-ddee6303fca8">
+						<property name="local_mesure_unitx" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+						<property name="local_mesure_unity" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="local_mesure_unitheight" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement>
+						<font size="6.5" isBold="true"/>
+						<paragraph leftIndent="3"/>
+					</textElement>
+					<text><![CDATA[ENDEREÇO DO IMÓVEL]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="0" y="8" width="575" height="10" uuid="03440c57-5cc1-4a1e-abaf-1cf07b1bf64c">
+						<property name="local_mesure_unitx" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+						<property name="local_mesure_unity" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="local_mesure_unitheight" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="local_mesure_unitwidth" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<textElement verticalAlignment="Top">
+						<font size="7"/>
+						<paragraph leftIndent="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{iptu}.getImovel() == null ? " - " : $F{iptu}.getImovel().getEnderecoLocalizacao() == null || $F{iptu}.getImovel().getEnderecoLocalizacao().isEmpty() ? " - " : $F{iptu}.getImovel().getEnderecoLocalizacao().toString().toUpperCase()]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement x="0" y="102" width="125" height="18" uuid="9104e378-35ad-4f96-9b13-1c3000782513">
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<staticText>
+					<reportElement x="0" y="0" width="124" height="8" uuid="79f1a15c-c7ae-4cb6-ae27-c1fcf5510964">
+						<property name="local_mesure_unitx" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+						<property name="local_mesure_unity" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="local_mesure_unitheight" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="local_mesure_unitwidth" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<textElement>
+						<font size="6.5" isBold="true"/>
+						<paragraph leftIndent="3"/>
+					</textElement>
+					<text><![CDATA[LOCALIZAÇÃO CARTOGRÁFICA]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="0" y="8" width="125" height="10" uuid="b58ee348-6ea9-425e-aebd-a82e75843836">
+						<property name="local_mesure_unitx" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+						<property name="local_mesure_unity" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="local_mesure_unitheight" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="local_mesure_unitwidth" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<textElement verticalAlignment="Top">
+						<font size="7"/>
+						<paragraph leftIndent="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{iptu}.getCalculoIPTU() == null ? " - " : $F{iptu}.getCalculoIPTU().getEnderecoCartograficoImovel() == null || $F{iptu}.getCalculoIPTU().getEnderecoCartograficoImovel().isEmpty() ? " - " : new br.com.juremal.insights.util.CartografiaFormat().format($F{iptu}.getCalculoIPTU().getEnderecoCartograficoImovel())]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement x="125" y="102" width="80" height="18" uuid="ede5abc5-2bec-434a-9af9-a7edf85396f7">
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<staticText>
+					<reportElement x="0" y="0" width="80" height="8" uuid="04587ffe-eb5b-4c93-9393-08911fa170e7">
+						<property name="local_mesure_unitx" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+						<property name="local_mesure_unity" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="local_mesure_unitheight" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="local_mesure_unitwidth" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<textElement>
+						<font size="6.5" isBold="true"/>
+						<paragraph leftIndent="3"/>
+					</textElement>
+					<text><![CDATA[VALOR DO IMÓVEL]]></text>
+				</staticText>
+				<textField pattern="¤ #,##0.00;¤ -#,##0.00">
+					<reportElement x="0" y="8" width="80" height="10" uuid="6f703b26-906a-4230-b5ee-149e41e0ceba">
+						<property name="local_mesure_unitx" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+						<property name="local_mesure_unity" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="local_mesure_unitheight" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="local_mesure_unitwidth" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<textElement>
+						<font size="7"/>
+						<paragraph leftIndent="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{iptu}.getCalculoIPTU().getValorVenalImovel()]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement x="205" y="102" width="70" height="18" uuid="fcf5c871-71bc-419e-b14c-8fd1b3369d9a">
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<staticText>
+					<reportElement x="0" y="0" width="60" height="8" uuid="8bea1bd2-68a6-465e-9d0b-eb3083795794">
+						<property name="local_mesure_unitx" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+						<property name="local_mesure_unity" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="local_mesure_unitheight" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="local_mesure_unitwidth" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<textElement>
+						<font size="6.5" isBold="true"/>
+						<paragraph leftIndent="3"/>
+					</textElement>
+					<text><![CDATA[ALÍQUOTA (%)]]></text>
+				</staticText>
+				<textField pattern="#,##0.###">
+					<reportElement x="0" y="8" width="70" height="10" uuid="e6b0078c-290b-4fe2-a6d6-5cf70c5c1a8c">
+						<property name="local_mesure_unitx" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+						<property name="local_mesure_unity" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="local_mesure_unitwidth" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="local_mesure_unitheight" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement>
+						<font size="7"/>
+						<paragraph leftIndent="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{iptu}.getCalculoIPTU().getAliquotaIptu()]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement x="275" y="102" width="90" height="18" uuid="d3702dea-47d6-418a-af4c-835ece0adc5a">
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<staticText>
+					<reportElement x="0" y="0" width="90" height="8" uuid="ac9d1e33-dae8-4775-9a88-3846bbfd0890">
+						<property name="local_mesure_unitx" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+						<property name="local_mesure_unity" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="local_mesure_unitheight" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="local_mesure_unitwidth" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<textElement>
+						<font size="6.5" isBold="true"/>
+						<paragraph leftIndent="3"/>
+					</textElement>
+					<text><![CDATA[VALOR TOTAL DO IPTU]]></text>
+				</staticText>
+				<textField pattern="¤ #,##0.00;¤ -#,##0.00">
+					<reportElement x="0" y="8" width="90" height="10" uuid="d5b01cee-4327-41e6-98da-e847bd36f12e">
+						<property name="local_mesure_unitx" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+						<property name="local_mesure_unity" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="local_mesure_unitheight" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="local_mesure_unitwidth" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<textElement>
+						<font size="7"/>
+						<paragraph leftIndent="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{iptu}.getCalculoIPTU().getValorIptu()]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement x="365" y="102" width="105" height="18" uuid="2c565c23-cabd-4cf9-902a-d9c61d7327fb">
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<staticText>
+					<reportElement x="0" y="0" width="105" height="8" uuid="a1f0492f-70e7-43b7-93ef-4b80315b5d59">
+						<property name="local_mesure_unitx" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+						<property name="local_mesure_unity" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="local_mesure_unitwidth" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="local_mesure_unitheight" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement>
+						<font size="6.5" isBold="true"/>
+						<paragraph leftIndent="3"/>
+					</textElement>
+					<text><![CDATA[COTA ÚNICA COM DESCONTO]]></text>
+				</staticText>
+				<textField pattern="¤ #,##0.00;¤ -#,##0.00">
+					<reportElement x="0" y="8" width="105" height="10" uuid="6921d7b5-2171-40d1-ab05-2e43ac2b87c9">
+						<property name="local_mesure_unitx" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+						<property name="local_mesure_unity" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="local_mesure_unitheight" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="local_mesure_unitwidth" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<textElement>
+						<font size="7"/>
+						<paragraph leftIndent="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{iptu}.getDescontoCotaUnica() != null ? $F{iptu}.getCalculoIPTU().getValorIptu().subtract(($F{iptu}.getCalculoIPTU().getValorIptu().multiply($F{iptu}.getDescontoCotaUnica()).divide(new java.math.BigDecimal(100)))) : $F{iptu}.getCalculoIPTU().getValorIptu()]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement x="470" y="102" width="105" height="18" uuid="0a595cdd-258a-45c3-8896-e0edb92f3608">
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<staticText>
+					<reportElement x="0" y="0" width="80" height="8" uuid="f4d25784-cbdc-4e2a-a3e0-cef4fadc4bfa">
+						<property name="local_mesure_unitx" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+						<property name="local_mesure_unity" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="local_mesure_unitheight" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+						<property name="local_mesure_unitwidth" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					</reportElement>
+					<textElement>
+						<font size="6.5" isBold="true"/>
+						<paragraph leftIndent="3"/>
+					</textElement>
+					<text><![CDATA[TOTAL PARCELADO]]></text>
+				</staticText>
+				<textField pattern="¤ #,##0.00;¤ -#,##0.00">
+					<reportElement x="0" y="8" width="105" height="10" uuid="453659ee-c4d5-4a8d-853b-704d0866c4c2">
+						<property name="local_mesure_unitx" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+						<property name="local_mesure_unity" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="local_mesure_unitwidth" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="local_mesure_unitheight" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement>
+						<font size="7"/>
+						<paragraph leftIndent="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{iptu}.getCalculoIPTU().getValorIptu()]]></textFieldExpression>
+				</textField>
+			</frame>
+			<frame>
+				<reportElement x="0" y="120" width="575" height="35" uuid="77ff9efd-4041-4eb9-a4a6-24bff5beeb94">
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.5"/>
+					<leftPen lineWidth="0.5"/>
+					<bottomPen lineWidth="0.5"/>
+					<rightPen lineWidth="0.5"/>
+				</box>
+				<staticText>
+					<reportElement x="0" y="0" width="100" height="8" uuid="eb86228b-d443-4f5a-b7c6-28dd64ed63ab">
+						<property name="local_mesure_unitx" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+						<property name="local_mesure_unity" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="local_mesure_unitheight" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement>
+						<font size="6.5" isBold="true"/>
+						<paragraph leftIndent="3"/>
+					</textElement>
+					<text><![CDATA[INSTRUÇÕES DE COBRANÇA]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="0" y="8" width="575" height="27" uuid="7e6ab115-7eac-4d9b-921e-653ba2e04f1d">
+						<property name="local_mesure_unitx" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+						<property name="local_mesure_unity" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="local_mesure_unitwidth" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="local_mesure_unitheight" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement>
+						<font size="7"/>
+						<paragraph leftIndent="7"/>
+					</textElement>
+					<textFieldExpression><![CDATA[($F{iptu}.getDescontoCotaUnica() != null && $F{iptu}.getDescontoCotaUnica().doubleValue() > 0.0 ? "- PAGUE SEU IPTU ATÉ "+ new java.text.SimpleDateFormat("dd/MM/yyyy").format($P{dataVencimento})+" E GANHE " + new java.text.DecimalFormat("#,##0.00;-#,##0.00").format($F{iptu}.getDescontoCotaUnica().doubleValue()) + "% DE DESCONTO.\n" : "") +
+"- EM CASO DE QUALQUER DÚVIDA OU ERRO NA IDENTIFICAÇÃO DO IMÓVEL OU DO PROPRIETÁRIO, PROCURE O DEPARTAMENTO DE TRIBUTAÇÃO E FISCALIZAÇÃO IMEDIATAMENTE OU LIGUE PARA "+
+new br.com.juremal.insights.util.TelefoneFormat().format($P{telefone})
++
+"."]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="123" splitType="Stretch">
+			<property name="local_mesure_unitheight" value="pixel"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<subreport>
+				<reportElement x="0" y="0" width="575" height="123" uuid="1f079200-00fe-41c3-952d-9e145295cf44">
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<subreportParameter name="path_img">
+					<subreportParameterExpression><![CDATA[$P{path_img}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="prefeitura">
+					<subreportParameterExpression><![CDATA[$P{prefeitura}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="orgao">
+					<subreportParameterExpression><![CDATA[$P{orgao}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="desconto">
+					<subreportParameterExpression><![CDATA[$F{iptu}.getDescontoCotaUnica()]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="parcelas">
+					<subreportParameterExpression><![CDATA[$P{parcelas}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="exibeCodigoBarra">
+					<subreportParameterExpression><![CDATA[$P{exibeCodigoBarra}]]></subreportParameterExpression>
+				</subreportParameter>
+				<dataSourceExpression><![CDATA[new net.sf.jasperreports.engine.data.JRBeanArrayDataSource($F{dams}.toArray())]]></dataSourceExpression>
+				<subreportExpression><![CDATA[$P{path_dams_iptu}]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

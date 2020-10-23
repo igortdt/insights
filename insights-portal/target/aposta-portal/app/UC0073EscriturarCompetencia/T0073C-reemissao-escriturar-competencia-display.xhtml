@@ -1,0 +1,273 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template/master-template.xhtml">
+
+	<ui:define name="titulo_pagina">
+			<h:outputText value="#{msg['reemissao.escrituracao.competencia']}" />
+	</ui:define>
+
+	<ui:define name="breadcrumb">
+		<li><i class="fa fa-home"></i><p:link outcome="inicio" value=" #{msg['escriturar.competencia']}" /></li>
+		<!-- <li><i class="fa fa-money"></i> #{msg['tributos']}</li>
+		<li>#{msg['iss']}</li> -->
+		<li class="active">#{msg['escriturar.competencia.prestador']}</li>
+	</ui:define>
+
+	<!-- Alguns itens do formulario estao no arquivo display.xhtml -->
+	<!-- A barra de ferramentas e a disposicao de seus botoes tambem esta no display.xhtml -->
+
+	<ui:define name="conteudo">
+		<ui:decorate template="/WEB-INF/template/display.xhtml">
+
+			<!-- ********************************************** -->
+			<!-- BARRA DE FERRAMENTAS - BOTOES DO LADO ESQUERDO -->
+			<!-- ********************************************** -->
+			<ui:define name="toolbar-left">
+				<p:link outcome="escriturar_competencia"
+					styleClass="btn btn-danger">
+					<i class="fa fa-reply"></i>
+					#{msg['voltar']}
+				</p:link>
+			</ui:define>
+
+			<!-- ********************************************* -->
+			<!-- BARRA DE FERRAMENTAS - BOTOES DO LADO DIREITO -->
+			<!-- ********************************************* -->
+			
+			<ui:define name="toolbar-right">
+
+			</ui:define>
+
+			
+			
+			<br clear="all"/>
+			<br clear="all"/>
+
+			<!-- ******************************* -->
+			<!-- INICIO DOS CAMPOS DO FORMULARIO -->
+			<!-- ******************************* -->
+			<div class="panel panel-default">
+				<div class="panel-heading">#{msg['dados.competencia']}</div>
+				<div class="panel-body">
+					<p:panelGrid columns="1" layout="grid" id="form-autorizacao" styleClass="form-panel">
+						
+						<h:panelGroup>
+							
+							<div class="fixo width150px bg-calendario">
+								<p:outputLabel value="#{msg['data.encerramento']}" />
+								<h:outputText value="#{reemissaoEscrituracaoCompetenciaBean.encerramentoCompetencia.dataEncerramento}">
+									<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-3" />
+								</h:outputText>
+					
+							</div>
+					
+						</h:panelGroup>
+						
+						<h:panelGroup>
+							
+							<div class="fixo width90px">
+								<p:outputLabel id="compentenciaLabel"
+									value="#{msg['competencia']}" />
+									
+									<br clear="all"/>
+									
+								<p:outputLabel mask="99/9999"
+									value="#{reemissaoEscrituracaoCompetenciaBean.encerramentoCompetencia.competencia}"
+									converter="competenciaConverter" />
+							</div>
+							
+							<div class="fixo width150px bg-calendario">
+								<p:outputLabel value="#{msg['data.vencimento']}" />
+								<h:outputText value="#{reemissaoEscrituracaoCompetenciaBean.lancamento.parcelas.get(0).dataVencimento}" id="dataVencimento">
+									<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-3" />
+								</h:outputText>
+					
+							</div>
+						
+						</h:panelGroup>
+						
+						<h:panelGroup>
+							<div class="fixo width150px">
+								<p:outputLabel value="#{msg['cpf']}" rendered="#{reemissaoEscrituracaoCompetenciaBean.encerramentoCompetencia.pessoaFisica}"/>
+								<p:outputLabel value="#{msg['cnpj']}" rendered="#{reemissaoEscrituracaoCompetenciaBean.encerramentoCompetencia.pessoaJuridica}"/>
+								<br clear="all"/>
+								<h:outputText value="#{reemissaoEscrituracaoCompetenciaBean.encerramentoCompetencia.documentoPessoa}" converter="cpfCnpjConverter" />
+							</div>
+							<div class="fixo width250px">
+								<p:outputLabel value="#{msg['nome']}" rendered="#{reemissaoEscrituracaoCompetenciaBean.encerramentoCompetencia.pessoaFisica}"/>
+								<p:outputLabel value="#{msg['razao.social']}" rendered="#{reemissaoEscrituracaoCompetenciaBean.encerramentoCompetencia.pessoaFisica}"/>
+								<br clear="all"/>
+								<h:outputText value="#{reemissaoEscrituracaoCompetenciaBean.encerramentoCompetencia.descricaoPessoa}"/>
+							</div>
+						</h:panelGroup>
+						
+						
+						<h:panelGroup>
+							<div class="fixo width200px">
+								<p:outputLabel value="#{msg['qtd.nfse.emitidas']}"/>
+								<br clear="all"/>
+								<h:outputText value="#{reemissaoEscrituracaoCompetenciaBean.encerramentoCompetencia.quantidadeNfseEscriturado}" />
+							</div>
+							
+							<div class="fixo width200px">
+								<p:outputLabel value="#{msg['qtd.nfse.cancelada']}"/>
+								<br clear="all"/>
+								<h:outputText value="#{reemissaoEscrituracaoCompetenciaBean.encerramentoCompetencia.quantidadeNfseCancelado}" />
+							</div>
+							
+							<div class="fixo width150px bg-calendario">
+								<p:outputLabel value="#{msg['data.para.pagamento']}"  styleClass="width330px"/>
+								<h:outputText value="#{reemissaoEscrituracaoCompetenciaBean.dataPrevistaPagamento}" >
+									<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-3" />
+								</h:outputText>
+							</div>
+						
+						</h:panelGroup>
+						
+						
+						<h:panelGroup>
+
+							<div class="fixo width110px">
+								<p:outputLabel value="#{msg['total.emitido']}"/>
+								<br clear="all"/>
+								<h:outputText id="totalEmitido" value="#{reemissaoEscrituracaoCompetenciaBean.encerramentoCompetencia.totalEscriturado}" converter="moneyConverter"/>
+								
+							</div>
+							
+							<div class="fixo width110px">
+								<p:outputLabel value="#{msg['total.cancelado']}"/>
+								<br clear="all"/>
+								<h:outputText id="totalCancelado" value="#{reemissaoEscrituracaoCompetenciaBean.encerramentoCompetencia.totalCancelado}" converter="moneyConverter"/>
+							
+							</div>
+							
+							<div class="fixo width150px">
+								<p:outputLabel value="#{msg['total.base.calculo']}"/>
+								<br clear="all"/>
+								<h:outputText id="totalBaseCalculo" value="#{reemissaoEscrituracaoCompetenciaBean.encerramentoCompetencia.baseCalculo}" converter="moneyConverter"/>
+							
+							</div>
+							
+							<div class="fixo width115px">
+								<p:outputLabel value="#{msg['total.deducoes']}"/>
+								<br clear="all"/>
+								<h:outputText id="totalDeducoes" value="#{reemissaoEscrituracaoCompetenciaBean.encerramentoCompetencia.deducoes}" converter="moneyConverter"/>
+							
+							</div>
+							
+							<div class="fixo width150px">
+								<p:outputLabel value="#{msg['total.iss.recolher']}"/>
+								<br clear="all"/>
+								<h:outputText id="totalIssRecolher" value="#{reemissaoEscrituracaoCompetenciaBean.encerramentoCompetencia.issRecolher}" converter="moneyConverter"/>
+							
+							</div>
+
+							
+						</h:panelGroup>	
+												
+					</p:panelGrid>
+
+				</div>
+				
+			<h:panelGroup id="pgPagamento">
+				<p:dataTable value="#{reemissaoEscrituracaoCompetenciaBean.dams}" var="dam"
+					rendered="#{!empty reemissaoEscrituracaoCompetenciaBean.dams}"
+					styleClass="tabela-de-dados panel panel-default table-responsive">
+					<f:facet name="header">
+						#{msg['lista.dam.pagamento']}
+					</f:facet>
+					<p:column headerText="#{msg['correcao.monetaria']}">
+						<h:outputText value="#{dam.valorCorrecao}" converter="moneyConverter" />
+					</p:column>
+					<p:column headerText="#{msg['juros']}">
+						<h:outputText value="#{dam.valorJuros}" converter="moneyConverter" />
+					</p:column>
+					<p:column headerText="#{msg['multa']}">
+						<h:outputText value="#{dam.valorMulta}" converter="moneyConverter" />
+					</p:column>
+					<p:column headerText="#{msg['valor.total']}">
+						<h:outputText value="#{dam.valorTotal}" converter="moneyConverter" />
+					</p:column>
+					<p:column styleClass="width90px" headerText="#{msg['dam']}">
+							<p:commandButton styleClass="btn btn-default fix-botao-imprimir" icon="fa fa-barcode" iconPos="left" value="DAM" ajax="false"
+								rendered="#{dam.situacaoDAM eq 'EMITIDO'}" action="#{visualizarDAMBean.visualizar(dam, 1)}"
+								onclick="this.form.target='_blank';"
+								onmouseout="this.form.target='_self';" />
+					</p:column>
+				</p:dataTable>
+			</h:panelGroup>
+				
+				<br /><br />
+			<!-- 	<div class="panel-heading">#{msg['nfses.competencia']}</div>
+				<div class="panel-body">
+					<div class="scroll-lateral-responsivo">
+						<p:dataTable value="#{reemissaoEscrituracaoCompetenciaBean.registrosLivroPrestador}" var="livro" scrollable="true" scrollHeight="150"
+							emptyMessage="#{msg['sem.dados']}" styleClass="tabela-de-dados panel panel-default table-responsive"
+							paginator="true" rows="20" paginatorPosition="bottom" paginatorAlwaysVisible="false" lazy="true">
+							
+							<p:column headerText="#{msg['numero.nota']}">
+								<h:outputText value="#{livro.numeroNFSe}" /> 
+							</p:column>
+							
+							<p:column headerText="#{msg['data.emissao']}">
+								<h:outputText value="#{livro.dataHoraEmissao}" >
+									<f:convertDateTime pattern="dd/MM/yyyy"/>
+								</h:outputText> 
+							</p:column>
+							
+							<p:column headerText="#{msg['situacao']}">
+								<h:outputText value="#{msg[livro.situacaoNFSe]}" /> 
+							</p:column>
+							
+							<p:column headerText="#{msg['cpf.cnpj']}">
+								<h:outputText value="#{livro.cnpjTomador}" converter="cpfCnpjConverter"  rendered="#{livro.tipoPessoaTomador eq 'PESSOA_JURIDICA'}"/>
+								<h:outputText value="#{livro.cpfTomador}" converter="cpfCnpjConverter"  rendered="#{livro.tipoPessoaTomador eq 'PESSOA_FISICA'}"/>  
+							</p:column>
+							
+							<p:column headerText="#{msg['tomador']}">
+								<h:outputText value="#{livro.razaoSocialTomador}" rendered="#{livro.tipoPessoaTomador eq 'PESSOA_JURIDICA'}"/>
+								<h:outputText value="#{livro.nomeTomador}" rendered="#{livro.tipoPessoaTomador eq 'PESSOA_FISICA'}"/>  
+							</p:column>
+							
+							<p:column headerText="#{msg['valor']}">
+								<h:outputText value="#{livro.valorTotal}" converter="moneyConverter"/> 
+							</p:column>
+							
+							<p:column headerText="#{msg['deducoes']}">
+								<h:outputText value="#{livro.valorDeducoes}" converter="moneyConverter"/> 
+							</p:column>
+							
+							<p:column headerText="#{msg['base.calculo']}">
+								<h:outputText value="#{livro.valorBaseCalculo}" converter="moneyConverter"/> 
+							</p:column>
+							
+							<p:column headerText="#{msg['aliquota']}">
+								<h:outputText value="#{livro.aliquota}" converter="moneyConverter"/> 
+							</p:column>
+							
+							<p:column headerText="#{msg['valor.iss']}">
+								<h:outputText value="#{livro.valorISS}" converter="moneyConverter"/> 
+							</p:column>
+							
+							<p:column headerText="#{msg['iss.reter']}">
+								<h:outputText value="#{msg[livro.issRetidoPeloTomador]}" /> 
+							</p:column>
+							
+							
+						</p:dataTable>
+					</div>		
+				</div> -->
+				
+				
+				
+			</div> <!-- DADOS -->
+
+		</ui:decorate>
+	</ui:define>
+
+</ui:composition>

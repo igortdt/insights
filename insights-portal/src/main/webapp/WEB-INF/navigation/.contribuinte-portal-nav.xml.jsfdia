@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PROCESS model-entity="JSFProcess">
+ <PROCESS-ITEM NAME="rules:" SHAPE="32,17,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules::0" NAME="item" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="sucesso:#{cadastroEconomicoPortalBean.salvar}:#app#UC0044CadastroEconomicoPortal#T0044C-cadastro-economico-portal-display.xhtml"
+    NAME="output"
+    PATH="/app/UC0044CadastroEconomicoPortal/T0044C-cadastro-economico-portal-display.xhtml"
+    TARGET="rules:#app#UC0044CadastroEconomicoPortal#T0044C-cadastro-economico-portal-display.xhtml"
+    TITLE="#{cadastroEconomicoPortalBean.salvar}:sucesso" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="cadastro_economico::#app#UC0044CadastroEconomicoPortal#T0044C-cadastro-economico-portal-form.xhtml"
+    NAME="output1"
+    PATH="/app/UC0044CadastroEconomicoPortal/T0044C-cadastro-economico-portal-form.xhtml"
+    TARGET="rules:#app#UC0044CadastroEconomicoPortal#T0044C-cadastro-economico-portal-form.xhtml"
+    TITLE="cadastro_economico" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="editar_dados_economico::#app#UC0044CadastroEconomicoPortal#T0044C-cadastro-economico-edit.xhtml"
+    NAME="output2"
+    PATH="/app/UC0044CadastroEconomicoPortal/T0044C-cadastro-economico-edit.xhtml"
+    TARGET="rules:#app#UC0044CadastroEconomicoPortal#T0044C-cadastro-economico-edit.xhtml"
+    TITLE="editar_dados_economico" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM
+  NAME="rules:#app#UC0044CadastroEconomicoPortal#T0044C-cadastro-economico-portal-display.xhtml"
+  PATH="/app/UC0044CadastroEconomicoPortal/T0044C-cadastro-economico-portal-display.xhtml"
+  SHAPE="272,33,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#app#UC0044CadastroEconomicoPortal#T0044C-cadastro-economico-portal-form.xhtml"
+  PATH="/app/UC0044CadastroEconomicoPortal/T0044C-cadastro-economico-portal-form.xhtml"
+  SHAPE="256,177,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#app#UC0044CadastroEconomicoPortal#T0044C-cadastro-economico-edit.xhtml"
+  PATH="/app/UC0044CadastroEconomicoPortal/T0044C-cadastro-economico-edit.xhtml"
+  SHAPE="272,321,0,0" model-entity="JSFProcessGroup"/>
+</PROCESS>

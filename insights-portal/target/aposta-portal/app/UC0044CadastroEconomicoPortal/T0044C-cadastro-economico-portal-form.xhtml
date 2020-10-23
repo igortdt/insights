@@ -1,0 +1,690 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template/master-template.xhtml">
+
+	<!-- <h:head>
+		<h:outputStylesheet library="css" name="insights.css" />
+		<link href="#{request.contextPath}/theme/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+		<link href="#{request.contextPath}/theme/css/theme.css" rel="stylesheet" />
+		<link href="#{request.contextPath}/theme/css/colorbox/colorbox.css" rel="stylesheet" />
+	</h:head> -->
+
+	<ui:define name="titulo_pagina">
+		<h:outputText value="#{msg['cadastro.dados.economicos']}" />
+	</ui:define>
+
+	<ui:define name="breadcrumb">
+		<li><i class="fa fa-home"></i> #{msg['inicio']}</li>
+		<li><i class="fa fa-file-text"></i> #{msg['cadastros']}</li>
+		<li class="active">#{msg['dados.economicos']}</li>
+	</ui:define>
+
+	<!-- Alguns itens do formulario estao no arquivo formulario.xhtml -->
+	<!-- Por exemplo: bloquear formulario enquanto pesquisa e foco automatico ao carregar a pagina -->
+	<!-- A barra de ferramentas e a disposicao de seus botoes tambem esta no formulatio.xhtml -->
+
+	<ui:define name="conteudo">
+		<ui:decorate template="/WEB-INF/template/formulario.xhtml">
+
+			<!-- ********************************************** -->
+			<!-- BARRA DE FERRAMENTAS - BOTOES DO LADO ESQUERDO -->
+			<!-- ********************************************** -->
+			<ui:define name="toolbar-left">
+				<p:link onclick="PF('confirmBack').show();return false;"
+					styleClass="btn btn-danger">
+					<i class="fa fa-reply"></i>
+					#{msg['voltar']}
+				</p:link>
+				<p:dialog widgetVar="confirmBack" id="confirmBack" fitViewport="true" modal="true"
+					width="100%" closable="false" draggable="false" resizable="false" showEffect="fade"
+					closeOnEscape="true" hideEffect="fade" styleClass="modal-confirmacao">
+					<h:outputText value="#{msg['confirma.cancelamento.inclusao']}" styleClass="modal-confirmacao-texto" />
+					<div class="modal-confirmacao-botoes">
+						<p:button value="#{msg['sim']}" outcome="inicio" styleClass="modal-confirmacao-botao-verde" />
+						<p:commandButton value="#{msg['nao']}" type="button" onclick="PF('confirmBack').hide();" styleClass="modal-confirmacao-botao-vermelho" />
+					</div>
+				</p:dialog>
+			</ui:define>
+
+			<!-- ********************************************* -->
+			<!-- BARRA DE FERRAMENTAS - BOTOES DO LADO DIREITO -->
+			<!-- ********************************************* -->
+			<ui:define name="toolbar-right">
+				<p:link onclick="PF('confirmSave').show();return false;" id="btSubmit" styleClass="btn btn-success">
+					<f:param name="cid" value="#{javax.enterprise.context.conversation.id}" />
+					<i class="fa fa-floppy-o"></i>
+					#{msg['salvar']}
+				</p:link>
+				<p:dialog widgetVar="confirmSave" fitViewport="true" modal="true"
+					width="100%" closable="false" draggable="false" resizable="false" showEffect="fade"
+					closeOnEscape="true" hideEffect="fade" styleClass="modal-confirmacao" >
+					<h:outputText value="#{msg['confirma.inclusao']}" styleClass="modal-confirmacao-texto" />
+					<div class="modal-confirmacao-botoes">
+						<p:commandButton value="#{msg['sim']}" action="#{cadastroEconomicoPortalBean.salvar}" update="pessoa_panel, endereco, economia_panel" styleClass="modal-confirmacao-botao-verde"
+							oncomplete="PF('confirmSave').hide();" />
+						<p:commandButton value="#{msg['nao']}" type="button" onclick="PF('confirmSave').hide();" styleClass="modal-confirmacao-botao-vermelho" />
+					</div>
+				</p:dialog>
+			</ui:define>
+
+			<br clear="all"/>
+			<br clear="all"/>
+
+			<!-- ******************************* -->
+			<!-- INICIO DOS CAMPOS DO FORMULARIO -->
+			<!-- ******************************* -->
+			<div class="panel panel-default">
+				<div class="panel-heading">#{msg['dados.pessoa']}</div>
+				<div id="pessoa" class="panel-body">
+
+					<p:panelGrid columns="1" layout="grid">
+						<p:selectOneButton id="tipo_pessoa" value="#{cadastroEconomicoPortalBean.consultarPessoaBean.tipoPessoa}" styleClass="combobox ">
+							<f:selectItems value="#{enumProducer.tiposPessoa}" var="tipo" itemLabel="#{msg[tipo.label]}" itemValue="#{tipo}" />
+							<p:ajax event="change" update="pessoa_panel, endereco, economia_panel" listener="#{cadastroEconomicoPortalBean.instanciarObjetos()}" resetValues="true" />
+						</p:selectOneButton>
+
+					</p:panelGrid>
+
+					<p:outputPanel id="pessoa_panel">
+							<p:panelGrid id="pf_panel" columns="1" layout="grid" rendered="#{cadastroEconomicoPortalBean.consultarPessoaBean.renderPF}">
+
+							<h:panelGroup>
+								<div class="fixo width140px">
+									<p:outputLabel for="cpf" value="#{msg['cpf']}" />
+									<p:inputMask mask="999.999.999-99" id="cpf" 
+										value="#{cadastroEconomicoPortalBean.consultarPessoaBean.pessoaFisica.cpf}" converter="cpfCnpjConverter"
+										required="true" validator="cpfCnpjBeanValidator" disabled="true">
+										<p:ajax event="change" listener="#{cadastroEconomicoPortalBean.onDocChange}"
+											update="pessoa_panel, endereco, insc-panel" resetValues="true" />
+									</p:inputMask>
+								</div>
+
+								<div class="fixo width115px">
+									<p:outputLabel for="rg" value="#{msg['rg']}" />
+									<p:inputText id="rg" value="#{cadastroEconomicoPortalBean.consultarPessoaBean.pessoaFisica.rg}"
+										required="true" 
+										disabled="#{!cadastroEconomicoPortalBean.edicaoLiberada()}"
+										styleClass="intNumber" />
+								</div>
+
+								<div class="fixo width140px bg-calendario">
+									<p:outputLabel for="nascimento" value="#{msg['data.nascimento']}" />
+									<p:calendar id="nascimento" pattern="dd/MM/yyyy" mask="true" navigator="true" 
+									disabled="#{!cadastroEconomicoPortalBean.edicaoLiberada()}"
+									value="#{cadastroEconomicoPortalBean.consultarPessoaBean.pessoaFisica.dataNascimento}" locale="pt_BR" />
+								</div>
+								
+								<div class="responsivo width200px">
+									<p:outputLabel for="sexo" value="#{msg['sexo']}" />
+									<h:selectOneRadio id="sexo" value="#{cadastroEconomicoPortalBean.consultarPessoaBean.pessoaFisica.sexo}"
+										disabled="#{!cadastroEconomicoPortalBean.edicaoLiberada()}" styleClass="combobox">
+										<f:selectItems value="#{enumProducer.sexos}" var="sexo"
+											itemLabel="#{msg[sexo.label]}" itemValue="#{sexo}" />
+									</h:selectOneRadio>
+								</div>
+								
+							</h:panelGroup>
+
+							<h:panelGroup>
+								<div class="responsivo width390px margin-right15px">
+									<p:outputLabel for="nome" value="#{msg['nome']}" />
+									<p:inputText id="nome" value="#{cadastroEconomicoPortalBean.consultarPessoaBean.pessoaFisica.nome}"
+									disabled="#{!cadastroEconomicoPortalBean.edicaoLiberada()}" required="true" />
+								</div>
+							</h:panelGroup>
+
+						</p:panelGrid>
+
+						<p:panelGrid id="pj_panel" columns="1" layout="grid"
+							rendered="#{!cadastroEconomicoPortalBean.consultarPessoaBean.renderPF}">
+							
+							<div class="snippet-alerta-aviso">
+								<div class="snippet-area-icone">
+									<i class="fa fa-info fa-lg"></i>
+								</div>
+								<div class="snippet-area-texto">
+									#{msg['ao.vincular.um.cnpj.seu.usuario.voce.se.torna.responsavel.pelas.informações']}
+								</div>
+							</div>
+
+							<h:panelGroup>
+								<div class="fixo width140px">
+									<p:outputLabel for="cnpj" value="#{msg['cnpj']}" />
+									<p:inputMask mask="99.999.999/9999-99" id="cnpj"
+										value="#{cadastroEconomicoPortalBean.consultarPessoaBean.pessoaJuridica.cnpj}" converter="cpfCnpjConverter" required="true" validator="cpfCnpjBeanValidator">
+										<p:ajax event="change" listener="#{cadastroEconomicoPortalBean.onDocChange}" update="pj_panel, endereco, insc-panel, economia_panel,@form" resetValues="true" />
+										<!-- <f:validator validatorId="existeDadosEconomicos" /> -->
+									</p:inputMask>
+								</div>
+
+								<!-- <div class="responsivo width50px margin-top23px">
+									<p:commandButton id="btPJ" widgetVar="btPJ" icon="fa fa-search"
+										actionListener="#{modalPessoaJuridicaPortal.openModal}" immediate="true">
+										<p:ajax event="dialogReturn" listener="#{cadastroEconomicoPortalBean.onPessoaSelected}"
+											update="pessoa_panel, endereco, insc-panel" resetValues="true" />
+									</p:commandButton>
+								</div> -->
+
+								<div class="responsivo width350px margin-right20px">
+									<p:outputLabel for="razao" value="#{msg['razao.social']}" />
+									<p:inputText id="razao" value="#{cadastroEconomicoPortalBean.consultarPessoaBean.pessoaJuridica.razaoSocial}" required="true" 
+									disabled="#{!cadastroEconomicoPortalBean.habilitarCamposEdicao and !empty cadastroEconomicoPortalBean.consultarPessoaBean.pessoaJuridica.razaoSocial }" />
+								</div>
+								
+							</h:panelGroup>
+								
+							<h:panelGroup>
+								<div class="responsivo width650px">
+									<p:outputLabel for="nomeFantasia" value="#{msg['nome.fantasia']}" />
+									<p:inputText id="nomeFantasia" value="#{cadastroEconomicoPortalBean.consultarPessoaBean.pessoaJuridica.nomeFantasia}"
+									disabled="#{(!cadastroEconomicoPortalBean.habilitarCamposEdicao and !empty cadastroEconomicoPortalBean.consultarPessoaBean.pessoaJuridica.nomeFantasia) and cadastroEconomicoPortalBean.contribuintePjJaCadastrado()}" />
+								</div>
+
+							</h:panelGroup>
+
+							<h:panelGroup>
+								<div class="responsivo width200px">
+									<p:outputLabel for="cpf-responsavel" value="#{msg['cpf.responsavel.legal']}" />
+									<p:inputMask mask="999.999.999-99" id="cpf-responsavel"
+										value="#{cadastroEconomicoPortalBean.consultarPessoaBean.pessoaJuridica.responsavelLegal.cpf}" converter="cpfCnpjConverter"
+										disabled="#{!cadastroEconomicoPortalBean.consultarPessoaBean.habilitarNomeResp and !cadastroEconomicoPortalBean.habilitarCamposEdicao}" 
+										required="true">
+										<f:validator validatorId="cpfCnpjBeanValidator" />
+										<p:ajax event="change" listener="#{cadastroEconomicoPortalBean.onDocResponsavelChange()}"
+											update="nome-responsavel" resetValues="true" process="@this" />
+									</p:inputMask>
+								</div>
+
+								<!-- <div class="responsivo width50px margin-top23px">
+									<p:commandButton id="btPFResp" widgetVar="btPFResp" icon="fa fa-search"
+										actionListener="#{modalPessoaFisicaPortal.openModal()}" immediate="true">
+										<p:ajax event="dialogReturn" listener="#{cadastroEconomicoPortalBean.consultarPessoaBean.onResponsavelSelected}"
+											update="cpf-responsavel, nome-responsavel" resetValues="true" />
+									</p:commandButton>
+								</div> -->
+
+								<div class="responsivo width390px margin-left10px ">
+									<p:outputLabel for="nome-responsavel" value="#{msg['nome.responsavel.legal']}" 
+									disabled="#{!cadastroEconomicoPortalBean.habilitarCamposEdicao and !empty cadastroEconomicoPortalBean.consultarPessoaBean.pessoaJuridica.responsavelLegal.nome}"/>
+									<p:inputText id="nome-responsavel" value="#{cadastroEconomicoPortalBean.consultarPessoaBean.pessoaJuridica.responsavelLegal.nome}"
+									disabled="#{!cadastroEconomicoPortalBean.consultarPessoaBean.habilitarNomeResp and !cadastroEconomicoPortalBean.habilitarCamposEdicao}" 
+									required="true"/>
+								</div>
+							</h:panelGroup>
+							
+							<h:panelGroup>
+								<div class="responsivo width500px">
+										<p:outputLabel for="cnae-principal" value="#{msg['cnae.principal']}" />
+										<p:autoComplete id="cnae-principal" value="#{cadastroEconomicoPortalBean.cnaePrincipal}" var="cnaePrincipal" itemValue="#{cnaePrincipal}" converter="entityConverter"
+										itemLabel="#{cnaePrincipal.codigo} #{cnaePrincipal.descricao}" completeMethod="#{cadastroEconomicoPortalBean.filtrarCnaePrincipal}" 
+										minQueryLength="3" forceSelection="true" required="true"
+										disabled="#{!cadastroEconomicoPortalBean.habilitarCamposEdicao and !empty cadastroEconomicoPortalBean.cnaePrincipal }">
+											 <p:ajax event="itemSelect" listener="#{cadastroEconomicoPortalBean.onCnaePrincipalSelected}" update="cnae-principal" />
+										</p:autoComplete>
+								</div>	
+								<div class="responsivo width35px">
+										<p:commandButton id="btP" widgetVar="btP" icon="ui-icon-search" actionListener="#{modalCNAEPortal.openModal()}" immediate="true" styleClass="margin-top23px"
+										disabled="#{!cadastroEconomicoPortalBean.habilitarCamposEdicao and !empty cadastroEconomicoPortalBean.cnaePrincipal }">
+											<p:ajax event="dialogReturn" listener="#{cadastroEconomicoPortalBean.onCnaePrincipalSelected}" update="cnae-principal" resetValues="true" />
+										</p:commandButton>
+										<p:tooltip for="btP" value="Consultar CNAE Principal (Alt+p)" trackMouse="true" />
+										<p:hotkey bind="alt+p" handler="PF('btP').jq.click()" />
+								</div>
+							</h:panelGroup>
+							
+							<h:panelGroup >
+								<div class="responsivo width500px">
+										<p:outputLabel  value="#{msg['cnaes.secundarios']}" styleClass="margin-right10px" />
+										<p:commandButton id="btS" widgetVar="btS" icon="ui-icon-search" actionListener="#{modalCNAEPortal.openModal()}" immediate="true" styleClass="margin-top23px"
+										disabled="#{!cadastroEconomicoPortalBean.habilitarCamposEdicao }">
+											<p:ajax event="dialogReturn" listener="#{cadastroEconomicoPortalBean.onCnaeSecundarioSelected}" update="cnaes-secundarios" resetValues="true" />
+										</p:commandButton>
+										<p:tooltip for="btS" value="Consultar CNAE Secundario (Alt+s)" trackMouse="true" />
+										<p:hotkey bind="alt+s" handler="PF('btS').jq.click()" />
+										
+								</div>
+							</h:panelGroup>
+							
+							<h:panelGroup>		
+							<div class="responsivo width535px">
+									<p:outputPanel id="cnaes">
+										<p:dataTable id="cnaes-secundarios" value="#{cadastroEconomicoPortalBean.cnaesSecundarios}" var="cnae"
+											emptyMessage="#{msg['sem.dados']}" styleClass=" panel panel-default table-responsive tabela-de-dados tabela-cnae">
+											<p:column headerText="">
+												<h:outputText value="#{cnae.descricao}" />
+											</p:column>
+											<p:column styleClass="width50px">
+												<p:commandButton icon="ui-icon-trash" actionListener="#{cadastroEconomicoPortalBean.remove(cnae)}" update="@form:cnaes" immediate="true" />
+											</p:column>
+										</p:dataTable>
+									</p:outputPanel>
+							</div>
+								
+
+							</h:panelGroup>
+							<h:panelGroup>
+
+								<!-- <div class="responsivo width140px">
+									<p:outputLabel  value="#{msg['socios']} *" styleClass="margin-right10px" />
+									 <p:commandButton id="btSocios" widgetVar="btSocios" icon="ui-icon-search" actionListener="#{modalPessoaPortal.openModal()}" immediate="true">
+										<p:ajax event="dialogReturn" listener="#{cadastroEconomicoPortalBean.onSociosSelected}" update="lista_socios" />
+									</p:commandButton> 
+									 <p:tooltip for="btS" value="Consultar Sócios (Alt+s)" trackMouse="true" />
+									<p:hotkey bind="alt+s" handler="PF('btS').jq.click()" /> 
+								</div> -->
+
+								<!-- <div class="responsivo width235px">
+									<p:commandLink actionListener="#{modalCadastroSocio.openModal}" immediate="true">
+										<i class="fa fa-plus"></i>
+										#{msg['cadastrar.novo.socio']}
+										<p:ajax event="dialogReturn" listener="#{cadastroEconomicoPortalBean.onSociosSelected}" update="lista_socios" />
+									</p:commandLink>
+								</div> -->
+								
+								<div class="responsivo width235px">
+									<p:outputLabel value="#{msg['cpf.cnpj.socio']}"/>
+									<p:inputText id="documentoSocio" value="#{cadastroEconomicoPortalBean.documentoSocio}" converter="cpfCnpjConverter"
+									onkeyup="mascara(this, cpfcnpj)" maxlength="18" validator="cpfCnpjBeanValidator"
+									disabled="#{!cadastroEconomicoPortalBean.habilitarCamposEdicao }">
+										<p:ajax event="blur" listener="#{cadastroEconomicoPortalBean.aoAlterarCPFCNPJSocio()}" update="descricaoSocio"/>
+									</p:inputText>
+								</div>
+								
+								<div class="responsivo width235px margin-left10px">
+									<p:outputLabel value="#{msg['nome.razao.social.socio']}"/>
+									<p:inputText id="descricaoSocio" value="#{cadastroEconomicoPortalBean.descricaoSocio}" 
+									disabled="#{cadastroEconomicoPortalBean.bloquearNomeRazaoSocio() or !cadastroEconomicoPortalBean.habilitarCamposEdicao}">
+										<p:ajax event="change" listener="#{cadastroEconomicoPortalBean.aoAlterarCPFCNPJSocio()}"/>
+									</p:inputText>
+								</div>
+								
+							    <div class="responsivo width235px margin-left10px margin-top23px">
+									<p:commandLink action="#{cadastroEconomicoPortalBean.adicionarSocio()}" process="@this,documentoSocio,descricaoSocio" update="lista_socios,documentoSocio,descricaoSocio"
+									disabled="#{!cadastroEconomicoPortalBean.habilitarCamposEdicao }">
+										<i class="fa fa-plus"></i>
+										#{msg['adicionar']}
+									</p:commandLink>
+								</div> 
+
+							</h:panelGroup>
+							<h:panelGroup>
+								<div class="responsivo width535px">
+									<p:outputPanel id="socios_panel">
+										<p:dataTable id="lista_socios" value="#{cadastroEconomicoPortalBean.socios}" var="socio"
+											emptyMessage="#{msg['sem.dados']}" styleClass=" panel panel-default table-responsive tabela-de-dados tabela-socios">
+											<p:column headerText="">
+												<h:outputText value="#{socio.descricao} - "/><h:outputText value="#{socio.documento}" converter="cpfCnpjConverter" />
+											</p:column>
+											<p:column styleClass="width50px">
+												<p:commandButton icon="ui-icon-trash" actionListener="#{cadastroEconomicoPortalBean.remove(socio)}" update="@form:socios_panel" immediate="true" />
+											</p:column>
+										</p:dataTable>
+									</p:outputPanel>
+								</div>
+							</h:panelGroup>
+
+						</p:panelGrid>
+
+					</p:outputPanel>
+
+				</div>
+			</div>
+			
+				<div class="panel panel-default">
+				<div class="panel-heading">#{msg['endereco']}</div>
+				<div id="panel-endereco" class="panel-body">
+
+					<p:panelGrid id="end_comp" columns="1" layout="grid">
+						<h:panelGroup>
+
+							<div class="fixo width320px">
+								<p:outputLabel for="email" value="#{msg['email']}" />
+								<p:inputText id="email" value="#{cadastroEconomicoPortalBean.consultarPessoaBean.pessoa.email}" validatorMessage="#{msg['email.invalido']}"
+								disabled="#{!cadastroEconomicoPortalBean.habilitarCamposEdicao }">
+									<f:validateRegex pattern="^[_A-Za-z0-9-\+]+(\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\.[A-Za-z0-9]+)*(\.[A-Za-z]{2,})$|" />
+								</p:inputText>
+							</div>
+							<div class="fixo width120px">
+								<p:outputLabel for="tfixo" value="#{msg['telefone.fixo']}" />
+								<p:inputText id="tfixo" value="#{cadastroEconomicoPortalBean.consultarPessoaBean.pessoa.telefoneFixo}"
+									onkeyup="mascara(this, telefone)" converter="telefoneConverter" validator="telefoneValidator" 
+									disabled="#{!cadastroEconomicoPortalBean.habilitarCamposEdicao }"/>
+							</div>
+							<div class="fixo width120px">
+								<p:outputLabel for="tfax" value="#{msg['fax']}" />
+								<p:inputText id="tfax" value="#{cadastroEconomicoPortalBean.consultarPessoaBean.pessoa.telefoneFax}"
+									onkeyup="mascara(this, telefone)" converter="telefoneConverter" validator="telefoneValidator" 
+									disabled="#{!cadastroEconomicoPortalBean.habilitarCamposEdicao }"/>
+							</div>
+							<div class="fixo width120px">
+								<p:outputLabel for="tmovel" value="#{msg['celular']}" />
+								<p:inputText id="tmovel" value="#{cadastroEconomicoPortalBean.consultarPessoaBean.pessoa.telefoneMovel}"
+									onkeyup="mascara(this, telefone)" converter="telefoneConverter" validator="telefoneValidator" 
+									disabled="#{!cadastroEconomicoPortalBean.habilitarCamposEdicao }"/>
+							</div>
+
+						</h:panelGroup>
+					</p:panelGrid>
+
+					<p:outputPanel >
+
+						<p:panelGrid id="endereco" columns="1" layout="grid">
+
+							<h:panelGroup>
+
+								<div class="fixo width90px">
+									<p:outputLabel for="cep" value="#{msg['cep']}" />
+									<p:inputMask mask="99.999-999" id="cep" value="#{cadastroEconomicoPortalBean.enderecoBean.cep.cep}" converter="cepConverter" 
+										disabled="#{!cadastroEconomicoPortalBean.edicaoLiberada() or !cadastroEconomicoPortalBean.habilitarCamposEdicao}" >
+										<p:ajax listener="#{cadastroEconomicoPortalBean.enderecoBean.onCepChange}" process="@this" update="endereco" resetValues="true" />
+									</p:inputMask>
+								</div>
+
+								<div class="fixo width135px">
+									<p:outputLabel for="uf" value="#{msg['uf']}" />
+									<p:selectOneMenu id="uf" value="#{cadastroEconomicoPortalBean.enderecoBean.uf}" converter="entityConverter"
+										disabled="#{!cadastroEconomicoPortalBean.edicaoLiberada() or !cadastroEconomicoPortalBean.habilitarCamposEdicao}"
+										filter="true" filterMatchMode="contains">
+										<f:selectItem itemLabel="#{msg['selecione.uf']}" itemValue=""/>
+										<f:selectItems value="#{cadastroEconomicoPortalBean.ufs}" var="uf" itemLabel="#{uf.nome}" itemValue="#{uf}" />
+										<p:ajax listener="#{cadastroEconomicoPortalBean.enderecoBean.onUfChange}" process="@this" update="endereco" resetValues="true" />
+									</p:selectOneMenu>
+								</div>
+
+								<div class="responsivo width275px margin-right10px">
+									<p:outputLabel for="municipio" value="#{msg['municipio']}" />
+									<p:selectOneMenu id="municipio" value="#{cadastroEconomicoPortalBean.enderecoBean.logradouro.municipio}" converter="entityConverter"
+										disabled="#{!cadastroEconomicoPortalBean.edicaoLiberada() or !cadastroEconomicoPortalBean.habilitarCamposEdicao}"
+										filter="true" filterMatchMode="contains">
+										<f:selectItem itemLabel="#{empty cadastroEconomicoPortalBean.enderecoBean.uf ? msg['selecione.uf'] : msg['selecione.municipio']}" itemValue=""/>
+										<f:selectItems value="#{cadastroEconomicoPortalBean.enderecoBean.municipios}" var="mun" itemLabel="#{mun.nome}" itemValue="#{mun}" />
+										<p:ajax listener="#{cadastroEconomicoPortalBean.enderecoBean.onMunicipioChange}" process="@this" update="endereco" resetValues="true" />
+									</p:selectOneMenu>
+								</div>
+								
+								<div class="fixo width275px">
+									<p:outputLabel for="distrito" value="#{msg['distrito']}" />
+									<p:selectOneMenu id="distrito" value="#{cadastroEconomicoPortalBean.enderecoBean.logradouro.distrito}" converter="entityConverter" 
+										filter="true" filterMatchMode="contains"
+										disabled="#{!cadastroEconomicoPortalBean.edicaoLiberada() or !cadastroEconomicoPortalBean.habilitarCamposEdicao}">
+										<f:selectItem
+											itemLabel="#{empty cadastroEconomicoPortalBean.enderecoBean.distritos ? msg['nenhum.distrito'] : msg['selecione.distrito']}"
+											itemValue=""/>
+										<f:selectItems value="#{cadastroEconomicoPortalBean.enderecoBean.distritos}" var="dis" itemLabel="#{dis.nome}" itemValue="#{dis}" />
+										<p:ajax listener="#{cadastroEconomicoPortalBean.enderecoBean.onDistritoChange}" process="@this" resetValues="true"
+											update="cep, bairro, tipo, logradouro" />
+									</p:selectOneMenu>
+								</div>
+
+							</h:panelGroup>
+
+							<h:panelGroup>
+
+								<p:outputPanel id="panel-bairro" styleClass="responsivo width275px margin-right10px">
+									<p:outputLabel value="#{msg['bairro']}" />
+									<p:spacer width="50px" height="1px" />
+									<p:commandLink id="ad-bairro" value="#{msg['adicionar']}" actionListener="#{cadastroEconomicoPortalBean.enderecoBean.addBairro}" process="@this"
+										rendered="#{cadastroEconomicoPortalBean.enderecoBean.renderBairroSelect and cadastroEconomicoPortalBean.enderecoBean.outroMunicipio 
+											and cadastroEconomicoPortalBean.habilitarCamposEdicao}"
+										update="panel-bairro, panel-logradouro, tipo"  />
+									<p:commandLink id="c-ad-bairro" value="#{msg['cancelar']}" actionListener="#{cadastroEconomicoPortalBean.enderecoBean.cancelarAddBairro}"
+										rendered="#{!cadastroEconomicoPortalBean.enderecoBean.renderBairroSelect and cadastroEconomicoPortalBean.enderecoBean.outroMunicipio 
+											and cadastroEconomicoPortalBean.habilitarCamposEdicao}"
+										process="@this" update="panel-bairro, panel-logradouro, tipo"  />
+									<p:selectOneMenu id="bairro" value="#{cadastroEconomicoPortalBean.enderecoBean.bairro}"
+										filter="true" filterMatchMode="contains" converter="entityConverter"
+										disabled="#{!cadastroEconomicoPortalBean.edicaoLiberada() or !cadastroEconomicoPortalBean.habilitarCamposEdicao}"
+										rendered="#{cadastroEconomicoPortalBean.enderecoBean.renderBairroSelect}">
+										<f:selectItem itemLabel="#{msg['selecione.bairro']}" itemValue=""/>
+										<f:selectItems value="#{cadastroEconomicoPortalBean.enderecoBean.bairros}" var="bairro" itemLabel="#{bairro.nome}" itemValue="#{bairro}" />
+										<p:ajax listener="#{cadastroEconomicoPortalBean.enderecoBean.onBairroChange}" process="@this" update="endereco" resetValues="true" />
+									</p:selectOneMenu>
+									<p:inputText id="bairro-add" value="#{cadastroEconomicoPortalBean.enderecoBean.bairro.nome}"
+										rendered="#{!cadastroEconomicoPortalBean.enderecoBean.renderBairroSelect}" />
+								</p:outputPanel>
+
+								<div class="fixo width135px">
+									<p:outputLabel for="tipo" value="#{msg['tipo.logradouro']}" />
+									<p:selectOneMenu id="tipo" value="#{cadastroEconomicoPortalBean.enderecoBean.logradouro.tipoLogradouro}" converter="entityConverter"
+										filter="true" filterMatchMode="contains"
+										disabled="#{cadastroEconomicoPortalBean.enderecoBean.logradouroFound or (cadastroEconomicoPortalBean.enderecoBean.renderBairroSelect 
+											and cadastroEconomicoPortalBean.enderecoBean.renderLogradouroSelect)}">
+										<f:selectItem itemLabel="#{msg['selecione.tipo']}" itemValue=""/>
+										<f:selectItems value="#{cadastroEconomicoPortalBean.tiposLogradouro}" var="tipo" itemLabel="#{tipo.nome}" itemValue="#{tipo}" />
+									</p:selectOneMenu>
+								</div>
+
+								<p:outputPanel id="panel-logradouro" styleClass="responsivo width375px margin-right10px">
+									<p:outputLabel value="#{msg['logradouro']}" for="logradouro"/>
+									<p:spacer width="50px" height="1px" />
+									<p:commandLink id="ad-logradouro" value="#{msg['adicionar']}" actionListener="#{cadastroEconomicoPortalBean.enderecoBean.addLogradouro}" process="@this"
+										rendered="#{cadastroEconomicoPortalBean.enderecoBean.renderLogradouroSelect and cadastroEconomicoPortalBean.enderecoBean.renderBairroSelect 
+											and cadastroEconomicoPortalBean.enderecoBean.outroMunicipio and cadastroEconomicoPortalBean.habilitarCamposEdicao}"
+										update="panel-logradouro, tipo" />
+									<p:commandLink id="c-ad-logradouro" value="#{msg['cancelar']}" actionListener="#{cadastroEconomicoPortalBean.enderecoBean.cancelarAddLogradouro}"
+										rendered="#{!cadastroEconomicoPortalBean.enderecoBean.renderLogradouroSelect and cadastroEconomicoPortalBean.enderecoBean.renderBairroSelect 
+											and cadastroEconomicoPortalBean.enderecoBean.outroMunicipio and cadastroEconomicoPortalBean.habilitarCamposEdicao}"
+										process="@this" update="panel-logradouro, tipo"  />
+									<p:selectOneMenu id="logradouro" value="#{cadastroEconomicoPortalBean.enderecoBean.endereco.logradouro}"
+										disabled="#{!cadastroEconomicoPortalBean.edicaoLiberada() or !cadastroEconomicoPortalBean.habilitarCamposEdicao}"
+										rendered="#{cadastroEconomicoPortalBean.enderecoBean.renderBairroSelect and cadastroEconomicoPortalBean.enderecoBean.renderLogradouroSelect}"
+										filter="true" filterMatchMode="contains" converter="entityConverter" required="true">
+										<f:selectItem itemLabel="#{msg['selecione.logradouro']}" itemValue=""/>
+										<f:selectItems value="#{cadastroEconomicoPortalBean.enderecoBean.logradouros}" var="logradouro" itemLabel="#{logradouro.nome}"
+											itemValue="#{logradouro}" />
+										<!-- <p:ajax process="@this, cep, tipo" update="cep, tipo" resetValues="true" /> -->
+										<p:ajax listener="#{cadastroEconomicoPortalBean.enderecoBean.onLogradouroChange}" process="@this, cep, tipo" update="cep, tipo" resetValues="true" />
+									</p:selectOneMenu>
+									<p:inputText id="logradouro-add" value="#{cadastroEconomicoPortalBean.enderecoBean.endereco.logradouro.nome}"
+										rendered="#{!cadastroEconomicoPortalBean.enderecoBean.renderBairroSelect or !cadastroEconomicoPortalBean.enderecoBean.renderLogradouroSelect}" />
+        						</p:outputPanel>
+
+							</h:panelGroup>
+
+							<h:panelGroup>
+							
+								<div class="fixo width90px">
+									<p:outputLabel for="numero" value="#{msg['numero']}" />
+									<p:inputText id="numero" value="#{cadastroEconomicoPortalBean.enderecoBean.endereco.numero}"
+										disabled="#{!cadastroEconomicoPortalBean.edicaoLiberada() or !cadastroEconomicoPortalBean.habilitarCamposEdicao}" />
+								</div>
+							
+								<div class="responsivo width320px">
+									<p:outputLabel for="complemento" value="#{msg['complemento']}" />
+									<p:inputText id="complemento" value="#{cadastroEconomicoPortalBean.enderecoBean.endereco.complemento}"
+									disabled="#{!cadastroEconomicoPortalBean.edicaoLiberada() or !cadastroEconomicoPortalBean.habilitarCamposEdicao}" />
+								</div>
+								
+							</h:panelGroup>
+
+						</p:panelGrid>
+
+					</p:outputPanel>
+				</div>
+			</div>
+
+			<div class="panel panel-default">
+				<div class="panel-heading">#{msg['dados.economicos']}</div>
+				<div id="panel-economia" class="panel-body">
+
+					<p:outputPanel id="economia_panel">
+						<p:panelGrid columns="1" layout="grid" styleClass="form-panel">
+
+							<h:panelGroup>
+								<div class="fixo width120px">
+									<p:outputLabel for="insc-estadual" value="#{msg['inscricao.estadual']}" />
+									<p:inputText id="insc-estadual" value="#{cadastroEconomicoPortalBean.inscricaoEstadual}" 
+									disabled="#{!cadastroEconomicoPortalBean.edicaoLiberada() or !cadastroEconomicoPortalBean.habilitarCamposEdicao}" styleClass="intNumber" />
+								</div>
+								<p:outputPanel id="insc-panel" styleClass="fixo width120px">
+									<p:outputLabel for="insc-municipal" value="#{msg['inscricao.municipal']}" />
+									<!-- <p:inputText id="insc-municipal" value="#{cadastroEconomicoPortalBean.inscricaoMunicipal}" styleClass="intNumber"
+										disabled="#{!cadastroEconomicoPortalBean.edicaoLiberada()}" /> -->
+									<h:outputText id="insc-municipal" value="#{cadastroEconomicoPortalBean.inscricaoMunicipal}" />
+								</p:outputPanel>
+							</h:panelGroup>
+
+							<h:panelGroup>
+								<p:outputPanel class="fixo width100px" rendered="#{cadastroEconomicoPortalBean.consultarPessoaBean.renderPF}">
+									<p:outputLabel for="placa" value="#{msg['placa']}" />
+									<p:inputText id="placa" value="#{cadastroEconomicoPortalBean.placa}" 
+									disabled="#{!cadastroEconomicoPortalBean.edicaoLiberada() or !cadastroEconomicoPortalBean.habilitarCamposEdicao}" maxlength="7" />
+								</p:outputPanel>
+								
+								<p:outputPanel styleClass="responsivo width400px" rendered="#{cadastroEconomicoPortalBean.consultarPessoaBean.renderPF}">
+									<p:outputLabel for="ocupacaoText" value="#{msg['ocupacao']}" />
+									<p:autoComplete id="ocupacaoText" value="#{cadastroEconomicoPortalBean.ocupacao}" var="ocupacao"
+										itemValue="#{ocupacao}" converter="entityConverter" itemLabel="#{ocupacao.codigo} #{ocupacao.descricao}"
+										completeMethod="#{cadastroEconomicoPortalBean.filtrarOcupacoes}" minQueryLength="3" forceSelection="true" required="true"
+										disabled="#{!cadastroEconomicoPortalBean.edicaoLiberada() or !cadastroEconomicoPortalBean.habilitarCamposEdicao}">
+										 <p:ajax event="itemSelect" listener="#{cadastroEconomicoPortalBean.onOcupacaoSelected}" update="ocupacaoText" />
+									</p:autoComplete>
+								</p:outputPanel>
+								
+								<p:outputPanel styleClass="responsivo width35px margin-right5px" rendered="#{cadastroEconomicoPortalBean.consultarPessoaBean.renderPF}">
+									<p:commandButton icon="ui-icon-search" styleClass="margin-top23px" onclick="PF('dlgOcupacao').show();"
+										type="button" update="ocupacao"
+										disabled="#{!cadastroEconomicoPortalBean.edicaoLiberada() or !cadastroEconomicoPortalBean.habilitarCamposEdicao}"/>
+								</p:outputPanel>
+							</h:panelGroup>
+
+							<h:panelGroup>
+								<p:outputPanel styleClass="responsivo width400px margin-right10px" rendered="#{!cadastroEconomicoPortalBean.consultarPessoaBean.renderPF}">
+									<p:outputLabel for="naturezaJuridica" value="#{msg['natureza.juridica']}"  />
+									<p:selectOneMenu id="naturezaJuridica" value="#{cadastroEconomicoPortalBean.contribuintePJ.naturezaJuridica}"
+										converter="entityConverter" filter="true" filterMatchMode="contains" required="true"
+										disabled="#{!cadastroEconomicoPortalBean.habilitarCamposEdicao and !empty cadastroEconomicoPortalBean.contribuintePJ.naturezaJuridica}">
+										<f:selectItem itemLabel="#{msg['selecione.natureza.juridica']}" itemValue=""/>
+										<f:selectItems value="#{cadastroEconomicoPortalBean.naturezasJuridicas}" var="naturezaJuridica"
+											itemLabel="#{naturezaJuridica}" itemValue="#{naturezaJuridica}" />
+									</p:selectOneMenu>
+								</p:outputPanel>
+								
+								<div class="fixo width430px">
+									<p:outputLabel for="regimeTributacao" value="#{msg['regime.tributacao']}" />
+									<p:selectOneMenu id="regimeTributacao" value="#{cadastroEconomicoPortalBean.regimeTributacao}" converter="entityConverter"
+										filter="true" filterMatchMode="contains" 
+										disabled="#{!cadastroEconomicoPortalBean.edicaoLiberada() or !cadastroEconomicoPortalBean.habilitarCamposEdicao}" required="true">
+										<f:selectItem itemLabel="#{msg['selecione.regime.tributacao']}" itemValue=""/>
+										<f:selectItems value="#{cadastroEconomicoPortalBean.regimesTributacao}" var="regimeTributacao" itemLabel="#{regimeTributacao.descricao}"
+											itemValue="#{regimeTributacao}" itemDisabled="#{regimeTributacao.ativo eq 'false'}" />
+											<p:ajax event="change" process="@this" update="opQuantidadeFuncionario faixa-simples optanteSimples"/>
+									</p:selectOneMenu>
+								</div>
+								
+								<p:outputPanel styleClass="responsivo width300px margin-right10px" rendered="#{cadastroEconomicoPortalBean.consultarPessoaBean.renderPF and cadastroEconomicoPortalBean.tipoClassificacaoISSAutonomo == 'POR_ESCOLARIDADE'}">
+									<p:outputLabel for="escolaridade" value="#{msg['escolaridade']}" />
+									<p:selectOneMenu id="escolaridade" converter="entityConverter" value="#{cadastroEconomicoPortalBean.contribuintePF.escolaridade}" 
+									disabled="#{!cadastroEconomicoPortalBean.edicaoLiberada() or !cadastroEconomicoPortalBean.habilitarCamposEdicao}" required="true">
+										<f:selectItem itemLabel="#{msg['selecione.escolaridade']}" itemValue=""/>
+										<f:selectItems value="#{listEntityProducerPortal.listaEscolaridades}" var="escolaridade" itemLabel="#{escolaridade}" itemValue="#{escolaridade}" />
+									</p:selectOneMenu>
+								</p:outputPanel>
+								
+								<p:outputPanel styleClass="responsivo width300px margin-right10px" rendered="#{cadastroEconomicoPortalBean.consultarPessoaBean.renderPF and cadastroEconomicoPortalBean.tipoClassificacaoISSAutonomo == 'POR_CATEGORIA_PROFISSIONAL'}">
+										<p:outputLabel for="categoriaProfissional" value="#{msg['categoria.profissional']}" />
+										<p:selectOneMenu id="categoriaProfissional" converter="entityConverter" value="#{cadastroEconomicoPortalBean.contribuintePF.categoriaProfissional}" required="true">
+											<f:selectItem itemLabel="#{msg['selecione.categoria']}" itemValue=""/>
+											<f:selectItems value="#{listEntityProducerPortal.listaCategoriasProfissionais}" var="cat" itemLabel="#{cat}" itemValue="#{cat}" />
+										</p:selectOneMenu>
+									</p:outputPanel>
+								
+								
+								<p:outputPanel id="opQuantidadeFuncionario">
+									<p:outputPanel   rendered="#{cadastroEconomicoPortalBean.mostrarQuantidadeProfissionais()}" class="fixo width180px">
+										<p:outputLabel for="itQuantidadeFuncionario" value="#{msg['quantidade.profissionais']}"  />
+										<p:inputText id="itQuantidadeFuncionario" value="#{cadastroEconomicoPortalBean.contribuintePJ.qtdFuncionarios}" 
+										required="true" styleClass="intNumber"/>
+									</p:outputPanel>
+								</p:outputPanel>
+							</h:panelGroup>
+							
+							<h:panelGroup>
+								<div class="fixo width150px">
+									<p:outputLabel for="optanteSimples" value="#{msg['optante.simples']}" rendered="#{!cadastroEconomicoPortalBean.consultarPessoaBean.renderPF}" />
+										
+									<h:selectOneRadio id="optanteSimples" value="#{cadastroEconomicoPortalBean.optanteSimples}" 
+										required="true" styleClass="combobox" disabled="#{cadastroEconomicoPortalBean.bloquearOptanteDoSimples() or !cadastroEconomicoPortalBean.habilitarCamposEdicao}" 
+										rendered="#{!cadastroEconomicoPortalBean.consultarPessoaBean.renderPF}">
+										<f:selectItems value="#{enumProducer.simNao}" var="simNao" 
+											itemLabel="#{msg[simNao.label]}" itemValue="#{simNao}" />										
+										<p:ajax event="click" update="faixa-simples" process="@this"/>
+									</h:selectOneRadio>						
+								</div>
+								
+								<p:outputPanel id="faixa-simples" styleClass="fixo width430px">
+									<p:outputLabel for="faixaReceitaBrutaSIMPLES" value="#{msg['faixa.receita.bruta.simples']}" rendered="#{cadastroEconomicoPortalBean.mostrarFaixaReceitaBrutaSimples()}"/>
+									<p:selectOneMenu id="faixaReceitaBrutaSIMPLES" value="#{cadastroEconomicoPortalBean.faixaReceitaBrutaSIMPLES}" converter="entityConverter" rendered="#{cadastroEconomicoPortalBean.mostrarFaixaReceitaBrutaSimples()}"
+										filter="true" filterMatchMode="contains" required="true" disabled="#{!cadastroEconomicoPortalBean.habilitarCamposEdicao}">
+										<f:selectItem itemLabel="#{msg['selecione.faixa']}" itemValue=""/>
+										<f:selectItems value="#{cadastroEconomicoPortalBean.faixasReceitaBrutaSIMPLES}" var="faixa" itemLabel="#{faixa.descricao}"
+											itemValue="#{faixa}" />
+									</p:selectOneMenu>
+								</p:outputPanel>
+							</h:panelGroup>
+
+						</p:panelGrid>
+					</p:outputPanel>
+				</div>
+			</div>
+			
+			<p:dialog header="#{msg['ocupacao']}" widgetVar="dlgOcupacao" height="500" width="600" id="ocupacao">
+       			<p:inputText id="query" value="#{cadastroEconomicoPortalBean.query}">
+					<p:ajax event="keyup" update="ocupacoes" listener="#{cadastroEconomicoPortalBean.filtrar}" delay="500" resetValues="true" />
+				</p:inputText>
+				<p:watermark for="query" value="#{msg['codigo.ou.descricao']}" />
+				
+				<br clear="all"/>
+				<br clear="all"/>
+    			<p:dataTable var="ocupacao" id="ocupacoes" value="#{cadastroEconomicoPortalBean.ocupacoes}" widgetVar="dtOcupacao" selectionMode="single" selection="#{cadastroEconomicoPortalBean.ocupacao}" 
+                 emptyMessage="Nenhum resultado encontrado na pesquisa" filteredValue="#{cadastroEconomicoPortalBean.ocupacoesFiltro}" rowKey="#{ocupacao.codigo}"
+                 styleClass="tabela-de-dados panel panel-default table-responsive" paginator="true" rows="15" paginatorAlwaysVisible="false" paginatorPosition="bottom">
+                 <p:ajax event="rowSelect" update=":form:ocupacaoText" onstart="PF('dlgOcupacao').hide();" resetValues="true" />
+                 <f:facet name="header">
+                
+                 
+		        </f:facet>
+		        <p:column headerText="Código">
+		            <h:outputText value="#{ocupacao.codigo}" />
+		        </p:column>
+		        <p:column headerText="Descrição" >
+		            <h:outputText value="#{ocupacao.descricao}" />
+		        </p:column>
+ 
+    			
+    			
+    			</p:dataTable>
+			</p:dialog>
+
+			<p:blockUI block="@form" trigger="tipo_pessoa, ocupacao, cep, uf, municipio, 
+				distrito, bairro, logradouro, cpf, cnpj, cpf-responsavel">
+				<i class="fa fa-spin fa-circle-o-notch"></i>
+				<span class="m-left-xs">#{msg['aguarde']}</span>
+			</p:blockUI>
+
+			<p:blockUI widgetVar="btop" block=":panel-top-nav">
+			</p:blockUI>
+
+			<p:blockUI widgetVar="bmenu" block=":menu-form">
+			</p:blockUI>
+			
+			<!-- <script type="text/javascript">
+			jQuery(document).ready(function(){
+				PF('btop').show();
+				PF('bmenu').show();
+			});
+			</script> -->
+
+			<f:metadata>
+				<f:event listener="#{conversationBean.begin}" type="preRenderView" />
+			</f:metadata>
+
+		</ui:decorate>
+	</ui:define>
+
+</ui:composition>

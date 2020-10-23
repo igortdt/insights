@@ -1,0 +1,259 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template/master-template.xhtml">
+
+	<ui:define name="titulo_pagina">
+		<h:outputText value="#{msg['nfse.emitida.sucesso']}" />
+	</ui:define>
+
+	<ui:define name="breadcrumb">
+		<li><i class="fa fa-home"></i> #{msg['inicio']}</li>
+		<li><i class="fa fa-globe"></i> #{msg['tributos']}</li>
+		<li><i class="fa fa-globe"></i> #{msg['iss']}</li>
+		<li class="active">#{msg['emitir.nfse']}</li>
+	</ui:define>
+
+	<!-- Alguns itens do formulario estao no arquivo formulario.xhtml -->
+	<!-- Por exemplo: bloquear formulario enquanto pesquisa e foco automatico ao carregar a pagina -->
+	<!-- A barra de ferramentas e a disposicao de seus botoes tambem esta no formulatio.xhtml -->
+
+	<ui:define name="conteudo">
+		<ui:decorate template="/WEB-INF/template/formulario.xhtml">
+
+			<!-- ********************************************** -->
+			<!-- BARRA DE FERRAMENTAS - BOTOES DO LADO ESQUERDO -->
+			<!-- ********************************************** -->
+			<ui:define name="toolbar-left">
+				
+				<p:link outcome="emitir_nfse_portal" styleClass="btn btn-default">
+					<i class="fa fa-home fa-lg"></i>
+					#{msg['voltar']}
+				</p:link>
+			</ui:define>
+
+			<!-- ********************************************* -->
+			<!-- BARRA DE FERRAMENTAS - BOTOES DO LADO DIREITO -->
+			<!-- ********************************************* -->
+			<ui:define name="toolbar-right">
+				<p:link id="optButton" styleClass="btn btn-default" onclick="return false;">
+					<i class="fa fa-bars"></i>
+					#{msg['opcoes']}
+				</p:link>
+				<p:menu overlay="true" trigger="optButton" my="right top" at="right bottom">
+				
+					<p:menuitem value="#{msg['visualizar.nfse']}"
+							icon="fa fa-search" ajax="false" target="_blank"
+							action="#{emitirNFSePortalBean.visualizarNFSe(emitirNFSePortalBean.nfse)}"
+							rendered="#{emitirNFSePortalBean.nfse.situacaoNFSe eq 'EMITIDA'}" />
+					
+					<p:menuitem value="#{msg['enviar.email']}" icon="fa fa-search" 
+						onclick="PF('modalEnviarEmail').show();"
+						rendered="#{emitirNFSePortalBean.nfse.situacaoNFSe eq 'EMITIDA'}"  />	
+							
+							
+					<p:menuitem value="#{msg['cancelar.nfse']}" icon="fa fa-ban"
+						ajax="false"
+						action="#{emitirNFSePortalBean.cancelarNFSe()}"
+						rendered="#{emitirNFSePortalBean.nfse.situacaoNFSe ne 'CANCELADA'}" >
+						<f:setPropertyActionListener value="#{emitirNFSePortalBean.nfse}" target="#{detalharNFSeBean.nfse}"/>
+					</p:menuitem>	
+						
+				</p:menu>
+				
+				<p:dialog header="#{msg['modal.enviar.email']}" widgetVar="modalEnviarEmail" modal="true">
+			
+					<div class="fixo width550px">
+						<p:outputLabel value="#{msg['informe.emails.destinatario']}"/>
+						<br clear="all"/>
+						<h:inputText value="#{emitirNFSePortalBean.destinatariosEmail}" />				
+					</div>
+					<br clear="all"/>
+					<p:commandButton value="#{msg['enviar.email']}" action="#{emitirNFSePortalBean.enviarEmail}" update="@form" 
+						styleClass="botao-verde toolbar-right margin-top15px"/>
+					
+					
+				</p:dialog>				
+			</ui:define>
+
+			<br clear="all"/>
+			<br clear="all"/>
+
+			<!-- ******************************* -->
+			<!-- INICIO DOS CAMPOS DO FORMULARIO -->
+			<!-- ******************************* -->
+			<div class="panel panel-default">
+			
+
+				<div class="panel-heading">#{msg['prestador']}</div>
+				<div class="panel-body">
+
+					<p:panelGrid id="prestador-panel" columns="1" layout="grid"
+						styleClass="form-panel">
+
+						<h:panelGroup>
+							<div class="fixo width150px">
+								<p:outputLabel value="#{msg['cpf']}" rendered="#{emitirNFSePortalBean.renderPropPF}"/>
+								<p:outputLabel value="#{msg['cnpj']}" rendered="#{!emitirNFSePortalBean.renderPropPF}"/>
+								<br clear="all"/>
+								<h:outputText value="#{emitirNFSePortalBean.nfse.prestador.documento}" converter="cpfCnpjConverter" />
+							</div>
+							<div class="fixo width250px">
+								<p:outputLabel value="#{msg['nome']}" rendered="#{emitirNFSePortalBean.renderPropPF}"/>
+								<p:outputLabel value="#{msg['razao.social']}" rendered="#{!emitirNFSePortalBean.renderPropPF}"/>
+								<br clear="all"/>
+								<h:outputText value="#{emitirNFSePortalBean.nfse.prestador.descricao}"/>
+							</div>
+						</h:panelGroup>
+												
+					</p:panelGrid>
+				</div>
+				
+				
+				<div class="panel-heading">#{msg['tomador']}</div>
+				<div class="panel-body">
+
+					<p:panelGrid id="tomador-panel" columns="1" layout="grid"
+						styleClass="form-panel">
+
+						<h:panelGroup>
+							<div class="fixo width150px">
+								<p:outputLabel value="#{msg['cpf']}" rendered="#{emitirNFSePortalBean.renderPropPF}"/>
+								<p:outputLabel value="#{msg['cnpj']}" rendered="#{!emitirNFSePortalBean.renderPropPF}"/>
+								<br clear="all"/>
+								<h:outputText value="#{emitirNFSePortalBean.nfse.tomador.documento}" converter="cpfCnpjConverter" />
+							</div>
+							<div class="fixo width250px">
+								<p:outputLabel value="#{msg['nome']}" rendered="#{emitirNFSePortalBean.renderPropPF}"/>
+								<p:outputLabel value="#{msg['razao.social']}" rendered="#{!emitirNFSePortalBean.renderPropPF}"/>
+								<br clear="all"/>
+								<h:outputText value="#{emitirNFSePortalBean.nfse.tomador.descricao}"/>
+							</div>
+						</h:panelGroup>
+						
+												
+						<h:panelGroup rendered="#{emitirNFSePortalBean.nfse.tomador.endereco != null}">
+							<div class="responsivo width100">
+								<p:outputLabel value="#{msg['endereco']}"/>
+								<br clear="all"/>
+								<h:outputText value="#{emitirNFSePortalBean.nfse.tomador.endereco}"/>
+							</div>
+						</h:panelGroup>
+						
+					</p:panelGrid>
+				</div>
+				
+				
+				<div class="panel-heading">#{msg['servico.prestado']}</div>
+				<div class="panel-body">
+
+					<p:panelGrid id="servico-panel" columns="1" layout="grid"
+						styleClass="form-panel">
+
+						<h:panelGroup>
+							<div class="fixo width850px">
+								<p:outputLabel value="#{msg['servico']}"/>
+								<br clear="all"/>
+								<h:outputText value="#{emitirNFSePortalBean.nfse.servico.descricao}" converter="cpfCnpjConverter" />
+							</div>
+
+							<div class="fixo width250px">
+								<p:outputLabel value="#{msg['aliquota']} (%)"/>
+								<br clear="all"/>
+								<h:outputText value="#{emitirNFSePortalBean.nfse.aliquota}">
+									<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+								</h:outputText>	
+							</div>
+							
+						</h:panelGroup>
+						
+						<h:panelGroup>
+							<div class="fixo width100">
+								<p:outputLabel value="#{msg['local.tributacao.servico']}"/>
+								<br clear="all"/>
+								<h:outputText value="#{msg[emitirNFSePortalBean.nfse.servico.localTributacaoServico.label]}"/>
+							</div>
+						</h:panelGroup>
+						
+						<h:panelGroup>
+							<div class="responsivo width100">
+								<p:outputLabel for="observacao" value="#{msg['descricao.servico']}" />
+								<br clear="all"/>
+								<h:outputText id="observacao" value="#{emitirNFSePortalBean.nfse.discriminacaoServico}"/>
+							</div>
+						</h:panelGroup>
+						
+						
+								
+						<h:panelGroup>
+							<div class="fixo width250px">
+								<p:outputLabel value="#{msg['local.execucao.servico']}"/>
+								<br clear="all"/>
+								<h:outputText value="#{emitirNFSePortalBean.nfse.localPrestacaoServico}"/>
+							</div>
+							
+						</h:panelGroup>
+						
+						
+						<h:panelGroup>
+							<div class="fixo width250px">
+								<p:outputLabel value="#{msg['valor.servico']}"/>
+								<br clear="all"/>
+								<h:outputText value="#{emitirNFSePortalBean.nfse.valorTotal}" converter="moneyConverter"/>
+							</div>	
+
+							<div class="fixo width250px">
+								<p:outputLabel value="#{msg['desconto.incondicionado']}"/>
+								<br clear="all"/>
+								<h:outputText value="#{emitirNFSePortalBean.nfse.descontoIncondicionado}" converter="moneyConverter"/>
+							</div>
+
+							<div class="fixo width250px">
+								<p:outputLabel value="#{msg['desconto.condicionado']}"/>
+								<br clear="all"/>
+								<h:outputText value="#{emitirNFSePortalBean.nfse.descontoCondicionado}" converter="moneyConverter"/>
+							</div>
+							
+							<div class="fixo width250px">
+								<p:outputLabel value="#{msg['valor.deducoes']}"/>
+								<br clear="all"/>
+								<h:outputText value="#{emitirNFSePortalBean.nfse.valorDeducoes}" converter="moneyConverter"/>
+								
+							</div>
+						</h:panelGroup>	
+						<h:panelGroup>
+							
+							<div class="fixo width250px">
+								<p:outputLabel value="#{msg['base.calculo']}"/>
+								<br clear="all"/>
+								<h:outputText value="#{emitirNFSePortalBean.nfse.valorBaseCalculo}" converter="moneyConverter"/>
+							</div>	
+							
+							<div class="fixo width250px">
+								<p:outputLabel value="#{msg['valor.iss']}"/>
+								<br clear="all"/>
+								<h:outputText value="#{emitirNFSePortalBean.nfse.valorISS}" converter="moneyConverter"/>
+							</div>
+
+							<div class="fixo width250px">
+								<p:outputLabel value="#{msg['valor.liquido']}"/>
+								<br clear="all"/>
+								<h:outputText value="#{emitirNFSePortalBean.valorLiquido}" converter="moneyConverter"/>
+							</div>		
+							
+						</h:panelGroup>
+						
+					</p:panelGrid>
+				</div>
+				
+				
+			</div>
+
+		</ui:decorate>
+	</ui:define>
+
+</ui:composition>

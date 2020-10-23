@@ -1,0 +1,191 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template/master-template.xhtml">
+
+	<ui:define name="titulo_pagina">
+			<h:outputText value="#{msg['retificar.competencia.tomador']}" />
+	</ui:define>
+
+	<ui:define name="breadcrumb">
+		<li><i class="fa fa-home"></i><p:link outcome="inicio" value=" #{msg['retificar.competencia.tomador']}" /></li>
+		<!-- <li><i class="fa fa-money"></i> #{msg['tributos']}</li>
+		<li>#{msg['iss']}</li> -->
+		<li class="active">#{msg['retificar.competencia.tomador']}</li>
+	</ui:define>
+
+	<!-- Alguns itens do formulario estao no arquivo display.xhtml -->
+	<!-- A barra de ferramentas e a disposicao de seus botoes tambem esta no display.xhtml -->
+
+	<ui:define name="conteudo">
+		<ui:decorate template="/WEB-INF/template/display.xhtml">
+
+			<!-- ********************************************** -->
+			<!-- BARRA DE FERRAMENTAS - BOTOES DO LADO ESQUERDO -->
+			<!-- ********************************************** -->
+			<ui:define name="toolbar-left">
+				<p:link onclick="PF('confirmBack').show();return false;"
+					styleClass="btn btn-danger">
+					<i class="fa fa-reply"></i>
+					#{msg['voltar']}
+				</p:link>
+				<p:dialog widgetVar="confirmBack" id="confirmBack" fitViewport="true" modal="true"
+					width="100%" closable="false" draggable="false" resizable="false" showEffect="fade"
+					closeOnEscape="true" hideEffect="fade" styleClass="modal-confirmacao">
+					<h:outputText value="#{msg['confirma.cancelamento.inclusao']}" styleClass="modal-confirmacao-texto" />
+					<div class="modal-confirmacao-botoes">
+						<p:button value="#{msg['sim']}" outcome="escriturar_competencia" styleClass="modal-confirmacao-botao-verde" />
+						<p:commandButton value="#{msg['nao']}" type="button" onclick="PF('confirmBack').hide();" styleClass="modal-confirmacao-botao-vermelho" />
+					</div>
+				</p:dialog>
+			</ui:define>
+
+			<!-- ********************************************* -->
+			<!-- BARRA DE FERRAMENTAS - BOTOES DO LADO DIREITO -->
+			<!-- ********************************************* -->
+			<ui:define name="toolbar-right">
+	
+					
+				<p:link onclick="PF('confirmSave').show();return false;" id="btSubmit" styleClass="btn btn-success"
+					rendered="#{retificarCompetenciaPortalBean.competenciaTomadorRetificar.ativo == true}">
+					<f:param name="cid" value="#{javax.enterprise.context.conversation.id}" />
+					<i class="fa fa-floppy-o"></i>
+					#{msg['retificar']}
+				</p:link>
+				<p:dialog widgetVar="confirmSave" fitViewport="true" modal="true"
+					width="100%" closable="false" draggable="false" resizable="false" showEffect="fade"
+					closeOnEscape="true" hideEffect="fade" styleClass="modal-confirmacao" >
+					<h:outputText value="#{msg['deseja.realmente.retificar']}" styleClass="modal-confirmacao-texto" />
+					<div class="modal-confirmacao-botoes">
+						<p:commandButton id="btSim" value="#{msg['sim']}" action="#{retificarCompetenciaPortalBean.retificarCompetenciaTomador}"  styleClass="modal-confirmacao-botao-verde"
+							onclick="PF('confirmSave').hide();" update="@form"/>
+						<p:commandButton value="#{msg['nao']}" type="button" onclick="PF('confirmSave').hide();" styleClass="modal-confirmacao-botao-vermelho" />
+					</div>
+				</p:dialog>
+			</ui:define>
+
+			<br clear="all"/>
+			<br clear="all"/>
+
+			<!-- ******************************* -->
+			<!-- INICIO DOS CAMPOS DO FORMULARIO -->
+			<!-- ******************************* -->
+			<div class="panel panel-default">
+				<div class="panel-heading">#{msg['dados.competencia']}</div>
+				<div class="panel-body">
+					<p:panelGrid columns="1" layout="grid" id="form-autorizacao" styleClass="form-panel">
+						
+						<h:panelGroup>
+
+							<div class="fixo width140px">
+								<p:outputLabel id="compentenciaLabel"
+									value="#{msg['competencia']}" />
+									
+									<br clear="all"/>
+									
+								<p:outputLabel mask="99/9999"
+									value="#{retificarCompetenciaPortalBean.competenciaTomadorRetificar.competencia}"
+									converter="competenciaConverter" />
+							</div>
+							
+							<div class="fixo width150px bg-calendario">
+								<p:outputLabel value="#{msg['data.encerramento']}" />
+								<h:outputText value="#{retificarCompetenciaPortalBean.competenciaTomadorRetificar.dataEncerramento}">
+									<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-3" />
+								</h:outputText>
+					
+							</div>
+
+
+						</h:panelGroup>
+						
+						<h:panelGroup>
+							<div class="fixo width150px">
+								<p:outputLabel value="#{msg['cpf']}" rendered="#{retificarCompetenciaPortalBean.prestadorPF()}"/>
+								<p:outputLabel value="#{msg['cnpj']}" rendered="#{!retificarCompetenciaPortalBean.prestadorPF()}"/>
+								<br clear="all"/>
+								<h:outputText value="#{retificarCompetenciaPortalBean.competenciaTomadorRetificar.tomador.documento}" converter="cpfCnpjConverter" />
+							</div>
+							<div class="fixo width250px">
+								<p:outputLabel value="#{msg['nome']}" rendered="#{retificarCompetenciaPortalBean.prestadorPF()}"/>
+								<p:outputLabel value="#{msg['razao.social']}" rendered="#{!retificarCompetenciaPortalBean.prestadorPF()}"/>
+								<br clear="all"/>
+								<h:outputText value="#{retificarCompetenciaPortalBean.competenciaTomadorRetificar.tomador.descricao}"/>
+							</div>
+						</h:panelGroup>
+						
+						
+						<h:panelGroup>
+							<div class="fixo width200px">
+								<p:outputLabel value="#{msg['qtd.nfse.escriturada']}"/>
+								<br clear="all"/>
+								<h:outputText value="#{retificarCompetenciaPortalBean.competenciaTomadorRetificar.quantidadeNfseEscriturado}" />
+							</div>
+							
+							<div class="fixo width200px">
+								<p:outputLabel value="#{msg['qtd.nfse.cancelada']}"/>
+								<br clear="all"/>
+								<h:outputText value="#{retificarCompetenciaPortalBean.competenciaTomadorRetificar.quantidadeNfseCancelado}" />
+							</div>
+						
+						</h:panelGroup>
+						
+						
+						<h:panelGroup>
+
+							<div class="fixo width250px">
+								<p:outputLabel value="#{msg['total.escriturado']}"/>
+								<br clear="all"/>
+								<h:outputText value="#{retificarCompetenciaPortalBean.competenciaTomadorRetificar.totalEscriturado}" converter="moneyConverter"/>
+								
+							</div>
+							
+							<div class="fixo width250px">
+								<p:outputLabel value="#{msg['total.cancelado']}"/>
+								<br clear="all"/>
+								<h:outputText value="#{retificarCompetenciaPortalBean.competenciaTomadorRetificar.totalCancelado}" converter="moneyConverter"/>
+							
+							</div>
+							
+							<div class="fixo width250px">
+								<p:outputLabel value="#{msg['total.base.calculo']}"/>
+								<br clear="all"/>
+								<h:outputText value="#{retificarCompetenciaPortalBean.competenciaTomadorRetificar.baseCalculo}" converter="moneyConverter"/>
+							
+							</div>
+							
+							<div class="fixo width250px">
+								<p:outputLabel value="#{msg['total.deducoes']}"/>
+								<br clear="all"/>
+								<h:outputText value="#{retificarCompetenciaPortalBean.competenciaTomadorRetificar.deducoes}" converter="moneyConverter"/>
+							
+							</div>
+							
+							<div class="fixo width250px">
+								<p:outputLabel value="#{msg['total.iss.recolher']}"/>
+								<br clear="all"/>
+								<h:outputText value="#{retificarCompetenciaPortalBean.competenciaTomadorRetificar.issRecolher}" converter="moneyConverter"/>
+							
+							</div>
+
+
+						</h:panelGroup>
+						
+					</p:panelGrid>
+
+				</div>
+			</div> <!-- DADOS -->
+
+			<p:blockUI block="@form" trigger="btSim">
+				<i class="fa fa-spin fa-circle-o-notch"></i>
+				<span class="m-left-xs">#{msg['aguarde']}</span>
+			</p:blockUI>
+
+		</ui:decorate>
+	</ui:define>
+
+</ui:composition>

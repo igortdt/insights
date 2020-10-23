@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="build-main" default="target1" basedir="." xmlns:artifact="antlib:org.apache.maven.artifact.ant">
+
+	<target name="target1" depends="init, clean, prepare, block-update, compile">
+		<!-- <delete dir="${work.home}"/> -->
+		<echo>Construcao de ${uf-municipio} concluida</echo>
+	</target>
+
+	<target name="init">
+
+		<!-- <property name="prod.owner" value="aspec"/> -->
+		<!-- <property name="uf" value="uf"/> -->
+		<!-- <property name="municipio" value="municipio"/> -->
+		<!-- producao / homologacao -->
+		<!-- <property name="ambiente" value="homologacao"/> -->
+		<property name="uf-municipio" value="${uf}-${municipio}"/>
+		<property name="uf_municipio" value="${uf}_${municipio}"/>
+		<property name="uf.municipio" value="${uf}.${municipio}"/>
+		<!-- <property name="work.home" value="${basedir}/work/${uf-municipio}"/> -->
+		<property name="dist.home" value="${basedir}/dist/${uf-municipio}"/>
+
+		<echo>Inicializando construcao de ${uf-municipio}</echo>
+
+	</target>
+
+	<target name="clean">
+		<echo>Limpando EARs antigos</echo>
+		<!-- <delete dir="${work.home}"/> -->
+		<delete file="${dist.home}/${uf-municipio}-${ambiente}-${today_br}-${build.number}.ear"/>
+	</target>
+
+	<target name="prepare">
+
+		
+
+		<echo>Alterando arquivos de configuração</echo>
+
+		<echo>Atualizando pom.xml do EAR</echo>
+		<xmltask source="${work.home}/insights/insights-ear/pom.xml" dest="${work.home}/insights/insights-ear/pom.xml" report="false">
+			<replace path="/:project/:build/:plugins/:plugin/:configuration/:displayName/text()" withText="${uf-municipio}-ear"/>
+			<replace path="/:project/:build/:plugins/:plugin/:configuration/:modules/:webModule[1]/:contextRoot/text()" withText="/${uf.municipio}"/>
+			<replace path="/:project/:build/:plugins/:plugin/:configuration/:modules/:webModule[2]/:contextRoot/text()" withText="/portal.${uf.municipio}"/>
+
+		</xmltask>
+
+		<echo>insights-EAR -- excluindo recursos desnecessarios</echo>
+		<delete dir="${work.home}/insights/insights-ear/ant_scripts" />
+
+		<echo>Atualizando insights-Portal web.xml</echo> 
+		<xmltask source="${work.home}/insights/insights-portal/src/main/webapp/WEB-INF/web.xml" dest="${work.home}/insights/insights-portal/src/main/webapp/WEB-INF/web.xml" report="false"> 
+			<replace path="/:web-app/:context-param[1]/:param-value/text()" withText="portal.${uf.municipio}"/> 
+			<replace path="/:web-app/:servlet[1]/:init-param/:param-value/text()" withText="java:jboss/datasources/insights_ds_${ambiente}"/>						
+			<replace path="/:web-app/:context-param[6]/:param-value/text()" withText="${uf_municipio}"/> 
+		</xmltask>
+
+		<echo>Atualizando persistence.xml</echo>
+		<xmltask source="${work.home}/insights/insights-business/src/main/resources/META-INF/persistence.xml" dest="${work.home}/insights/insights-business/src/main/resources/META-INF/persistence.xml" report="false">
+			<replace path="/:persistence/:persistence-unit/:jta-data-source/text()" withText="java:jboss/datasources/insights_ds_${ambiente}"/>
+			<attr path="/:persistence/:persistence-unit" attr="name" value="insights_pu_${uf_municipio}"/>
+			<attr path="/:persistence/:persistence-unit/:properties/:property[@name='hibernate.default_schema']" attr="value" value="${uf_municipio}"/>
+			<attr path="/:persistence/:persistence-unit/:properties/:property[@name='hibernate.hbm2ddl.auto']" attr="value" value="none"/>
+			<attr path="/:persistence/:persistence-unit/:properties/:property[@name='hibernate.show_sql']" attr="value" value="false"/>
+			<attr path="/:persistence/:persistence-unit/:properties/:property[@name='org.hibernate.envers.default_schema']" attr="value" value="${uf_municipio}_aud"/>
+		</xmltask>
+		<xmltask source="${work.home}/insights/insights-business/src/main/resources/META-INF/persistence.xml">
+			<copy path="/:persistence/:persistence-unit/:properties/:property[@name='hibernate.default_schema']/@value"
+				property="new.schema" />
+		</xmltask>
+		<script language="javascript">
+			<![CDATA[
+			var defSchema = project.getProperty('uf_municipio');
+			var newSchema = project.getProperty('new.schema');
+			if (defSchema != newSchema) {
+				project.setProperty('teste', defSchema != newSchema);
+			}
+			]]>
+		</script>
+		<fail message="O script nao conseguiu atualizar o persistence.xml" if="teste" />
+		
+		<echo>Atualizando shiro.ini do Portal</echo>
+		<propertyfile file="${work.home}/insights/insights-portal/src/main/webapp/WEB-INF/shiro.ini">
+			<entry key="jdbcRealm.schema" value="${uf_municipio}"/>
+			<entry key="dataSource.resourceName" value="java:jboss/datasources/insights_ds_${ambiente}"/>
+		</propertyfile>
+		<replace file="${work.home}/insights/insights-portal/src/main/webapp/WEB-INF/shiro.ini" token="]=" value="]"/>
+		<replace file="${work.home}/insights/insights-portal/src/main/webapp/WEB-INF/shiro.ini" token="\" value=""/>
+
+	</target>
+
+	<target name="block-update" if="process.update">
+		<echo>Atualizando pom.xml do insights</echo>
+
+		<xmltask source="${work.home}/insights/pom.xml" dest="${work.home}/insights/pom.xml" report="false">
+			<uncomment path="/:project/comment()[1]"/>
+		</xmltask>
+	</target>
+
+	<target name="compile">
+		<echo>Compilando EAR</echo>
+
+		<artifact:mvn pom="${work.home}/insights/pom.xml" mavenHome="${maven.home}" fork="true">
+			<arg value="package"/>
+		</artifact:mvn>
+		<copy file="${work.home}/insights/insights-ear/target/insights-ear-0.0.1.ear" tofile="${dist.home}/${uf-municipio}-${ambiente}-${today_br}-${build.number}.ear"/>
+
+		<echo>EAR Concluido</echo>
+	</target>
+
+</project>

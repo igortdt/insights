@@ -1,0 +1,197 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template/master-template-portal.xhtml">
+	
+	<ui:define name="conteudo">
+	<h:form>
+		<div class="bg-light">
+				<div class="container">
+					<div class="col-lg-6 col-md-6 col-sm-6">
+						<ul class="list-inline margin-top5px">
+							<li>
+								<p:link outcome="/login.xhtml">
+									#{msg['pagina.inicial']}
+								</p:link>
+							</li>
+							<li>/</li>
+							<li>
+								<p:link outcome="/UC0084EmitirCertidao/T0084L-emitir-certidao.xhtml">
+									#{msg['emitir.certidao']}
+								</p:link>
+							</li>
+							<li>/</li>
+							<li>
+								<a href="#">
+									#{msg['emitir.certidao.negativa.imovel']}
+								</a>
+							</li>
+							<li>/</li>
+						</ul>
+					</div>
+					<!--  
+					<div class="col-lg-6 col-md-6 col-sm-6">
+						<ul class="list-inline pull-right margin-top5px">
+							<li><i class="fa fa-adjust" aria-hidden="true"></i></li>
+							<li><b>A</b><i class="fa fa-plus" aria-hidden="true"></i></li>
+							<li><small><b>A</b><i class="fa fa-minus" aria-hidden="true"></i></small></li>
+						</ul>
+					</div>
+					-->
+				</div>
+			</div>
+			
+			<section class="bg-white min-height-680px">
+				<div class="container">
+					<div class="row">
+						
+						<div class="col-lg-3">
+
+							<h2 class="novo-portal-chamada-servicos">#{msg['servicos']}</h2>
+						
+							<div class="novo-portal-menu-principal">
+								<!-- Include de componente de Menu -->
+								<ui:include src="/WEB-INF/template/menu-portal.xhtml" />
+							</div>
+							
+						</div>
+						
+						<div class="col-lg-9">
+							<div class="row novo-portal-texto-principal">
+								<div class="col-lg-12">
+									<h1>#{msg['emitir.certidao.negativa.imovel']}</h1>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-9">
+										
+							<div class="row">
+								<div class="col-lg-12">
+									
+									<div class="padding-l-r-20">		
+										<p:messages id="messages" autoUpdate="true" closable="true" />
+									</div>
+															
+									<div class="panel panel-default">
+										<div class="panel-heading">#{msg['dados.imovel']}</div>
+										
+										<div class="panel-body">
+											<div class="responsivo width188px margin-left10px">
+												<p:outputLabel for="inscricao" value="#{msg['inscricao.imovel']}" />
+							  					<p:inputText id="inscricao" value="#{emitirCertidaoNegativaImovelPortalBean.inscricaoImovel}" required="true"/>
+						
+											</div>
+											
+											<br />
+												
+											<div class="panel-heading">#{msg['dados.proprietario']}</div>
+											
+											<p:panelGrid columns="1" layout="grid">
+												<p:selectOneButton id="tipo_pessoa" value="#{emitirCertidaoNegativaImovelPortalBean.proprietarioBean.tipoPessoa}" styleClass="combobox">
+													<f:selectItems value="#{enumProducer.tiposPessoa}" var="tipo" itemLabel="#{msg[tipo.label]}" itemValue="#{tipo}" />
+													<p:ajax event="change" update="pessoa_panel" resetValues="true"
+														listener="#{emitirCertidaoNegativaImovelPortalBean.instanciarObjetos}" />
+												</p:selectOneButton>
+											</p:panelGrid>
+						
+											<p:outputPanel id="pessoa_panel">
+												<p:panelGrid id="pf_panel" columns="1" layout="grid" rendered="#{emitirCertidaoNegativaImovelPortalBean.proprietarioBean.renderPF}">
+													<h:panelGroup>
+						
+														<div class="responsivo width260px margin-right15px" >
+															<p:outputLabel for="cpf2" value="#{msg['cpf']}" />
+															<p:inputMask mask="999.999.999-99" id="cpf2" value="#{emitirCertidaoNegativaImovelPortalBean.proprietarioBean.pessoaFisica.cpf}"
+																converter="cpfCnpjConverter" required="true" >
+																<f:validator validatorId="cpfCnpjBeanValidator" />
+																<!-- <f:validator validatorId="existeDadosEconomicos" /> -->
+																<p:ajax event="change" listener="#{emitirCertidaoNegativaImovelPortalBean.onDocChange}"
+																	update="pessoa_panel" resetValues="true"  process="@this"/>
+																	
+															</p:inputMask>
+														</div>
+						
+														<div class="responsivo width100 margin-right15px">
+															<p:outputLabel for="nome" value="#{msg['nome']}" />
+															<p:inputText id="nome" value="#{emitirCertidaoNegativaImovelPortalBean.proprietarioBean.pessoaFisica.nome}"
+																disabled="#{!emitirCertidaoNegativaImovelPortalBean.habilitarCamposEdicao}" required="true" />
+														</div>
+						
+													</h:panelGroup>
+												</p:panelGrid>
+												<p:panelGrid id="pj_panel" columns="1" layout="grid" rendered="#{!emitirCertidaoNegativaImovelPortalBean.proprietarioBean.renderPF}">
+													<h:panelGroup>
+						
+														<div class="responsivo width260px margin-right15px">
+															<p:outputLabel for="cnpj" value="#{msg['cnpj']}" />
+															<p:inputMask mask="99.999.999/9999-99" id="cnpj" value="#{emitirCertidaoNegativaImovelPortalBean.proprietarioBean.pessoaJuridica.cnpj}"
+																converter="cpfCnpjConverter" required="true" validator="cpfCnpjBeanValidator">
+																<p:ajax event="change" listener="#{emitirCertidaoNegativaImovelPortalBean.onDocChange}" update="pj_panel"
+																	resetValues="true" />
+																<!-- <f:validator validatorId="existeDadosEconomicos" /> -->
+															</p:inputMask>
+														</div>
+						
+														<div class="responsivo width100 margin-right20px">
+															<p:outputLabel for="razao" value="#{msg['razao.social']}" />
+															<p:inputText id="razao" value="#{emitirCertidaoNegativaImovelPortalBean.proprietarioBean.pessoaJuridica.razaoSocial}"
+																required="true" disabled="#{!emitirCertidaoNegativaImovelPortalBean.habilitarCamposEdicao}" />
+														</div>
+						
+													</h:panelGroup>
+												</p:panelGrid>
+																		
+											</p:outputPanel>
+											
+											<div class="margin-top15px margin-right25px">
+											
+												<p:commandLink id="btPesquisar" action="#{emitirCertidaoNegativaImovelPortalBean.pesquisar()}"  
+													styleClass="btn btn-success pull-right" update="@form">
+													<i class="fa fa-search"></i>
+													#{msg['pesquisar']}
+												</p:commandLink>
+																		
+												
+												
+												<p:commandButton id="btSegundaVia"
+													styleClass="btn btn-danger margin-left15px fix-botao-certidao"  ajax="false" icon="fa fa-search" iconPos="left"
+													rendered="#{emitirCertidaoNegativaImovelPortalBean.certidaoNegativaVigente}"
+													action="#{visualizarCertidaoNegativaImovelPortalBean.visualizar(emitirCertidaoNegativaImovelPortalBean.certidao)}"
+													onclick="this.form.target='_blank';"
+													onmouseout="this.form.target='_self';" value="#{msg['emitir']} #{msg['segunda.via']}"/>
+													
+												
+												
+												<p:commandButton id="btEmitir"
+													styleClass="btn btn-default margin-left15px fix-botao-certidao"  ajax="false" icon="fa fa-floppy-o" iconPos="left"
+													rendered="#{emitirCertidaoNegativaImovelPortalBean.achouImovel and (emitirCertidaoNegativaImovelPortalBean.proprietarioBean.pfFound || emitirCertidaoNegativaImovelPortalBean.proprietarioBean.pjFound)}"
+													action="#{emitirCertidaoNegativaImovelPortalBean.salvar}"
+													onclick="this.form.target='_blank';"
+													onmouseout="this.form.target='_self';" value="#{msg['emitir']} #{msg['nova.certidao']}" />	
+														
+											</div>	
+											
+										
+										</div>
+									</div>
+			
+									
+								</div><!-- End of col lg -->
+							</div>
+							
+						</div><!-- End of COL LG 9 -->
+					
+						
+					</div><!-- End of row -->
+				</div><!-- End of container -->
+			</section>			
+			
+			<f:metadata>
+				<f:event listener="#{conversationBean.begin}" type="preRenderView" />
+			</f:metadata>
+	</h:form>
+	</ui:define>
+</ui:composition>

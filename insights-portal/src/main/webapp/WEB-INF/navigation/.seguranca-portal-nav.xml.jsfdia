@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PROCESS model-entity="JSFProcess">
+ <PROCESS-ITEM NAME="rules:" SHAPE="32,17,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules::0" NAME="item" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="pesquisar_seguranca_portal::#app#UC0079SegurancaPortal#T0079L-seguranca-portal.xhtml"
+    NAME="output"
+    PATH="/app/UC0079SegurancaPortal/T0079L-seguranca-portal.xhtml"
+    TARGET="rules:#app#UC0079SegurancaPortal#T0079L-seguranca-portal.xhtml"
+    TITLE="pesquisar_seguranca_portal" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="sucesso:#{cadastrarSegurancaPortalBean.salvar}:#app#UC0079SegurancaPortal#T0079C-seguranca-portal-display.xhtml"
+    NAME="output1"
+    PATH="/app/UC0079SegurancaPortal/T0079C-seguranca-portal-display.xhtml"
+    TARGET="rules:#app#UC0079SegurancaPortal#T0079C-seguranca-portal-display.xhtml"
+    TITLE="#{cadastrarSegurancaPortalBean.salvar}:sucesso" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="sucesso:#{editarSegurancaPortalBean.salvar}:#app#UC0079SegurancaPortal#T0079C-seguranca-portal-edit-display.xhtml"
+    NAME="output2"
+    PATH="/app/UC0079SegurancaPortal/T0079C-seguranca-portal-edit-display.xhtml"
+    TARGET="rules:#app#UC0079SegurancaPortal#T0079C-seguranca-portal-edit-display.xhtml"
+    TITLE="#{editarSegurancaPortalBean.salvar}:sucesso" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM
+  NAME="rules:#app#UC0079SegurancaPortal#T0079L-seguranca-portal.xhtml"
+  PATH="/app/UC0079SegurancaPortal/T0079L-seguranca-portal.xhtml"
+  SHAPE="272,33,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#app#UC0079SegurancaPortal#T0079C-seguranca-portal-display.xhtml"
+  PATH="/app/UC0079SegurancaPortal/T0079C-seguranca-portal-display.xhtml"
+  SHAPE="272,209,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#app#UC0079SegurancaPortal#T0079C-seguranca-portal-edit-display.xhtml"
+  PATH="/app/UC0079SegurancaPortal/T0079C-seguranca-portal-edit-display.xhtml"
+  SHAPE="272,321,0,0" model-entity="JSFProcessGroup"/>
+</PROCESS>

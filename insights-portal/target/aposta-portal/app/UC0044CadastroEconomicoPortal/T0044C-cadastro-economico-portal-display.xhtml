@@ -1,0 +1,298 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template/master-template.xhtml">
+
+	<ui:define name="titulo_pagina">
+		<h:outputText value="#{msg['cadastro.dados.economicos']}" />
+	</ui:define>
+
+	<ui:define name="breadcrumb">
+		<li><i class="fa fa-home"></i><p:link outcome="inicio" value=" #{msg['inicio']}" /></li>
+		<li><i class="fa fa-file-text"></i> #{msg['cadastros']}</li>
+		<li class="active">#{msg['dados.economicos']}</li>
+	</ui:define>
+
+	<!-- Alguns itens do formulario estao no arquivo display.xhtml -->
+	<!-- A barra de ferramentas e a disposicao de seus botoes tambem esta no display.xhtml -->
+
+	<ui:define name="conteudo">
+		<ui:decorate template="/WEB-INF/template/display.xhtml">
+
+			<!-- ********************************************** -->
+			<!-- BARRA DE FERRAMENTAS - BOTOES DO LADO ESQUERDO -->
+			<!-- ********************************************** -->
+			<ui:define name="toolbar-left">
+				<p:link outcome="T0044C-cadastro-economico-portal-form" styleClass="btn btn-default">
+					<i class="fa fa-file-o"></i>
+					#{msg['novo']}
+				</p:link>
+			</ui:define>
+
+			<!-- ********************************************* -->
+			<!-- BARRA DE FERRAMENTAS - BOTOES DO LADO DIREITO -->
+			<!-- ********************************************* -->
+			<ui:define name="toolbar-right">
+				<p:link outcome="inicio" styleClass="btn btn-default">
+					<i class="fa fa-home fa-lg"></i>
+					#{msg['inicio']}
+				</p:link>
+			</ui:define>
+
+			<br clear="all"/>
+			<br clear="all"/>
+
+			<!-- ******************************* -->
+			<!-- INICIO DOS CAMPOS DO FORMULARIO -->
+			<!-- ******************************* -->
+			<div class="panel panel-default">
+				<p:outputPanel styleClass="panel-heading" rendered="#{cadastroEconomicoPortalBean.substituto}"><b>#{msg['substituto.responsavel']}</b></p:outputPanel>
+				<p:outputPanel styleClass="panel-body" rendered="#{cadastroEconomicoPortalBean.substituto}">
+					<h:outputText value="#{msg['sim']}" />
+				</p:outputPanel>
+
+				<div class="panel-heading">#{msg['dados.pessoa']}</div>
+				<div id="pessoa" class="panel-body">
+
+					<p:panelGrid columns="1" layout="grid">
+						<h:panelGroup>
+							<div class="responsivo width100">
+								<p:outputLabel value="#{msg['tipo.pessoa']}" styleClass="width100" />
+								<h:outputText value="#{msg[cadastroEconomicoPortalBean.consultarPessoaBean.tipoPessoa.label]}" />
+							</div>
+						</h:panelGroup>
+					</p:panelGrid>
+
+					<p:panelGrid id="pf_panel" columns="1" layout="grid" rendered="#{cadastroEconomicoPortalBean.consultarPessoaBean.renderPF}">
+						<h:panelGroup>
+							<div class="responsivo width140px">
+								<p:outputLabel value="#{msg['cpf']}" styleClass="width100" />
+								<h:outputText value="#{cadastroEconomicoPortalBean.consultarPessoaBean.pessoaFisica.cpf}" converter="cpfCnpjConverter" />
+							</div>
+							<div class="fixo width115px">
+								<p:outputLabel value="#{msg['rg']}" styleClass="width100" />
+								<h:outputText value="#{cadastroEconomicoPortalBean.consultarPessoaBean.pessoaFisica.rg}" />
+							</div>
+							<div class="fixo width140px">
+								<p:outputLabel value="#{msg['data.nascimento']}" styleClass="width100" />
+								<h:outputText value="#{cadastroEconomicoPortalBean.consultarPessoaBean.pessoaFisica.dataNascimento}">
+									<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-3" />
+								</h:outputText>
+							</div>
+							<div class="responsivo width200px">
+								<p:outputLabel value="#{msg['sexo']}" styleClass="width100" />
+								<h:outputText value="#{msg[cadastroEconomicoPortalBean.consultarPessoaBean.pessoaFisica.sexo.label]}" />
+							</div>
+						</h:panelGroup>
+
+						<h:panelGroup>
+							<div class="responsivo width390px margin-right15px">
+								<p:outputLabel value="#{msg['nome']}" styleClass="width100" />
+								<h:outputText value="#{cadastroEconomicoPortalBean.consultarPessoaBean.pessoaFisica.nome}" />
+							</div>
+						</h:panelGroup>
+					</p:panelGrid>
+
+					<p:panelGrid id="pj_panel" columns="1" layout="grid"
+						rendered="#{!cadastroEconomicoPortalBean.consultarPessoaBean.renderPF}">
+
+						<h:panelGroup>
+							<div class="responsivo width140px">
+								<p:outputLabel value="#{msg['cnpj']}" styleClass="width100" />
+								<h:outputText value="#{cadastroEconomicoPortalBean.consultarPessoaBean.pessoaJuridica.cnpj}" converter="cpfCnpjConverter" />
+							</div>
+							<div class="responsivo width350px margin-right20px">
+								<p:outputLabel value="#{msg['razao.social']}" styleClass="width100" />
+								<h:outputText value="#{cadastroEconomicoPortalBean.consultarPessoaBean.pessoaJuridica.razaoSocial}" />
+							</div>
+							
+						</h:panelGroup>
+
+						<h:panelGroup>
+							<div class="responsivo width650px">
+								<p:outputLabel value="#{msg['nome.fantasia']}" styleClass="width100" />
+								<h:outputText value="#{cadastroEconomicoPortalBean.consultarPessoaBean.pessoaJuridica.nomeFantasia}" />
+							</div>
+						</h:panelGroup>
+
+						<h:panelGroup>
+							<div class="responsivo width650px">
+								<p:outputLabel value="#{msg['responsavel.legal']}" styleClass="width100" />
+								<h:outputText value="#{cadastroEconomicoPortalBean.consultarPessoaBean.pessoaJuridica.responsavelLegal}" />
+							</div>
+						</h:panelGroup>
+
+						<h:panelGroup>
+							<div class="responsivo width500px">
+								<p:outputLabel value="#{msg['cnae.principal']}" styleClass="width100" />
+								<h:outputText value="#{cadastroEconomicoPortalBean.cnaePrincipal}" />
+							</div>
+						</h:panelGroup>
+
+						<h:panelGroup>
+							<div class="responsivo width500px">
+								<p:outputLabel value="#{msg['cnaes.secundarios']}" styleClass="width100" />
+							</div>
+						</h:panelGroup>
+
+						<h:panelGroup>		
+							<div class="responsivo width535px">
+								<p:dataTable value="#{cadastroEconomicoPortalBean.cnaesSecundarios}" var="cnae"
+									emptyMessage="#{msg['sem.dados']}" styleClass=" panel panel-default table-responsive tabela-de-dados tabela-cnae">
+									<p:column headerText="">
+										<h:outputText value="#{cnae}"  />
+									</p:column>
+								</p:dataTable>
+							</div>
+						</h:panelGroup>
+
+						<h:panelGroup>
+							<div class="responsivo width535px">
+								<p:outputLabel value="#{msg['socios']}" styleClass="width100" />
+							</div>
+						</h:panelGroup>
+
+						<h:panelGroup>
+							<div class="responsivo width535px">
+								<p:dataTable value="#{cadastroEconomicoPortalBean.socios}" var="socio"
+									emptyMessage="#{msg['sem.dados']}" styleClass=" panel panel-default table-responsive tabela-de-dados tabela-socios">
+									<p:column headerText="">
+										<h:outputText value="#{socio.descricao} - " /><h:outputText value="#{socio.documento}" converter="cpfCnpjConverter"/>
+									</p:column>
+								</p:dataTable>
+							</div>
+						</h:panelGroup>
+
+					</p:panelGrid>
+				</div>
+			</div>
+			
+			<div class="panel panel-default">
+				<div class="panel-heading">#{msg['endereco']}</div>
+				<div id="pessoa" class="panel-body">
+					<p:panelGrid id="endereco" columns="1" layout="grid">
+						<h:panelGroup>
+
+							<div class="fixo width200px">
+								<p:outputLabel for="email" value="#{msg['email']}" styleClass="width100" />
+								<h:outputText id="email" value="#{cadastroEconomicoPortalBean.consultarPessoaBean.pessoa.email}" />
+							</div>
+							<div class="fixo width120px">
+								<p:outputLabel for="tfixo" value="#{msg['telefone.fixo']}" styleClass="width100" />
+								<h:outputText id="tfixo" value="#{cadastroEconomicoPortalBean.consultarPessoaBean.pessoa.telefoneFixo}"
+									converter="telefoneConverter" />
+							</div>
+							<div class="fixo width120px">
+								<p:outputLabel for="tfax" value="#{msg['fax']}" styleClass="width100" />
+								<h:outputText id="tfax" value="#{cadastroEconomicoPortalBean.consultarPessoaBean.pessoa.telefoneFax}"
+									converter="telefoneConverter" />
+							</div>
+							<div class="fixo width120px">
+								<p:outputLabel for="tmovel" value="#{msg['celular']}" styleClass="width100" />
+								<h:outputText id="tmovel" value="#{cadastroEconomicoPortalBean.consultarPessoaBean.pessoa.telefoneMovel}"
+									converter="telefoneConverter" />
+							</div>
+
+						</h:panelGroup>
+
+						<h:panelGroup>
+							<div class="fixo width100">
+								<p:outputLabel value="#{msg['endereco']}" styleClass="width100" />
+								<h:outputText value="#{cadastroEconomicoPortalBean.enderecoBean.endereco}" />
+							</div>
+						</h:panelGroup>
+
+					</p:panelGrid>
+				</div>
+			</div>
+
+			<div class="panel panel-default">
+				<div class="panel-heading">#{msg['dados.economicos']}</div>
+				<div id="pessoa" class="panel-body">
+					<p:panelGrid columns="1" layout="grid" styleClass="grid-de-dados">
+
+						<h:panelGroup>
+							<div class="fixo width100px">
+								<p:outputLabel value="#{msg['inscricao.estadual']}" styleClass="width100" />
+								<h:outputText value="#{cadastroEconomicoPortalBean.contribuintePF.pessoa.inscricaoEstadual}"
+									rendered="#{cadastroEconomicoPortalBean.consultarPessoaBean.renderPF}" />
+								<h:outputText value="#{cadastroEconomicoPortalBean.contribuintePJ.pessoa.inscricaoEstadual}"
+									rendered="#{!cadastroEconomicoPortalBean.consultarPessoaBean.renderPF}" />
+							</div>
+							<div class="fixo width100px">
+								<p:outputLabel value="#{msg['inscricao.municipal']}" styleClass="width100" />
+								<h:outputText value="#{cadastroEconomicoPortalBean.contribuintePF.pessoa.inscricaoMunicipal}"
+									rendered="#{cadastroEconomicoPortalBean.consultarPessoaBean.renderPF}" />
+								<h:outputText value="#{cadastroEconomicoPortalBean.contribuintePJ.pessoa.inscricaoMunicipal}"
+									rendered="#{!cadastroEconomicoPortalBean.consultarPessoaBean.renderPF}" />
+							</div>
+							<div class="fixo width100px">
+								<p:outputLabel value="#{msg['placa']}" styleClass="width100" />
+								<h:outputText value="#{cadastroEconomicoPortalBean.placa}" />																	
+							</div>
+							<p:outputPanel styleClass="responsivo width400px" rendered="#{cadastroEconomicoPortalBean.consultarPessoaBean.renderPF}">
+								<p:outputLabel value="#{msg['ocupacao']}" styleClass="width100" />
+								<h:outputText value="#{cadastroEconomicoPortalBean.contribuintePF.ocupacao}" />
+							</p:outputPanel>
+						</h:panelGroup>
+
+						<h:panelGroup>
+							<p:outputPanel styleClass="responsivo width400px margin-right10px" rendered="#{!cadastroEconomicoPortalBean.consultarPessoaBean.renderPF}">
+								<p:outputLabel value="#{msg['natureza.juridica']}" styleClass="width100" />
+								<h:outputText value="#{cadastroEconomicoPortalBean.contribuintePJ.naturezaJuridica}" />
+							</p:outputPanel>
+							
+							<div class="fixo width430px">
+								<p:outputLabel value="#{msg['regime.tributacao']}" styleClass="width100" />
+								<h:outputText value="#{cadastroEconomicoPortalBean.regimeTributacao}" />
+							</div>
+							
+							<p:outputPanel styleClass="responsivo width300px margin-right10px" rendered="#{cadastroEconomicoPortalBean.consultarPessoaBean.renderPF and cadastroEconomicoPortalBean.tipoClassificacaoISSAutonomo == 'POR_ESCOLARIDADE'}">
+								<p:outputLabel value="#{msg['escolaridade']}" /> <br />
+								<h:outputText value="#{cadastroEconomicoPortalBean.contribuintePF.escolaridade}" />
+							</p:outputPanel>
+							
+							
+							<p:outputPanel styleClass="responsivo width300px margin-right10px" rendered="#{cadastroEconomicoPortalBean.consultarPessoaBean.renderPF and cadastroEconomicoPortalBean.tipoClassificacaoISSAutonomo == 'POR_CATEGORIA_PROFISSIONAL'}">
+								<p:outputLabel value="#{msg['categoria.profissional']}" /><br />
+								<h:outputText value="#{cadastroEconomicoPortalBean.contribuintePF.categoriaProfissional}" />
+							</p:outputPanel>
+							
+							
+							<p:outputPanel id="opQuantidadeFuncionario">
+								<p:outputPanel   rendered="#{cadastroEconomicoPortalBean.mostrarQuantidadeProfissionais()}" class="fixo width180px">
+									<p:outputLabel for="itQuantidadeFuncionario" value="#{msg['quantidade.profissionais']}"  />
+									<h:outputText id="itQuantidadeFuncionario" value="#{cadastroEconomicoPortalBean.contribuintePJ.qtdFuncionarios}" 
+									required="true" styleClass="intNumber"/>
+								</p:outputPanel>
+							</p:outputPanel>
+						</h:panelGroup>
+						
+						<h:panelGroup>
+							<div class="fixo width200px">
+								<p:outputLabel value="#{msg['optante.simples']}" styleClass="width100" />
+								<h:outputText value="#{msg[cadastroEconomicoPortalBean.optanteSimples.label]}" />
+							</div>
+							
+							<div class="fixo width430px">
+								<p:outputLabel value="#{msg['faixa.receita.bruta.simples']}" rendered="#{cadastroEconomicoPortalBean.optanteSimples eq 'SIM'}" styleClass="width100" />
+								<h:outputText value="#{cadastroEconomicoPortalBean.faixaReceitaBrutaSIMPLES}" rendered="#{cadastroEconomicoPortalBean.optanteSimples eq 'SIM'}" />
+							</div>
+						</h:panelGroup>
+
+					</p:panelGrid>
+				</div>
+			</div>
+
+			<f:metadata>
+				<f:event listener="#{conversationBean.end}" type="preRenderView" />
+			</f:metadata>
+
+		</ui:decorate>
+	</ui:define>
+
+</ui:composition>

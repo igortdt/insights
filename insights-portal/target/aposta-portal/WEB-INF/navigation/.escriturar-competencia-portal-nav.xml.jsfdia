@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PROCESS model-entity="JSFProcess">
+ <PROCESS-ITEM NAME="rules:" SHAPE="32,17,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules::0" NAME="item" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="escriturar_competencia::#app#UC0073EscriturarCompetencia#T0073L-escriturar-competencia.xhtml"
+    NAME="output"
+    PATH="/app/UC0073EscriturarCompetencia/T0073L-escriturar-competencia.xhtml"
+    TARGET="rules:#app#UC0073EscriturarCompetencia#T0073L-escriturar-competencia.xhtml"
+    TITLE="escriturar_competencia" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="sucesso:#{escriturarCompetenciaPortalBean.exibirDadosDAMPrestador}:#app#UC0073EscriturarCompetencia#T0073L-escriturar-competencia-prestador-dados-dam.xhtml"
+    NAME="output2"
+    PATH="/app/UC0073EscriturarCompetencia/T0073L-escriturar-competencia-prestador-dados-dam.xhtml"
+    TARGET="rules:#app#UC0073EscriturarCompetencia#T0073L-escriturar-competencia-prestador-dados-dam.xhtml"
+    TITLE="#{escriturarCompetenciaPortalBean.exibirDadosDAMPrestador}:sucesso" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="sucessoSemDAM:#{escriturarCompetenciaPortalBean.exibirDadosDAMPrestador}:#app#UC0073EscriturarCompetencia#T0073L-escriturar-competencia.xhtml"
+    NAME="output1"
+    PATH="/app/UC0073EscriturarCompetencia/T0073L-escriturar-competencia.xhtml"
+    TARGET="rules:#app#UC0073EscriturarCompetencia#T0073L-escriturar-competencia.xhtml"
+    TITLE="#{escriturarCompetenciaPortalBean.exibirDadosDAMPrestador}:sucessoSemDAM" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="sucesso:#{escriturarCompetenciaPortalBean.salvarEncerramentoPrestador}:#app#UC0073EscriturarCompetencia#T0073L-escriturar-competencia.xhtml"
+    NAME="output3"
+    PATH="/app/UC0073EscriturarCompetencia/T0073L-escriturar-competencia.xhtml"
+    TARGET="rules:#app#UC0073EscriturarCompetencia#T0073L-escriturar-competencia.xhtml"
+    TITLE="#{escriturarCompetenciaPortalBean.salvarEncerramentoPrestador}:sucesso" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="sucessoSemDAM:#{escriturarCompetenciaPortalBean.exibirDadosDAMTomador}:#app#UC0073EscriturarCompetencia#T0073L-escriturar-competencia.xhtml"
+    NAME="output4"
+    PATH="/app/UC0073EscriturarCompetencia/T0073L-escriturar-competencia.xhtml"
+    TARGET="rules:#app#UC0073EscriturarCompetencia#T0073L-escriturar-competencia.xhtml"
+    TITLE="#{escriturarCompetenciaPortalBean.exibirDadosDAMTomador}:sucessoSemDAM" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM
+  NAME="rules:#app#UC0073EscriturarCompetencia#T0073L-escriturar-competencia.xhtml"
+  PATH="/app/UC0073EscriturarCompetencia/T0073L-escriturar-competencia.xhtml"
+  SHAPE="240,33,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#app#UC0073EscriturarCompetencia#T0073L-escriturar-competencia-prestador-dados-dam.xhtml"
+  PATH="/app/UC0073EscriturarCompetencia/T0073L-escriturar-competencia-prestador-dados-dam.xhtml"
+  SHAPE="288,241,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#app#UC0073EscriturarCompetencia#T0073L-escriturar-competencia-tomador-dados-dam.xhtml"
+  PATH="/app/UC0073EscriturarCompetencia/T0073L-escriturar-competencia-tomador-dados-dam.xhtml"
+  SHAPE="304,273,0,0" model-entity="JSFProcessGroup"/>
+</PROCESS>

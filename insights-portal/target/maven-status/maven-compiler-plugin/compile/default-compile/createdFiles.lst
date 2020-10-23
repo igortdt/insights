@@ -1,0 +1,7 @@
+br/com/juremal/portal/insights/util/CodigoBarraPortalFormat.class
+br/com/juremal/portal/insights/security/FacesAjaxAwareUserFilter.class
+br/com/juremal/portal/insights/controller/ConversationBean.class
+br/com/juremal/portal/insights/servlet/RelatorioPortalServlet.class
+br/com/juremal/portal/insights/security/insightsSecurityRealm$1.class
+br/com/juremal/portal/insights/security/insightsSecurityRealm$SaltStyle.class
+br/com/juremal/portal/insights/security/insightsSecurityRealm.class

@@ -1,0 +1,22 @@
+<div id="geral"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+	<div class="panel panel-default">
+		<div  class="panel-body">
+			<p:panelGrid columns="1" layout="grid">
+
+				<h:panelGroup>
+
+					<div class="fixo width90px">
+						<p:outputLabel for="competencia" value="#{msg['competencia']}" />
+						<p:inputMask mask="99/9999" id="competencia" value="#{escrituracaoCosifPortalBean.escrituracaoCosif.competencia}" converter="competenciaConverter" />
+					</div>
+				</h:panelGroup>
+			</p:panelGrid>
+		</div>
+	</div>						
+</div>	

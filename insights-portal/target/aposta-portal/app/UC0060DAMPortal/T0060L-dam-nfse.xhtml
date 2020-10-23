@@ -1,0 +1,235 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template/master-template.xhtml">
+
+	<ui:define name="titulo_pagina">
+		<h:outputText value="#{msg['consulta.dam']}" />
+	</ui:define>
+
+	<ui:define name="breadcrumb">
+		<li><i class="fa fa-home"></i><p:link outcome="inicio" value=" #{msg['inicio']}" /></li>
+		<li><i class="fa fa-file-text"></i> #{msg['dam']}</li>
+	
+	</ui:define>
+
+	<!-- Alguns itens do formulario estao no arquivo formulario.xhtml -->
+	<!-- Por exemplo: bloquear formulario enquanto pesquisa e foco automatico ao carregar a pagina -->
+	<!-- A barra de ferramentas e a disposicao de seus botoes tambem esta no formulatio.xhtml -->
+
+	<ui:define name="conteudo">
+		<ui:decorate template="/WEB-INF/template/formulario.xhtml">
+
+			<!-- ********************************************* -->
+			<!-- BARRA DE FERRAMENTAS - BOTOES DO LADO DIREITO -->
+			<!-- ********************************************* -->
+			<ui:define name="toolbar-right">
+				<p:commandLink id="btSubmit" action="#{consultarDAMBean.pesquisar}" update="@form"
+					styleClass="btn btn-success" process="@this #{consultarDAMBean.primeiraAbaSelecionada ? 'tab-view:tab-np' :'tab-view:tab-nt'}">
+					<i class="fa fa-search"></i>
+					#{msg['pesquisar']}
+				</p:commandLink>
+			</ui:define>
+
+			<br clear="all"/>
+			<br clear="all"/>
+
+			<!-- ******************************* -->
+			<!-- INICIO DOS CAMPOS DO FORMULARIO -->
+			<!-- ******************************* -->
+			<p:tabView id="tab-view">
+				<p:ajax event="tabChange" listener="#{consultarDAMBean.onTabChange}" update="@form"/>
+
+				<!--######## PRIMEIRA ABA ##########################-->
+				<p:tab title="#{msg['prestador']}" id="tab-np">
+					<div class="panel panel-default">
+						<div id="panel-prestador" class="panel-body">
+							<p:panelGrid columns="1" layout="grid" styleClass="form-panel">
+								<h:panelGroup>
+
+									<div class="responsivo width350px">
+										<p:outputLabel for="prestador" value="#{msg['prestador']}" styleClass="width100" />
+										<h:outputText id="prestador" value="#{consultarDAMBean.pessoa}" />
+									</div>
+
+								</h:panelGroup>
+								<h:panelGroup>
+
+									<div class="fixo width90px">
+										<p:outputLabel for="exercicio-np" value="#{msg['exercicio']}" />
+										<p:inputMask mask="9999" id="exercicio-np" value="#{consultarDAMBean.exercicio}"
+											required="true" />
+									</div>
+
+									<div class="fixo width140px">
+										<p:outputLabel for="situacao-np" value="#{msg['situacao.dam']}" />
+										<p:selectOneMenu id="situacao-np" value="#{consultarDAMBean.situacaoDAM}"
+											required="true">
+											<f:selectItems value="#{enumProducer.situacoesDAM}" />
+										</p:selectOneMenu>
+									</div>
+
+								</h:panelGroup>
+							</p:panelGrid>
+						</div>
+
+						<div class="scroll-lateral-responsivo">
+							<p:dataTable value="#{consultarDAMBean.listaConsulta}" var="item"
+								emptyMessage="#{msg['sem.dados']}" styleClass="tabela-de-dados panel panel-default table-responsive"
+								paginator="true" rows="20" paginatorPosition="bottom" paginatorAlwaysVisible="false" lazy="true">
+
+								<p:column headerText="#{msg['numero']}">
+									<h:outputText value="#{item.dam.numero}" />
+								</p:column>
+
+								<p:column headerText="#{msg['competencia']}">
+									<h:outputText value="#{item.dam.competencia}" converter="competenciaConverter" />
+								</p:column>
+
+								 <p:column headerText="#{msg['emissao']}">
+									<h:outputText value="#{item.dam.dataEmissao}">
+										<f:convertDateTime pattern="dd/MM/yyyy"/>
+									</h:outputText> 
+								</p:column>
+
+								<p:column headerText="#{msg['vencimento']}">
+									<h:outputText value="#{item.dam.dataVencimento}">
+										<f:convertDateTime pattern="dd/MM/yyyy"/>
+									</h:outputText> 
+								</p:column>
+
+								<p:column headerText="#{msg['valor.total.iss']}">
+									<h:outputText value="#{item.dam.valorTotal}" converter="moneyConverter"/> 
+								</p:column>
+
+								<p:column headerText="#{msg['situacao.dam']}">
+									<h:outputText value="#{msg[item.situacaoDAM.label]}" rendered="#{!empty item.situacaoDAM}" />
+									<h:outputText value="#{msg['label.enum.situacaoDAM.pendente']}" rendered="#{empty item.situacaoDAM}" />
+								</p:column>
+
+								<p:column headerText="#{msg['acoes']}" styleClass="width50px">
+									<p:commandButton id="optButton" type="button" icon="fa fa-cog" />
+									<p:menu overlay="true" trigger="optButton" my="right top" at="right bottom">
+										<p:menuitem value="#{msg['detalhar']}" icon="fa fa-search" ajax="false"
+											 action="#{detalharDAMBean.detalhar(item)}" id="mi-detalhar" />
+										
+										<p:menuitem value="#{msg['reemitir.dam']}" icon="fa fa-barcode" ajax="false" 
+										action="#{reemissaoEscrituracaoCompetenciaBean.prepararReemissao(item.dam)}" 
+										rendered="#{reemissaoEscrituracaoCompetenciaBean.podeSerReemitidoDam(item.dam)}" target="_self"/>
+										
+										<p:menuitem value="#{msg['segunda.via.dam']}" icon="fa fa-print" ajax="false"
+										action="#{visualizarDAMPortalBean.visualizar(item.dam, 1)}"
+										target="_blank" rendered="#{item.dam.situacaoDAM eq 'EMITIDO'}" />
+									</p:menu>
+									
+									
+								</p:column> 
+
+							</p:dataTable>
+						</div>		
+					</div>						
+				</p:tab>		
+						
+				<!--######## SEGUNDA ABA ########################################-->
+				
+				<p:tab title="#{msg['tomador']}" id="tab-nt">
+					<div class="panel panel-default">
+						<div id="panel-tomador" class="panel-body">
+							<p:panelGrid columns="1" layout="grid" styleClass="form-panel">
+								<h:panelGroup>
+
+									<div class="responsivo width350px">
+										<p:outputLabel for="tomador" value="#{msg['tomador']}" styleClass="width100" />
+										<h:outputText id="tomador" value="#{consultarDAMBean.pessoa}" />
+									</div>
+
+								</h:panelGroup>
+								<h:panelGroup>
+
+									<div class="fixo width90px">
+										<p:outputLabel for="exercicio-nt" value="#{msg['exercicio']}" />
+										<p:inputMask mask="9999" id="exercicio-nt" value="#{consultarDAMBean.exercicio}"
+											required="true" />
+									</div>
+
+									<div class="fixo width140px">
+										<p:outputLabel for="situacao-nt" value="#{msg['situacao.dam']}" />
+										<p:selectOneMenu id="situacao-nt" value="#{consultarDAMBean.situacaoDAM}"
+											required="true">
+											<f:selectItems value="#{enumProducer.situacoesDAM}" />
+										</p:selectOneMenu>
+									</div>
+
+								</h:panelGroup>
+							</p:panelGrid>
+						</div>
+
+						<div class="scroll-lateral-responsivo">
+							<p:dataTable value="#{consultarDAMBean.listaConsulta}" var="item"
+								emptyMessage="#{msg['sem.dados']}" styleClass="tabela-de-dados panel panel-default table-responsive"
+								paginator="true" rows="20" paginatorPosition="bottom" paginatorAlwaysVisible="false" lazy="true">
+
+								<p:column headerText="#{msg['numero']}">
+									<h:outputText value="#{item.dam.numero}" />
+								</p:column>
+
+								<p:column headerText="#{msg['competencia']}">
+									<h:outputText value="#{item.dam.competencia}" converter="competenciaConverter" />
+								</p:column>
+
+								<p:column headerText="#{msg['emissao']}">
+									<h:outputText value="#{item.dam.dataEmissao}">
+										<f:convertDateTime pattern="dd/MM/yyyy"/>
+									</h:outputText> 
+								</p:column>
+
+								<p:column headerText="#{msg['vencimento']}">
+									<h:outputText value="#{item.dam.dataVencimento}">
+										<f:convertDateTime pattern="dd/MM/yyyy"/>
+									</h:outputText> 
+								</p:column>
+
+								<p:column headerText="#{msg['valor.total.iss']}">
+									<h:outputText value="#{item.dam.valorTotal}" converter="moneyConverter"/> 
+								</p:column>
+
+								<p:column headerText="#{msg['situacao.dam']}">
+									<h:outputText value="#{msg[item.situacaoDAM.label]}" rendered="#{!empty item.situacaoDAM}" />
+									<h:outputText value="#{msg['label.enum.situacaoDAM.pendente']}" rendered="#{empty item.situacaoDAM}" />
+								</p:column>
+
+								<p:column headerText="#{msg['acoes']}" styleClass="width50px">
+									<p:commandButton id="optButton" type="button" icon="fa fa-cog" />
+									<p:menu overlay="true" trigger="optButton" my="right top" at="right bottom">
+										<p:menuitem value="#{msg['detalhar']}" icon="fa fa-search" ajax="false"
+											 action="#{detalharDAMBean.detalhar(item)}" id="mi-detalhar" />
+									</p:menu>
+								</p:column>
+
+							</p:dataTable>
+						</div>
+					</div>
+				</p:tab>
+			</p:tabView>
+	
+
+			<br clear="all"/>
+
+
+			<p:blockUI widgetVar="block" block="@form" trigger="btSubmit">
+				<i class="fa fa-spin fa-circle-o-notch"></i>
+				<span class="m-left-xs">#{msg['aguarde']}</span>
+			</p:blockUI>
+
+			<f:metadata>
+				<f:event listener="#{conversationBean.begin()}" type="preRenderView" />
+			</f:metadata>
+
+		</ui:decorate>
+	</ui:define>
+
+</ui:composition>

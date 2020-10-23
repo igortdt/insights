@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PROCESS model-entity="JSFProcess">
+ <PROCESS-ITEM NAME="rules:" SHAPE="32,17,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules::0" NAME="item" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="escriturar_nota_tomada::#app#UC0051EscrituracaoNotaTomadaPortal#T0051C-escrituracao-nota-tomada-form-portal.xhtml"
+    NAME="output"
+    PATH="/app/UC0051EscrituracaoNotaTomadaPortal/T0051C-escrituracao-nota-tomada-form-portal.xhtml"
+    TARGET="rules:#app#UC0051EscrituracaoNotaTomadaPortal#T0051C-escrituracao-nota-tomada-form-portal.xhtml"
+    TITLE="escriturar_nota_tomada" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="sucesso:#{escrituracaoNotaTomadaPortalBean.salvar}:#app#UC0051EscrituracaoNotaTomadaPortal#T0051C-escrituracao-nota-tomada-display-portal.xhtml"
+    NAME="output1"
+    PATH="/app/UC0051EscrituracaoNotaTomadaPortal/T0051C-escrituracao-nota-tomada-display-portal.xhtml"
+    TARGET="rules:#app#UC0051EscrituracaoNotaTomadaPortal#T0051C-escrituracao-nota-tomada-display-portal.xhtml"
+    TITLE="#{escrituracaoNotaTomadaPortalBean.salvar}:sucesso" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="cancelar_nfse_escriturada::#app#UC0051EscrituracaoNotaTomadaPortal#T0051C-cancelar-nfse-escriturada.xhtml"
+    NAME="output2"
+    PATH="/app/UC0051EscrituracaoNotaTomadaPortal/T0051C-cancelar-nfse-escriturada.xhtml"
+    TARGET="rules:#app#UC0051EscrituracaoNotaTomadaPortal#T0051C-cancelar-nfse-escriturada.xhtml"
+    TITLE="cancelar_nfse_escriturada" model-entity="JSFProcessItemOutput"/>
+   <PROCESS-ITEM-OUTPUT
+    ID="detalhar_nfse_escriturada::#app#UC0051EscrituracaoNotaTomadaPortal#T0051C-escrituracao-nota-tomada-detalhe.xhtml"
+    NAME="output3"
+    PATH="/app/UC0051EscrituracaoNotaTomadaPortal/T0051C-escrituracao-nota-tomada-detalhe.xhtml"
+    TARGET="rules:#app#UC0051EscrituracaoNotaTomadaPortal#T0051C-escrituracao-nota-tomada-detalhe.xhtml"
+    TITLE="detalhar_nfse_escriturada" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM
+  NAME="rules:#app#UC0051EscrituracaoNotaTomadaPortal#T0051C-escrituracao-nota-tomada-form-portal.xhtml"
+  PATH="/app/UC0051EscrituracaoNotaTomadaPortal/T0051C-escrituracao-nota-tomada-form-portal.xhtml"
+  SHAPE="256,33,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#app#UC0051EscrituracaoNotaTomadaPortal#T0051C-escrituracao-nota-tomada-display-portal.xhtml"
+  PATH="/app/UC0051EscrituracaoNotaTomadaPortal/T0051C-escrituracao-nota-tomada-display-portal.xhtml"
+  SHAPE="256,177,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#app#UC0051EscrituracaoNotaTomadaPortal#T0051C-cancelar-nfse-escriturada.xhtml"
+  PATH="/app/UC0051EscrituracaoNotaTomadaPortal/T0051C-cancelar-nfse-escriturada.xhtml"
+  SHAPE="272,321,0,0" model-entity="JSFProcessGroup"/>
+ <PROCESS-ITEM
+  NAME="rules:#app#UC0051EscrituracaoNotaTomadaPortal#T0051C-escrituracao-nota-tomada-detalhe.xhtml"
+  PATH="/app/UC0051EscrituracaoNotaTomadaPortal/T0051C-escrituracao-nota-tomada-detalhe.xhtml"
+  SHAPE="288,465,0,0" model-entity="JSFProcessGroup"/>
+</PROCESS>

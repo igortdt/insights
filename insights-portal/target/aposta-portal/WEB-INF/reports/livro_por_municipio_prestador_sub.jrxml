@@ -1,0 +1,498 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.5.0.final using JasperReports Library version 6.5.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="livro_sub_prestador" pageWidth="519" pageHeight="595" orientation="Landscape" columnWidth="519" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="6cba4651-ff6e-4d88-97aa-511867facde1">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="postgres_mac"/>
+	<parameter name="ds_schema" class="java.lang.String"/>
+	<parameter name="idPrestador" class="java.lang.Long">
+		<defaultValueExpression><![CDATA[0L]]></defaultValueExpression>
+	</parameter>
+	<parameter name="competencia" class="java.lang.Integer">
+		<defaultValueExpression><![CDATA[0]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select 
+case  when iss_retido_pelo_tomador = 'NAO' and situacao_nfse = 'CANCELADA' then -l.valor_iss 
+      when iss_retido_pelo_tomador = 'NAO' and situacao_nfse <> 'CANCELADA' then l.valor_iss
+      else 0 end as iss_devido,
+
+case  when iss_retido_pelo_tomador = 'SIM' and situacao_nfse = 'CANCELADA' then -l.valor_iss 
+      when iss_retido_pelo_tomador = 'SIM' and situacao_nfse <> 'CANCELADA' then  l.valor_iss 
+      else 0 end as iss_retido,
+      
+case  when  situacao_nfse = 'CANCELADA' then -l.valor_total
+          when  situacao_nfse <> 'CANCELADA' then l.valor_total
+      else 0 end as valor_total1,
+      
+ case  when  situacao_nfse = 'CANCELADA' then -l.valor_deducoes
+          when  situacao_nfse <> 'CANCELADA' then l.valor_deducoes
+      else 0 end as valor_deducoes1,
+      
+ case  when iss_retido_pelo_tomador = 'NAO' and situacao_nfse = 'CANCELADA' then -l.valor_base_calculo
+      when iss_retido_pelo_tomador = 'NAO' and situacao_nfse <> 'CANCELADA' then l.valor_base_calculo
+      else 0 end as valor_base_calculo1,
+l.*
+from $P!{ds_schema}.livro_nfse l	
+where l.prestador_id =($P{idPrestador}) 
+and l.competencia = ($P{competencia}) 
+order by l.local_tributacao_nfse_id]]>
+	</queryString>
+	<field name="iss_retido" class="java.math.BigDecimal"/>
+	<field name="iss_devido" class="java.math.BigDecimal"/>
+	<field name="id" class="java.lang.Long"/>
+	<field name="aliquota" class="java.math.BigDecimal"/>
+	<field name="cnpj_prestador" class="java.lang.String"/>
+	<field name="cnpj_tomador" class="java.lang.String"/>
+	<field name="codigo_verificacao" class="java.lang.String"/>
+	<field name="competencia" class="java.lang.Integer"/>
+	<field name="cpf_prestador" class="java.lang.String"/>
+	<field name="cpf_tomador" class="java.lang.String"/>
+	<field name="data_hora_emissao" class="java.sql.Timestamp"/>
+	<field name="data_hora_emissao_livro" class="java.sql.Timestamp"/>
+	<field name="endereco_completo_prestador" class="java.lang.String"/>
+	<field name="endereco_completo_tomador" class="java.lang.String"/>
+	<field name="exercicio" class="java.lang.Integer"/>
+	<field name="inscricao_municipal_prestador" class="java.lang.Long"/>
+	<field name="inscricao_municipal_tomador" class="java.lang.Long"/>
+	<field name="iss_retido_pelo_tomador" class="java.lang.String"/>
+	<field name="nome_fantasia_prestador" class="java.lang.String"/>
+	<field name="nome_fantasia_tomador" class="java.lang.String"/>
+	<field name="nome_municipio_prestacao_servico" class="java.lang.String"/>
+	<field name="nome_prestador" class="java.lang.String"/>
+	<field name="nome_tomador" class="java.lang.String"/>
+	<field name="numero_nfse" class="java.lang.Long"/>
+	<field name="numero_nfse_substituta" class="java.lang.Long"/>
+	<field name="optante_simples_prestador" class="java.lang.String"/>
+	<field name="optante_simples_tomador" class="java.lang.String"/>
+	<field name="origem_cadastro_livro" class="java.lang.String"/>
+	<field name="razao_social_prestador" class="java.lang.String"/>
+	<field name="razao_social_tomador" class="java.lang.String"/>
+	<field name="regime_tributacao_prestador" class="java.lang.String"/>
+	<field name="regime_tributacao_tomador" class="java.lang.String"/>
+	<field name="situacao_nfse" class="java.lang.String"/>
+	<field name="tipo_pessoa_prestador" class="java.lang.String"/>
+	<field name="tipo_pessoa_tomador" class="java.lang.String"/>
+	<field name="valor_base_calculo" class="java.math.BigDecimal"/>
+	<field name="valor_deducoes" class="java.math.BigDecimal"/>
+	<field name="valor_iss" class="java.math.BigDecimal"/>
+	<field name="valor_total" class="java.math.BigDecimal"/>
+	<field name="local_prestacao_id" class="java.lang.Long"/>
+	<field name="local_tributacao_nfse_id" class="java.lang.Long"/>
+	<field name="prestador_id" class="java.lang.Long"/>
+	<field name="tomador_id" class="java.lang.Long"/>
+	<field name="valor_total1" class="java.math.BigDecimal"/>
+	<field name="valor_base_calculo1" class="java.math.BigDecimal"/>
+	<field name="valor_deducoes1" class="java.math.BigDecimal"/>
+	<variable name="valor_total1" class="java.math.BigDecimal" resetType="Group" resetGroup="localPrestacaoServicoGrupo" calculation="Sum">
+		<variableExpression><![CDATA[$F{valor_total1}]]></variableExpression>
+	</variable>
+	<variable name="valor_total2" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{valor_total1}]]></variableExpression>
+	</variable>
+	<variable name="valor_deducoes1" class="java.math.BigDecimal" resetType="Group" resetGroup="localPrestacaoServicoGrupo" calculation="Sum">
+		<variableExpression><![CDATA[$F{valor_deducoes1}]]></variableExpression>
+	</variable>
+	<variable name="valor_base_calculo1" class="java.math.BigDecimal" resetType="Group" resetGroup="localPrestacaoServicoGrupo" calculation="Sum">
+		<variableExpression><![CDATA[$F{valor_base_calculo1}]]></variableExpression>
+	</variable>
+	<variable name="iss_retido1" class="java.math.BigDecimal" resetType="Group" resetGroup="localPrestacaoServicoGrupo" calculation="Sum">
+		<variableExpression><![CDATA[$F{iss_retido}]]></variableExpression>
+	</variable>
+	<variable name="iss_devido1" class="java.math.BigDecimal" resetType="Group" resetGroup="localPrestacaoServicoGrupo" calculation="Sum">
+		<variableExpression><![CDATA[$F{iss_devido}]]></variableExpression>
+	</variable>
+	<variable name="valor_deducoes2" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{valor_deducoes1}]]></variableExpression>
+	</variable>
+	<variable name="valor_base_calculo2" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{valor_base_calculo1}]]></variableExpression>
+	</variable>
+	<variable name="iss_retido2" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{iss_retido}]]></variableExpression>
+	</variable>
+	<variable name="iss_devido2" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{iss_devido}]]></variableExpression>
+	</variable>
+	<group name="localPrestacaoServicoGrupo">
+		<groupExpression><![CDATA[$F{local_tributacao_nfse_id}]]></groupExpression>
+		<groupHeader>
+			<band>
+				<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				<property name="local_mesure_unitheight" value="pixel"/>
+			</band>
+		</groupHeader>
+		<groupFooter>
+			<band height="16">
+				<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				<textField pattern="R$ #,##0.00">
+					<reportElement x="117" y="0" width="80" height="16" uuid="230b1b32-4336-4ef5-ae74-0637a744a578">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					</reportElement>
+					<box>
+						<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center"/>
+					<textFieldExpression><![CDATA[$V{valor_total1}  == null ? 0 : $V{valor_total1}]]></textFieldExpression>
+				</textField>
+				<textField pattern="R$ #,##0.00">
+					<reportElement x="197" y="0" width="80" height="16" uuid="e593d700-4593-46d2-b617-7bbe011f75e0">
+						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+					<box>
+						<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center"/>
+					<textFieldExpression><![CDATA[$V{valor_deducoes1} == null ? 0 :$V{valor_deducoes1}]]></textFieldExpression>
+				</textField>
+				<textField pattern="R$ #,##0.00">
+					<reportElement x="277" y="0" width="80" height="16" uuid="d9a766d0-be9c-4759-a567-6bf035740ebe">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+					<box>
+						<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center"/>
+					<textFieldExpression><![CDATA[$V{valor_base_calculo1} == null ? 0 : $V{valor_base_calculo1}]]></textFieldExpression>
+				</textField>
+				<textField pattern="R$ #,##0.00">
+					<reportElement x="357" y="0" width="80" height="16" uuid="7b3b6899-371a-415a-8fb2-12d5e897059b">
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+					<box>
+						<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center"/>
+					<textFieldExpression><![CDATA[$V{iss_retido1} == null ? 0 : $V{iss_retido1}]]></textFieldExpression>
+				</textField>
+				<textField pattern="R$ #,##0.00">
+					<reportElement x="437" y="0" width="80" height="16" uuid="c8c41078-ac76-43b1-8b78-5628ee87520d">
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+					<box>
+						<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center"/>
+					<textFieldExpression><![CDATA[$V{iss_devido1} == null ? 0 : $V{iss_devido1}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="0" y="0" width="116" height="16" uuid="db5a0d07-2ea1-4fc1-a967-23f5ba837da3">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="local_mesure_unitwidth" value="pixel"/>
+					</reportElement>
+					<box leftPadding="5">
+						<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center">
+						<font isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{nome_municipio_prestacao_servico}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="20" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<property name="local_mesure_unitheight" value="pixel"/>
+			<staticText>
+				<reportElement x="0" y="0" width="517" height="20" uuid="b343ba8d-e78e-4606-a992-ea73daddf2b7">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Detalhamento por Município]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="16" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<property name="local_mesure_unitheight" value="pixel"/>
+			<staticText>
+				<reportElement x="197" y="0" width="80" height="16" uuid="24a17fef-19d0-486b-bfb3-cd09b67b9898">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Deduções]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="277" y="0" width="80" height="16" uuid="39711efe-dc14-43fe-af4a-eaa74549b267">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Base Cálculo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="357" y="0" width="80" height="16" uuid="2abeb084-81e8-481d-87d5-8c2f0c82e480">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[ISS Retido]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="437" y="0" width="80" height="16" uuid="7b0c1820-f6d1-499a-87ce-ce2d6c8ad53f">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[ISS Devido]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="117" y="0" width="80" height="16" uuid="efc63940-f709-498b-9289-509f26af322e">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Valor Total]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="116" height="16" uuid="129b1684-6a23-44ed-8749-47a5d5a71bff">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Município]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="16" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<property name="local_mesure_unitheight" value="pixel"/>
+			<textField pattern="R$ #,##0.00">
+				<reportElement mode="Opaque" x="117" y="0" width="80" height="16" forecolor="#FFFFFF" backcolor="#000000" uuid="7fd970d4-6254-4e32-ad3c-5ce2ada38a83">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="local_mesure_unity" value="pixel"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{valor_total2} == null ? 0 : $V{valor_total2}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="0" y="0" width="116" height="16" forecolor="#FFFFFF" backcolor="#000000" uuid="c21f1c1c-0a79-4763-9689-4999d9015bd2">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="local_mesure_unitheight" value="pixel"/>
+				</reportElement>
+				<box leftPadding="5">
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Geral]]></text>
+			</staticText>
+			<textField pattern="R$ #,##0.00">
+				<reportElement mode="Opaque" x="197" y="0" width="80" height="16" forecolor="#FFFFFF" backcolor="#000000" uuid="6bb4b684-4f39-4233-8786-973b83126f95">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{valor_deducoes2} == null ? 0 : $V{valor_deducoes2}]]></textFieldExpression>
+			</textField>
+			<textField pattern="R$ #,##0.00">
+				<reportElement mode="Opaque" x="277" y="0" width="80" height="16" forecolor="#FFFFFF" backcolor="#000000" uuid="b5a71c19-3e73-4382-a883-4766e6f4e9b7">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{valor_base_calculo2}  == null ? 0 : $V{valor_base_calculo2}]]></textFieldExpression>
+			</textField>
+			<textField pattern="R$ #,##0.00">
+				<reportElement mode="Opaque" x="357" y="0" width="80" height="16" forecolor="#FFFFFF" backcolor="#000000" uuid="3297195e-57f8-47dd-8dae-0dbb66e2dcd1">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{iss_retido2} == null ? 0 : $V{iss_retido2}]]></textFieldExpression>
+			</textField>
+			<textField pattern="R$ #,##0.00">
+				<reportElement mode="Opaque" x="437" y="0" width="80" height="16" forecolor="#FFFFFF" backcolor="#000000" uuid="9bbedee2-4ed8-41a3-b546-2a7cb7dd26d5">
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{iss_devido2} == null ? 0 : $V{iss_devido2}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

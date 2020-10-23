@@ -1,0 +1,334 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template/master-template-portal.xhtml">
+
+	<ui:define name="titulo_pagina">
+		<h:outputText value="#{msg['novo']} #{msg['twitter.analyzer']}" />
+	</ui:define>
+
+	
+	<ui:define name="conteudo">
+		<ui:decorate template="/WEB-INF/template/formulario.xhtml">
+		
+			<div class="bg-light">
+				<div class="container">
+					<div class="col-lg-6 col-md-6 col-sm-6">
+						<ul class="list-inline margin-top5px">
+							<li><p:link outcome="/home.xhtml">
+									<i class="fa fa-home fa-lg"></i> 
+										Home 
+									</p:link></li>
+						</ul>
+					</div>
+	
+				</div>
+			</div>
+				
+
+
+			<!-- ********************************************* -->
+			<!-- BARRA DE FERRAMENTAS - BOTOES DO LADO DIREITO -->
+			<!-- ********************************************* -->
+			<ui:define name="toolbar-right">
+				
+			</ui:define>
+
+			<br clear="all"/>
+			<br clear="all"/>
+
+			<!-- ******************************* -->
+			<!-- INICIO DOS CAMPOS DO FORMULARIO -->
+			<!-- ******************************* -->
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<p:panelGrid columns="1" layout="grid">
+
+						<h:panelGroup>
+
+							
+
+							<div class="fixo width200px">
+								<p:outputLabel for="perfil" value="#{msg['perfil.twitter']} *" />
+			  					<p:inputText id="perfil" value="#{profileBean.profile.perfilTwitter}" />
+							</div>
+							
+							<div class="fixo width200px">
+								<p:outputLabel for="qtd" value="#{msg['qtd.twittes.analyser']} *" />
+			  					<p:inputText id="qtd" value="#{profileBean.qtdTwittes}" />
+							</div>
+
+							<div>
+								<p:commandButton id="btAnalyser" value="#{msg['twitter.analyzer']}" process="perfil,qtd, @this"
+									update="@form, panelTabs" action="#{profileBean.twitterAnalyzer()}" styleClass="margin-top22px">
+								</p:commandButton>
+								<p:defaultCommand target="btAnalyser" />
+							</div>
+
+						</h:panelGroup>
+
+						<br clear="all"/>
+
+						
+
+					</p:panelGrid>
+					
+					
+					<p:outputPanel id="panelTabs">
+						<p:tabView id="tvConsultas" rendered="#{profileBean.profile.id != null}"
+							activeIndex="#{profileBean.activeIndex}">
+							<p:ajax event="tabChange" listener="#{profileBean.onTabChange()}" update="@form" />
+	
+							<!--######## twittesA ##########################-->
+							<p:tab title="#{msg['twittes']}" id="tabTwittes">
+									<div id="panel-twittes" class="panel-body">
+	
+										<div class="scroll-lateral-responsivo">
+											<p:dataTable
+												value="#{profileBean.profile.twittes}"
+												var="twitter" emptyMessage="#{msg['sem.dados']}"
+												styleClass="tabela-de-dados panel panel-default table-responsive"
+												paginator="true" paginatorPosition="bottom" 
+												paginatorAlwaysVisible="false" lazy="true" rowIndexVar="index">
+													
+												<p:column headerText="" styleClass="width40px">										        
+											        <h:outputText 
+											            value="#{index + 1}" />
+											    </p:column>
+											   
+											    <p:column headerText="Data" styleClass="width140px">
+													<h:outputText value="#{twitter.createdAt}" >
+														<f:convertDateTime pattern="dd/MM/yyyy HH:mm:ss" timeZone="GMT-3" />
+													</h:outputText>
+												</p:column>
+													
+												<p:column headerText="Texto">
+													<h:outputText value="#{twitter.text}" />
+												</p:column>
+	
+											</p:dataTable>
+										</div>
+									</div>
+							</p:tab>
+	
+							<!--########  personalitys ########################################-->
+	
+							<p:tab title="#{msg['personalitys']}" id="tabPersonalitys">
+									<div id="panel-personalitys" class="panel-body">
+									<div class="scroll-lateral-responsivo">
+										<p:dataTable
+											value="#{profileBean.profile.personalitys}"
+											var="personality" emptyMessage="#{msg['sem.dados']}"
+											styleClass="tabela-de-dados panel panel-default table-responsive"
+											paginator="true"  paginatorPosition="bottom"
+											paginatorAlwaysVisible="false" lazy="true" rowIndexVar="index">
+												
+											<p:column headerText="" styleClass="width40px">										        
+										        <h:outputText 
+										            value="#{index + 1}" />
+										    </p:column>
+										    	
+											<p:column headerText="Trait Id">
+												<h:outputText value="#{personality.trait_id}" />
+											</p:column>
+	
+											<p:column headerText="Name">
+												<h:outputText value="#{personality.name}" />
+											</p:column>
+											
+											<p:column headerText="Category">
+												<h:outputText value="#{personality.category}" />
+											</p:column>
+											
+											<p:column headerText="Percentile">
+												<h:outputText value="#{personality.percentile}" />
+											</p:column>
+											
+											<p:column headerText="Significant">
+												<h:outputText value="#{personality.significant}" />
+											</p:column>
+	
+										</p:dataTable>
+									</div>
+								</div>
+							</p:tab>
+							
+							
+							<!--########  needs ########################################-->
+	
+							<p:tab title="#{msg['needs']}" id="tabNeeds">
+									<div id="panel-needs" class="panel-body">
+									<div class="scroll-lateral-responsivo">
+										<p:dataTable
+											value="#{profileBean.profile.needs}"
+											var="item" emptyMessage="#{msg['sem.dados']}"
+											styleClass="tabela-de-dados panel panel-default table-responsive"
+											paginator="true"  paginatorPosition="bottom"
+											paginatorAlwaysVisible="false" lazy="true" rowIndexVar="index">
+												
+											<p:column headerText="" styleClass="width40px">										        
+										        <h:outputText 
+										            value="#{index + 1}" />
+										    </p:column>
+										    	
+											<p:column headerText="Trait Id">
+												<h:outputText value="#{item.trait_id}" />
+											</p:column>
+	
+											<p:column headerText="Name">
+												<h:outputText value="#{item.name}" />
+											</p:column>
+											
+											<p:column headerText="Category">
+												<h:outputText value="#{item.category}" />
+											</p:column>
+											
+											<p:column headerText="Percentile">
+												<h:outputText value="#{item.percentile}" />
+											</p:column>
+											
+											<p:column headerText="Significant">
+												<h:outputText value="#{item.significant}" />
+											</p:column>
+	
+										</p:dataTable>
+									</div>
+								</div>
+							</p:tab>
+							
+							<!--########  values ########################################-->
+							
+							<p:tab title="#{msg['values']}" id="tabValues">
+									<div id="panel-values" class="panel-body">
+									<div class="scroll-lateral-responsivo">
+										<p:dataTable
+											value="#{profileBean.profile.values}"
+											var="item" emptyMessage="#{msg['sem.dados']}"
+											styleClass="tabela-de-dados panel panel-default table-responsive"
+											paginator="true"  paginatorPosition="bottom"
+											paginatorAlwaysVisible="false" lazy="true" rowIndexVar="index">
+												
+											<p:column headerText="" styleClass="width40px">										        
+										        <h:outputText 
+										            value="#{index + 1}" />
+										    </p:column>
+										    	
+											<p:column headerText="Trait Id">
+												<h:outputText value="#{item.trait_id}" />
+											</p:column>
+	
+											<p:column headerText="Name">
+												<h:outputText value="#{item.name}" />
+											</p:column>
+											
+											<p:column headerText="Category">
+												<h:outputText value="#{item.category}" />
+											</p:column>
+											
+											<p:column headerText="Percentile">
+												<h:outputText value="#{item.percentile}" />
+											</p:column>
+											
+											<p:column headerText="Significant">
+												<h:outputText value="#{item.significant}" />
+											</p:column>
+	
+										</p:dataTable>
+									</div>
+								</div>
+							</p:tab>
+							
+							<p:tab title="#{msg['behaviors']}" id="tabBehaviors">
+									<div id="panel-behaviors" class="panel-body">
+									<div class="scroll-lateral-responsivo">
+										<p:dataTable
+											value="#{profileBean.profile.behaviors}"
+											var="item" emptyMessage="#{msg['sem.dados']}"
+											styleClass="tabela-de-dados panel panel-default table-responsive"
+											paginator="true"  paginatorPosition="bottom"
+											paginatorAlwaysVisible="false" lazy="true" rowIndexVar="index">
+												
+											<p:column headerText="" styleClass="width40px">										        
+										        <h:outputText 
+										            value="#{index + 1}" />
+										    </p:column>
+										    	
+											<p:column headerText="Trait Id">
+												<h:outputText value="#{item.trait_id}" />
+											</p:column>
+	
+											<p:column headerText="Name">
+												<h:outputText value="#{item.name}" />
+											</p:column>
+											
+											<p:column headerText="Category">
+												<h:outputText value="#{item.category}" />
+											</p:column>
+											
+											<p:column headerText="Percentage">
+												<h:outputText value="#{item.percentage}" />
+											</p:column>
+											
+										</p:dataTable>
+									</div>
+								</div>
+							</p:tab>
+							
+							<p:tab title="#{msg['warnings']}" id="tabWarnings">
+									<div id="panel-warnings" class="panel-body">
+									<div class="scroll-lateral-responsivo">
+										<p:dataTable
+											value="#{profileBean.profile.warnings}"
+											var="item" emptyMessage="#{msg['sem.dados']}"
+											styleClass="tabela-de-dados panel panel-default table-responsive"
+											paginator="true"  paginatorPosition="bottom"
+											paginatorAlwaysVisible="false" lazy="true" rowIndexVar="index">
+												
+											<p:column headerText="" styleClass="width40px">										        
+										        <h:outputText 
+										            value="#{index + 1}" />
+										    </p:column>
+										    	
+											<p:column headerText="Warning Id">
+												<h:outputText value="#{item.warning_id}" />
+											</p:column>
+	
+											<p:column headerText="message">
+												<h:outputText value="#{item.message}" />
+											</p:column>
+											
+										</p:dataTable>
+									</div>
+								</div>
+							</p:tab>
+						</p:tabView>
+					</p:outputPanel>
+					
+				</div>
+			</div>
+
+			<p:blockUI block="@form" trigger="btAnalyser">
+				<i class="fa fa-spin fa-circle-o-notch"></i>
+				<span class="m-left-xs">Aguarde...</span>
+			</p:blockUI>
+
+			
+			<script type="text/javascript">
+			jQuery(document).ready(function(){
+				PF('btop').show();
+				PF('bmenu').show();
+			});
+			</script>
+
+			<f:metadata>
+				<f:event listener="#{conversationBean.begin}" type="preRenderView" />
+			</f:metadata>
+
+		</ui:decorate>
+	</ui:define>
+
+</ui:composition>

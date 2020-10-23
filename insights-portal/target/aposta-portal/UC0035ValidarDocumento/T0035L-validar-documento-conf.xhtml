@@ -1,0 +1,140 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title><ui:insert name="titulo">#{msg['nome.sistema']}</ui:insert></title>
+
+		<link href="/#{initParam['context-root']}/resources/css/insights.css" rel="stylesheet" />
+
+		<link href="/#{initParam['context-root']}/theme/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+		<link href="/#{initParam['context-root']}/theme/css/font-awesome.min.css" rel="stylesheet" />
+		<link href="/#{initParam['context-root']}/theme/css/endless.min.css" rel="stylesheet" />
+
+		<link rel="shortcut icon" href="/#{initParam['context-root']}/resources/img/favicon-aspec.ico" type="image/x-icon" />
+		<link rel="icon" href="/#{initParam['context-root']}/resources/img/favicon-aspec.ico" type="image/x-icon" />
+
+	</h:head>
+
+	<h:body>
+
+		<div class="login-wrapper">
+
+			<div style="width:65px; margin-left: auto; margin-right: auto;">
+				<img src="/#{initParam['context-root']}/resources/#{initParam['uf_municipio']}/img/brasao-sistema.jpg"  />
+			</div>
+			<div style="width:250px; margin-left: auto; margin-right: auto;" class="text-center clear">
+				<h4>#{msg[initParam['context-root'].concat('.pref')]}</h4>
+				<h4 class="negrito fadeInUp animation-delay4 font80em">#{msg[initParam['context-root'].concat('.nome')]}</h4>
+			</div>
+
+			<div class="text-center">
+				<h2 class="fadeInUp animation-delay4 font-light">
+					<span class="text-success">#{msg['nome.sistema']}</span>
+				</h2>
+			</div>
+
+			<div class="login-widget animation-delay1 width350px">
+				<div class="panel panel-default painel-login-sb">
+					<p:messages autoUpdate="true" />
+					<h:form id="frm" prependId="false" styleClass="form-login">
+						<p:focus context="frm" />
+
+						<!-- <div class="panel-heading clearfix"></div> -->
+
+						<div class="panel-heading clearfix">
+							<div class="pull-left">
+								<i class="fa fa-lock fa-lg"></i>
+								<span>#{msg['validacao.documentos']}</span>
+							</div>
+							<!-- <div class="pull-right">									
+								<p:link outcome="/UC0031Usuario/T0031C-usuario-form" styleClass="pull-right">
+									<i class="fa fa-user-plus"></i>
+									#{msg['novo.usuario']}
+								</p:link>
+							</div> -->
+						</div>
+
+						<div class="panel-body">
+
+							<div class="form-group">
+								<!-- Codigo enviado por E-MAIL -->
+								<p:outputLabel for="codigo-email" value="#{msg['codigo.enviado.email']}" styleClass="width100" /> 
+								<h:outputText id="codigo-email" value="#{validacaoDocumentoBean.codigoEmail}" />
+							</div>
+
+							<div class="form-group">
+
+								<!-- CPF / CNPJ -->
+								<p:outputLabel for="cpf-cnpj" value="#{msg['cpf.cnpj']}" />
+								<p:inputText id="cpf-cnpj" value="#{validacaoDocumentoBean.cpfCnpj}" required="true"
+									onkeyup="mascara(this, cpfcnpj)" maxlength="18"
+									styleClass="form-control input-sm" converter="cpfCnpjConverter">
+									<f:passThroughAttribute name="pattern" value="[0-9]*" />
+								</p:inputText>
+
+								<!-- Login por E-MAIL -->
+								<!-- <p:outputLabel for="email" value="#{msg['email']}" rendered="#{loginBean.tipoLogin ne 1}" /> 
+								<p:inputText id="email" value="#{loginBean.email}" size="30" required="true"  
+									styleClass="form-control input-sm" type="email" rendered="#{loginBean.tipoLogin ne 1}" />
+								<p:message for="email" rendered="#{loginBean.tipoLogin ne 1}" /> -->
+
+							</div>
+									<div class="form-group">
+										<!-- <p:outputLabel for="senha" value="#{msg['senha']}" />
+										<p:password id="senha" value="#{loginBean.password}" size="30" required="true" 
+											styleClass="form-control input-sm" />
+										<p:message for="senha" /> -->
+									</div>
+		
+									<!--  <p:separator /> -->
+									
+									<h:panelGrid columns="1" layout="grid" styleClass="float-left">
+										<!-- <p:selectOneButton  id="tipo_login"
+											value="#{loginBean.tipoLogin}"
+											styleClass="combobox botao-login-tipo">
+											
+											<f:selectItem itemLabel=""  itemValue="1" />
+											
+											<f:selectItem itemLabel="" itemValue="2" />
+											
+											<p:ajax event="change" update="frm" resetValues="true" />
+										</p:selectOneButton> -->
+									</h:panelGrid>
+									
+									
+									
+							<p:commandButton id="btValidar" action="#{validacaoDocumentoBean.validar}" update="@form"
+								styleClass="btn btn-success btn-sm pull-right" icon="fa fa-sign-in" value="#{msg['validar']}">
+							</p:commandButton>
+							<!-- <p:defaultCommand target="btValidar" /> -->
+									
+									<!-- <p:link outcome="/UC0032RecuperarSenha/T0032C-recuperar-senha" styleClass="pull-right margin-right20px margin-top5px">
+										 <i class="fa fa-file-o"></i>
+										#{msg['esqueci.minha.senha']}
+									</p:link> -->
+						</div>
+					</h:form>
+				</div>
+				<p>© 2016 Aspec. Todos os direitos reservados.</p>
+			</div>
+
+		</div>
+
+		<script src="/#{initParam['context-root']}/theme/js/theme.js"></script>
+		<script src="/#{initParam['context-root']}/theme/js/documents.js"></script>
+
+		<f:metadata>
+			<f:event listener="#{conversationBean.begin}" type="preRenderView" />
+			<f:event listener="#{validacaoDocumentoBean.init(requestScope['h'])}" type="preRenderView" />
+		</f:metadata>
+
+	</h:body>
+
+</html>

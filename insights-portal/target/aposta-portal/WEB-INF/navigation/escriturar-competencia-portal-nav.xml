@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<faces-config version="2.2" xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
+
+	<navigation-rule id="escriturar_competencia_navigation">
+
+		<navigation-case id="escriturar_competencia">
+			<from-outcome>escriturar_competencia</from-outcome>
+			<to-view-id>/app/UC0073EscriturarCompetencia/T0073L-escriturar-competencia.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+
+		<!-- Prestador -->
+		
+		<navigation-case>
+			<from-action>#{escriturarCompetenciaPortalBean.exibirDadosDAMPrestador}</from-action>
+			<from-outcome>sucesso</from-outcome>
+			<to-view-id>/app/UC0073EscriturarCompetencia/T0073L-escriturar-competencia-prestador-dados-dam.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		
+		<navigation-case>
+			<from-action>#{escriturarCompetenciaPortalBean.exibirDadosDAMPrestador}</from-action>
+			<from-outcome>sucessoSemDAM</from-outcome>
+			<to-view-id>/app/UC0073EscriturarCompetencia/T0073L-escriturar-competencia.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		
+		<navigation-case>
+			<from-action>#{escriturarCompetenciaPortalBean.salvarEncerramentoPrestador}</from-action>
+			<from-outcome>sucesso</from-outcome>
+			<to-view-id>/app/UC0073EscriturarCompetencia/T0073L-escriturar-competencia.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		
+	
+		
+		
+		
+		<!-- Tomador -->
+		
+		<navigation-case>
+			<from-action>#{escriturarCompetenciaPortalBean.exibirDadosDAMTomador}</from-action>
+			<from-outcome>sucesso</from-outcome>
+			<to-view-id>/app/UC0073EscriturarCompetencia/T0073L-escriturar-competencia-tomador-dados-dam.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		
+		
+		<navigation-case>
+			<from-action>#{escriturarCompetenciaPortalBean.exibirDadosDAMTomador}</from-action>
+			<from-outcome>sucessoSemDAM</from-outcome>
+			<to-view-id>/app/UC0073EscriturarCompetencia/T0073L-escriturar-competencia.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		
+		<navigation-case>
+			<from-action>#{escriturarCompetenciaPortalBean.salvarEncerramentoTomador}</from-action>
+			<from-outcome>sucesso</from-outcome>
+			<to-view-id>/app/UC0073EscriturarCompetencia/T0073L-escriturar-competencia.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+		
+
+	</navigation-rule>
+
+</faces-config>

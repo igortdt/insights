@@ -1,0 +1,51 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>insights</groupId>
+		<artifactId>insights</artifactId>
+		<version>0.0.1</version>
+	</parent>
+	<artifactId>insights-ear</artifactId>
+	<packaging>ear</packaging>
+
+	<dependencies>
+		<dependency>
+			<groupId>insights</groupId>
+			<artifactId>insights-business</artifactId>
+			<version>0.0.1</version>
+			<type>ejb</type>
+		</dependency>		
+		<dependency>
+			<groupId>insights</groupId>
+			<artifactId>insights-portal</artifactId>
+			<version>0.0.1</version>
+			<type>war</type>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-ear-plugin</artifactId>
+				<version>2.9.1</version>
+				<configuration>
+					<displayName>insights-ear</displayName>
+					<modules>
+						<ejbModule>
+							<groupId>insights</groupId>
+							<artifactId>insights-business</artifactId>
+						</ejbModule>						
+						<webModule>
+							<groupId>insights</groupId>
+							<artifactId>insights-portal</artifactId>
+							<contextRoot>/insights</contextRoot>
+						</webModule>
+					</modules>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

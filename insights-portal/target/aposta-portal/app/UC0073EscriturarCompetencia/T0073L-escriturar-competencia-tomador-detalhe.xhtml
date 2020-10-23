@@ -1,0 +1,292 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template/master-template.xhtml">
+
+	<ui:define name="titulo_pagina">
+			<h:outputText value="#{msg['escriturar.competencia.tomador']}" />
+	</ui:define>
+
+	<ui:define name="breadcrumb">
+		<li><i class="fa fa-home"></i><p:link outcome="inicio" value=" #{msg['escriturar.competencia']}" /></li>
+		<!-- <li><i class="fa fa-money"></i> #{msg['tributos']}</li>
+		<li>#{msg['iss']}</li> -->
+		<li class="active">#{msg['escriturar.competencia.tomador']}</li>
+	</ui:define>
+
+	<!-- Alguns itens do formulario estao no arquivo display.xhtml -->
+	<!-- A barra de ferramentas e a disposicao de seus botoes tambem esta no display.xhtml -->
+
+	<ui:define name="conteudo">
+		<ui:decorate template="/WEB-INF/template/display.xhtml">
+
+			<!-- ********************************************** -->
+			<!-- BARRA DE FERRAMENTAS - BOTOES DO LADO ESQUERDO -->
+			<!-- ********************************************** -->
+			<ui:define name="toolbar-left">
+				<p:link onclick="PF('confirmBack').show();return false;"
+					styleClass="btn btn-danger">
+					<i class="fa fa-reply"></i>
+					#{msg['voltar']}
+				</p:link>
+				<p:dialog widgetVar="confirmBack" id="confirmBack" fitViewport="true" modal="true"
+					width="100%" closable="false" draggable="false" resizable="false" showEffect="fade"
+					closeOnEscape="true" hideEffect="fade" styleClass="modal-confirmacao">
+					<h:outputText value="#{msg['confirma.cancelamento.inclusao']}" styleClass="modal-confirmacao-texto" />
+					<div class="modal-confirmacao-botoes">
+						<p:button value="#{msg['sim']}" outcome="escriturar_competencia" styleClass="modal-confirmacao-botao-verde" />
+						<p:commandButton value="#{msg['nao']}" type="button" onclick="PF('confirmBack').hide();" styleClass="modal-confirmacao-botao-vermelho" />
+					</div>
+				</p:dialog>
+			</ui:define>
+
+			<!-- ********************************************* -->
+			<!-- BARRA DE FERRAMENTAS - BOTOES DO LADO DIREITO -->
+			<!-- ********************************************* -->		
+			<ui:define name="toolbar-right" rendered="#{escriturarCompetenciaPortalBean.encCompTomadorSelecionada.id == null}">
+				
+					
+<!-- 				<p:link onclick="PF('confirmSave').show();return false;" id="btSubmit" styleClass="btn btn-success" -->
+<!-- 					rendered="#{escriturarCompetenciaPortalBean.encCompTomadorSelecionada.id == null}"> -->
+<!-- 					<f:param name="cid" value="#{javax.enterprise.context.conversation.id}" /> -->
+<!-- 					<i class="fa fa-floppy-o"></i> -->
+<!-- 					#{msg['encerrar']} -->
+<!-- 				</p:link> -->
+<!-- 				<p:dialog widgetVar="confirmSave" fitViewport="true" modal="true" -->
+<!-- 					width="100%" closable="false" draggable="false" resizable="false" showEffect="fade" -->
+<!-- 					closeOnEscape="true" hideEffect="fade" styleClass="modal-confirmacao" > -->
+<!-- 					<h:outputText value="#{msg['confirma.inclusao']}" styleClass="modal-confirmacao-texto" /> -->
+<!-- 					<div class="modal-confirmacao-botoes"> -->
+<!-- 						<p:commandButton id="btSim" value="#{msg['sim']}" action="#{escriturarCompetenciaPortalBean.salvarEncerramentoTomador}"  styleClass="modal-confirmacao-botao-verde" -->
+<!-- 							onclick="PF('confirmSave').hide();" update="@form"/> -->
+<!-- 						<p:commandButton value="#{msg['nao']}" type="button" onclick="PF('confirmSave').hide();" styleClass="modal-confirmacao-botao-vermelho" /> -->
+<!-- 					</div> -->
+<!-- 				</p:dialog> -->
+
+
+				<p:link onclick="PF('confirmSave').show();return false;" styleClass="btn btn-success">
+					<f:param name="cid" value="#{javax.enterprise.context.conversation.id}" />
+					<i class="fa fa-floppy-o"></i>
+					#{msg['encerrar']}
+				</p:link>
+				<p:dialog id="confirmSave" widgetVar="confirmSave" fitViewport="true" modal="true"
+					width="100%" closable="false" draggable="false" resizable="false" showEffect="fade"
+					closeOnEscape="true" hideEffect="fade" styleClass="modal-confirmacao" >
+					<h:outputText value="#{msg['confirma.encerramento.competencia']}" styleClass="modal-confirmacao-texto"/>
+					<p:outputPanel styleClass="modal-confirmacao-botoes">
+						<p:commandButton value="#{msg['sim']}" action="#{escriturarCompetenciaPortalBean.exibirDadosDAMTomador}"
+							update="@form" styleClass="modal-confirmacao-botao-verde" id="btSubmit"
+							oncomplete="PF('confirmSave').hide();" />
+						<p:commandButton value="#{msg['nao']}" type="button" onclick="PF('confirmSave').hide();" styleClass="modal-confirmacao-botao-vermelho" />
+					</p:outputPanel>
+				</p:dialog>
+				
+				<p:link id="optButton" styleClass="btn btn-default" onclick="return false;" rendered="#{escriturarCompetenciaPortalBean.encCompTomadorSelecionada.id != null}">
+					<i class="fa fa-bars"></i>#{msg['opcoes']}
+				</p:link>
+				
+				<p:menu overlay="true" trigger="optButton" my="right top" at="right bottom">
+					<p:menuitem value="#{msg['visualizar']}" icon="fa fa-search" ajax="false" target="_blank"
+						rendered="#{escriturarCompetenciaPortalBean.encCompTomadorSelecionada.id != null}"
+						action="#{visualizarEscrituracaoCompetenciaBean.visualizarTomador(escriturarCompetenciaPortalBean.encCompTomadorSelecionada)}"/>
+								
+					<p:menuitem value="#{msg['segunda.via.dam']}" icon="fa fa-ban"
+						ajax="false" target="_blank"
+						action="#{visualizarDAMBean.visualizar(escriturarCompetenciaPortalBean.encCompTomadorSelecionada.dam, 1)}"
+						rendered="#{escriturarCompetenciaPortalBean.encCompTomadorSelecionada.dam != null and escriturarCompetenciaPortalBean.encCompTomadorSelecionada.dam.situacaoDAM eq 'EMITIDO'}" />
+				</p:menu>
+			</ui:define>
+
+			<br clear="all"/>
+			<br clear="all"/>
+
+			<!-- ******************************* -->
+			<!-- INICIO DOS CAMPOS DO FORMULARIO -->
+			<!-- ******************************* -->
+			<div class="panel panel-default">
+				<div class="panel-heading">#{msg['dados.competencia']}</div>
+				<div class="panel-body">
+					<p:panelGrid columns="1" layout="grid" id="form-autorizacao" styleClass="form-panel">
+						
+						<h:panelGroup>
+						
+							<div class="fixo width150px bg-calendario">
+								<p:outputLabel value="#{msg['data.encerramento']}" />
+								<h:outputText value="#{escriturarCompetenciaPortalBean.encCompTomadorSelecionada.dataEncerramento}">
+									<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-3" />
+								</h:outputText>
+					
+							</div>
+
+							<div class="fixo width140px">
+								<p:outputLabel id="compentenciaLabel"
+									value="#{msg['competencia']}" />
+									
+									<br clear="all"/>
+									
+								<p:outputLabel mask="99/9999"
+									value="#{escriturarCompetenciaPortalBean.encCompTomadorSelecionada.competencia}"
+									converter="competenciaConverter" />
+							</div>
+							
+							<div class="fixo width150px bg-calendario">
+								<p:outputLabel value="#{msg['data.vencimento']}" />
+								<h:outputText value="#{escriturarCompetenciaPortalBean.encCompTomadorSelecionada.dataVencimento}">
+									<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-3" />
+								</h:outputText>
+					
+							</div>
+						
+
+						</h:panelGroup>
+						
+						<h:panelGroup>
+							<div class="fixo width150px">
+								<p:outputLabel value="#{msg['cpf']}" rendered="#{escriturarCompetenciaPortalBean.prestadorPF()}"/>
+								<p:outputLabel value="#{msg['cnpj']}" rendered="#{!escriturarCompetenciaPortalBean.prestadorPF()}"/>
+								<br clear="all"/>
+								<h:outputText value="#{escriturarCompetenciaPortalBean.encCompTomadorSelecionada.tomador.documento}" converter="cpfCnpjConverter" />
+							</div>
+							<div class="fixo width250px">
+								<p:outputLabel value="#{msg['nome']}" rendered="#{escriturarCompetenciaPortalBean.prestadorPF()}"/>
+								<p:outputLabel value="#{msg['razao.social']}" rendered="#{!escriturarCompetenciaPortalBean.prestadorPF()}"/>
+								<br clear="all"/>
+								<h:outputText value="#{escriturarCompetenciaPortalBean.encCompTomadorSelecionada.tomador.descricao}"/>
+							</div>
+						</h:panelGroup>
+						
+						
+						<h:panelGroup>
+							<div class="fixo width200px">
+								<p:outputLabel value="#{msg['qtd.nfse.tomada']}"/>
+								<br clear="all"/>
+								<h:outputText value="#{escriturarCompetenciaPortalBean.encCompTomadorSelecionada.quantidadeNfseEscriturado}" />
+							</div>
+							
+							<div class="fixo width200px">
+								<p:outputLabel value="#{msg['qtd.nfse.cancelada']}"/>
+								<br clear="all"/>
+								<h:outputText value="#{escriturarCompetenciaPortalBean.encCompTomadorSelecionada.quantidadeNfseCancelado}" />
+							</div>
+						
+						</h:panelGroup>
+						
+						
+						<h:panelGroup>
+
+							<div class="fixo width250px">
+								<p:outputLabel value="#{msg['total.tomado']}"/>
+								<br clear="all"/>
+								<h:outputText id="totalTomado" value="#{escriturarCompetenciaPortalBean.encCompTomadorSelecionada.totalEscriturado}" converter="moneyConverter"/>
+								
+							</div>
+							
+							<div class="fixo width250px">
+								<p:outputLabel value="#{msg['total.cancelado']}"/>
+								<br clear="all"/>
+								<h:outputText id="totalCancelado" value="#{escriturarCompetenciaPortalBean.encCompTomadorSelecionada.totalCancelado}" converter="moneyConverter"/>
+							
+							</div>
+							
+							<div class="fixo width250px">
+								<p:outputLabel value="#{msg['total.base.calculo']}"/>
+								<br clear="all"/>
+								<h:outputText id="totalBaseCalculo" value="#{escriturarCompetenciaPortalBean.encCompTomadorSelecionada.baseCalculo}" converter="moneyConverter"/>
+							
+							</div>
+							
+							<div class="fixo width250px">
+								<p:outputLabel value="#{msg['total.deducoes']}"/>
+								<br clear="all"/>
+								<h:outputText id="totalDeducoes" value="#{escriturarCompetenciaPortalBean.encCompTomadorSelecionada.deducoes}" converter="moneyConverter"/>
+							
+							</div>
+							
+							<div class="fixo width250px">
+								<p:outputLabel value="#{msg['total.iss.recolher']}"/>
+								<br clear="all"/>
+								<h:outputText id="totalIssRecolher" value="#{escriturarCompetenciaPortalBean.encCompTomadorSelecionada.issRecolher}" converter="moneyConverter"/>
+							
+							</div>
+						</h:panelGroup>
+						
+					</p:panelGrid>
+
+				</div>
+				
+				<br /><br />
+				<div class="panel-heading">#{msg['nfses.competencia']}</div>
+				<div class="panel-body">
+					<div class="scroll-lateral-responsivo">
+						<p:dataTable value="#{escriturarCompetenciaPortalBean.registrosLivroTomador}" var="livro" scrollable="true" scrollHeight="150"
+							emptyMessage="#{msg['sem.dados']}" styleClass="tabela-de-dados panel panel-default table-responsive"
+							paginator="true" rows="20" paginatorPosition="bottom" paginatorAlwaysVisible="false" lazy="true">
+							
+							<p:column headerText="#{msg['numero.nota']}">
+								<h:outputText value="#{livro.numeroNFSe}" /> 
+							</p:column>
+							
+							<p:column headerText="#{msg['data.emissao']}">
+								<h:outputText value="#{livro.dataHoraEmissao}" >
+									<f:convertDateTime pattern="dd/MM/yyyy"/>
+								</h:outputText> 
+							</p:column>
+							
+							<p:column headerText="#{msg['situacao']}">
+								<h:outputText value="#{msg[livro.situacaoNFSe]}" /> 
+							</p:column>
+							
+							<p:column headerText="#{msg['cpf.cnpj']}">
+								<h:outputText value="#{livro.cnpjPrestador}" converter="cpfCnpjConverter"  rendered="#{livro.tipoPessoaPrestador eq 'PESSOA_JURIDICA'}"/>
+								<h:outputText value="#{livro.cpfPrestador}" converter="cpfCnpjConverter"  rendered="#{livro.tipoPessoaPrestador eq 'PESSOA_FISICA'}"/>  
+							</p:column>
+							
+							
+							<p:column headerText="#{msg['prestador']}">
+								<h:outputText value="#{livro.razaoSocialPrestador}" rendered="#{livro.tipoPessoaPrestador eq 'PESSOA_JURIDICA'}"/>
+								<h:outputText value="#{livro.nomePrestador}" rendered="#{livro.tipoPessoaPrestador eq 'PESSOA_FISICA'}"/>  
+							</p:column>
+							
+							<p:column headerText="#{msg['valor']}">
+								<h:outputText value="#{livro.valorTotal}" converter="moneyConverter"/> 
+							</p:column>
+							
+							<p:column headerText="#{msg['deducoes']}">
+								<h:outputText value="#{livro.valorDeducoes}" converter="moneyConverter"/> 
+							</p:column>
+							
+							<p:column headerText="#{msg['base.calculo']}">
+								<h:outputText value="#{livro.valorBaseCalculo}" converter="moneyConverter"/> 
+							</p:column>
+							
+							<p:column headerText="#{msg['aliquota']}">
+								<h:outputText value="#{livro.aliquota}" converter="moneyConverter"/> 
+							</p:column>
+							
+							<p:column headerText="#{msg['valor.iss']}">
+								<h:outputText value="#{livro.valorISS}" converter="moneyConverter"/> 
+							</p:column>
+							
+							<p:column headerText="#{msg['iss.reter']}">
+								<h:outputText value="#{msg[livro.issRetidoPeloTomador]}" /> 
+							</p:column>
+							
+							
+						</p:dataTable>
+					</div>		
+				</div>
+			</div> <!-- DADOS -->
+
+			<p:blockUI widgetVar="block" block="@form" trigger="btSubmit">
+				<i class="fa fa-spin fa-circle-o-notch"></i>
+				<span class="m-left-xs">#{msg['aguarde']}</span>
+			</p:blockUI>
+
+		</ui:decorate>
+	</ui:define>
+
+</ui:composition>

@@ -1,0 +1,319 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:head>
+
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title><ui:insert name="titulo">#{msg['nome.sistema']}</ui:insert></title>
+
+		<h:outputStylesheet library="css" name="insights.css" />
+
+		<link href="#{request.contextPath}/theme/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+		<link href="#{request.contextPath}/theme/css/theme.css" rel="stylesheet" />
+		<!-- <link href="#{request.contextPath}/theme/css/font-awesome.min.css" rel="stylesheet" /> -->
+		<!-- <link href="#{request.contextPath}/theme/css/pace.css" rel="stylesheet" /> -->
+		<link href="#{request.contextPath}/theme/css/colorbox/colorbox.css" rel="stylesheet" />
+		<!-- <link href="#{request.contextPath}/theme/css/morris.css" rel="stylesheet" /> -->
+		<!-- <link href="#{request.contextPath}/theme/css/endless.min.css" rel="stylesheet" /> -->
+		<!-- <link href="#{request.contextPath}/theme/css/endless-skin.css" rel="stylesheet" /> -->
+
+		<link rel="shortcut icon" href="#{request.contextPath}/resources/img/favicon-aspec.ico" type="image/x-icon" />
+		<link rel="icon" href="#{request.contextPath}/resources/img/favicon-aspec.ico" type="image/x-icon" />
+
+	</h:head>
+
+	<h:body styleClass="overflow-hidden">
+
+		<!-- Overlay Div -->
+		<div id="overlay" class="transparent"></div>
+
+		<div id="wrapper" class="#{sessaoBean.sideBarClass}">
+			<p:panel id="panel-top-nav">
+				<div id="top-nav" class="fixed skin-1">
+					<p:commandLink styleClass="brand">
+						<span class="text-toggle">#{msg['empresa']}</span>
+						<span>#{msg['sistema']}</span>
+					</p:commandLink>
+					<p:commandLink styleClass="navbar-toggle pull-left" id="sidebarToggle">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</p:commandLink>
+					<!-- <button type="button" class="navbar-toggle pull-left" id="sidebarToggle">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button> -->
+					<p:commandLink styleClass="navbar-toggle pull-left hide-menu" id="menuToggle"
+						actionListener="#{sessaoBean.toggleSideBar}">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</p:commandLink>
+					<!-- <button type="button" id="menuToggle" class="navbar-toggle pull-left hide-menu">
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button> -->
+					<h:form prependId="false" rendered="#{!empty request.remoteUser}">
+						<ul class="nav-notification clearfix">
+
+							<!-- Notificacoes -->
+							<!-- <li class="dropdown">
+								<p:commandLink actionListener="#{notificacaoBean.ver}" styleClass="dropdown-toggle" process="@this" update="qtdNaoVistaIcon, listaNot">
+									<f:passThroughAttribute name="data-toggle" value="dropdown" />
+									<i class="fa fa-bell fa-lg"></i>
+									<p:outputPanel id="qtdNaoVistaIcon">
+										<h:panelGroup rendered="#{notificacaoBean.qtdNaoVista gt 0}">
+											<span class="notification-label">#{notificacaoBean.qtdNaoVista}</span>
+										</h:panelGroup>
+									</p:outputPanel>
+								</p:commandLink>
+								<ul class="dropdown-menu notification dropdown-3">
+								<p:outputPanel id="listaNot">
+									<li>
+										<a href="#">
+											<h:outputText value="Nenhuma nova notificação." rendered="#{notificacaoBean.qtdNaoLida eq 0}" />
+											<h:outputText value="Você tem uma nova notificação." rendered="#{notificacaoBean.qtdNaoLida eq 1}" />
+											<h:outputText value="Você tem #{notificacaoBean.qtdNaoLida} novas notificações." rendered="#{notificacaoBean.qtdNaoLida gt 1}" />
+										</a>
+									</li>
+									<ui:repeat var="notificacao" value="#{notificacaoBean.notificacoes}">
+									<li>
+										<a href="#">
+											<h:panelGroup styleClass="notification-icon bg-warning" rendered="#{notificacao.tipoNotificacao eq 'ALERTA'}">
+												<i class="fa fa-warning"></i>
+											</h:panelGroup>
+											<h:panelGroup styleClass="notification-icon bg-success" rendered="#{notificacao.tipoNotificacao eq 'SUCESSO'}">
+												<i class="fa fa-check"></i>
+											</h:panelGroup>
+											<h:panelGroup styleClass="notification-icon bg-danger" rendered="#{notificacao.tipoNotificacao eq 'ERRO'}">
+												<i class="fa fa-ban"></i>
+											</h:panelGroup>
+											<span class="m-left-xs">#{notificacao.resumo}</span>
+											<span class="time text-muted">#{notificacao.quando}</span>
+										</a>	
+									</li>
+									</ui:repeat>
+									<li><a href="#">Ver todas</a></li>
+								</p:outputPanel>
+								</ul>
+							</li> -->
+							<!-- Fim: Notificacoes -->
+
+<!-- 							<li class="dropdown"> -->
+<!-- 								<a class="dropdown-toggle" data-toggle="dropdown" href="#"> -->
+<!-- 									<i class="fa fa-cogs fa-lg"></i> -->
+<!-- 								</a> -->
+<!-- 								<ul class="dropdown-menu dropdown-1"> -->
+<!-- 									<p:link outcome="pesquisar_parametro"> -->
+<!-- 										<div class="detail"> -->
+<!-- 											<span class="m-left-xs">#{msg['parametros.gerais']}</span> -->
+<!-- 										</div> -->
+<!-- 									</p:link> -->
+<!-- 								</ul> -->
+<!-- 							</li> -->
+							<li class="profile dropdown">
+								<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+									<strong>
+										<h:outputText value="Usuário : #{sessaoBean.usuario.nome} " />
+										<h:outputText value="utilizando o Contribuinte : #{sessaoBean.pessoa.descricao}"  rendered="#{sessaoBean.pessoa != null}"/>
+									</strong>
+									<span>
+										<i class="fa fa-chevron-down"></i>
+									</span>
+								</a>
+								<ul class="dropdown-menu dropdown-1">
+									<li>
+										<p:link outcome="selecionar_pessoa">
+											<span class="menu-icon">
+												<i class="fa fa-exchange fa-lg"></i> 
+											</span>
+											<span class="text">
+												#{msg['alterar.contribuinte']}
+											</span>
+											<span class="menu-hover"></span>
+										</p:link>
+										<p:link tabindex="-1" onclick="PF('modalLogout').show();return false;"
+											styleClass="main-link" data-popup-ordinal="0">
+											<i class="fa fa-sign-out fa-lg"></i>
+											#{msg['sair']}
+										</p:link>
+									</li>
+								</ul>
+							</li>
+						</ul>
+						<!-- <p:poll interval="60" listener="#{notificacaoBean.atualizar}" update="qtdNaoVistaIcon, listaNot, :panel-alert" /> -->
+						<!-- <p:socket channel="/at_notify_all">
+							<p:ajax event="message" update="qtdNaoVistaIcon, listaNot, :panel-alert" />
+						</p:socket> -->
+
+					</h:form>
+				</div>
+			</p:panel>
+
+			<aside class="fixed skin-1">
+				<h:form id="menu-form" prependId="false">
+					<div class="sidebar-inner scrollable-sidebar">
+						<div class="size-toggle">
+							<p:commandLink styleClass="btn btn-sm" id="sizeToggle"
+								actionListener="#{sessaoBean.toggleSideBarSize}">
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+							</p:commandLink>
+							<!-- <a class="btn btn-sm" id="sizeToggle">
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+								<span class="icon-bar"></span>
+							</a> -->
+							<!-- <a class="btn btn-sm pull-right logoutConfirm_open" href="#logoutConfirm">
+								<i class="fa fa-power-off"></i>
+							</a> -->
+							<p:link onclick="PF('modalLogout').show();return false;"
+								styleClass="btn btn-sm pull-right">
+								<i class="fa fa-power-off"></i>
+							</p:link>
+						</div>
+						<div class="main-menu">
+							<ui:include src="/WEB-INF/template/menu.xhtml" />
+						</div>
+					</div>
+				</h:form>
+			</aside>
+
+			<div id="main-container">
+
+				<div id="breadcrumb">
+					<ul class="breadcrumb">
+						<!-- <li><i class="fa fa-home"></i><p:link outcome="inicio" value=" #{msg['inicio']}" /></li> -->
+						<ui:insert name="breadcrumb" />
+					</ul>
+				</div>
+
+				<p:outputPanel id="panel-alert" autoUpdate="true">
+					<div class="alert-animated" style="display: #{pesquisarBloqueioBean.bloqueadoCalculo ? 'inherit' : 'none'};">
+						<div class="alert-inner">
+							<div class="alert-pulse">
+								<p:graphicImage library="img" name="ajax-loader.gif" />
+								#{msg['calculo.em.execucao']}
+							</div>
+						</div>
+					</div>
+					<div class="alert-animated" style="display: #{pesquisarBloqueioBean.bloqueadoCobranca ? 'inherit' : 'none'};">
+						<div class="alert-inner">
+							<div class="alert-pulse">
+								<p:graphicImage library="img" name="ajax-loader.gif" />
+								#{msg['cobranca.em.execucao']}
+							</div>
+						</div>
+					</div>
+				</p:outputPanel>
+				
+				<div class="padding-l-r-20">		
+					<p:messages id="messages" autoUpdate="true" closable="true" />
+				</div>
+				
+				<div class="main-header clearfix">
+					<div class="page-title">
+						<h3 class="no-margin">
+							<ui:insert name="titulo_pagina"></ui:insert>
+						</h3>
+					</div>
+				</div>
+				
+				
+
+				<div class="padding-md">
+					<div class="row">
+						
+						<ui:insert name="conteudo" />
+					</div>
+				</div>
+								
+			</div>
+
+		</div>
+
+		<footer>
+			<div class="row">
+				<div class="col-sm-6">
+					<span class="footer-brand">
+						<strong class="text-danger">#{msg['empresa']}</strong> #{msg['sistema']}
+					</span>
+					<p class="no-margin">
+						&copy; 2015 <strong>#{msg['empresa']}</strong>. Todos os direitos reservados. 
+					</p>
+				</div>
+			</div>
+		</footer>
+
+		<a href="" id="scroll-to-top" class="hidden-print"><i class="fa fa-chevron-up"></i></a>
+
+		<!-- Logout confirmation -->
+		<p:dialog widgetVar="modalLogout" id="modalLogout" fitViewport="true" modal="true"
+			width="100%" closable="false" draggable="false" resizable="false" showEffect="fade"
+			closeOnEscape="true" hideEffect="fade" styleClass="modal-confirmacao">
+			<h:outputText value="#{msg['deseja.sair.sistema']}" styleClass="modal-confirmacao-texto" />
+			<div class="modal-confirmacao-botoes">
+				<p:commandButton value="#{msg['sair']}" action="#{logoutBean.submit}" styleClass="modal-confirmacao-botao-verde" />
+				<p:commandButton value="#{msg['cancelar']}" type="button" onclick="PF('modalLogout').hide();" styleClass="modal-confirmacao-botao-vermelho" />
+			</div>
+		</p:dialog>
+		<!-- <div class="custom-popup width-100" id="logoutConfirm">
+			<div class="padding-md">
+				<h4 class="m-top-none">#{msg['deseja.sair.sistema']}</h4>
+			</div>
+
+			<div class="text-center">
+				<p:commandLink action="#{logoutBean.submit}" value="#{msg['sair']}" styleClass="btn btn-success m-right-sm"></p:commandLink>
+				<a class="btn btn-danger logoutConfirm_close">#{msg['cancelar']}</a>
+			</div>
+		</div> -->
+
+		<!-- <script src="#{request.contextPath}/resources/js/primefaces-config.js"></script> -->
+
+		<!-- <script src="#{request.contextPath}/theme/bootstrap/js/bootstrap.min.js"></script> -->
+
+		<script src="#{request.contextPath}/theme/js/theme.js"></script>
+		
+		<script src="#{request.contextPath}/theme/js/documents.js"></script>
+
+		<!-- <script src="#{request.contextPath}/theme/js/rapheal.min.js"></script> -->
+		<!-- <script src="#{request.contextPath}/theme/js/morris.min.js"></script> -->
+
+		<!-- <script src="#{request.contextPath}/theme/js/jquery.colorbox.min.js"></script> -->
+
+		<!-- <script src="#{request.contextPath}/theme/js/jquery.sparkline.min.js"></script> -->
+
+		<!-- <script src="#{request.contextPath}/theme/js/pace.min.js"></script> -->
+
+		<!-- <script src="#{request.contextPath}/theme/js/jquery.popupoverlay.min.js"></script> -->
+
+		<!-- <script src="#{request.contextPath}/theme/js/jquery.slimscroll.min.js"></script> -->
+
+		<!-- <script src="#{request.contextPath}/theme/js/modernizr.min.js"></script> -->
+
+		<!-- <script src="#{request.contextPath}/theme/js/jquery.cookie.min.js"></script> -->
+
+		<!-- <script src="#{request.contextPath}/theme/js/endless/endless.min.js"></script> -->
+
+		<p:outputPanel autoUpdate="true">
+			<script type="text/javascript" src="#{request.contextPath}/resources/js/jquery.price_format.2.0.min.js" />
+			<script type="text/javascript" src="#{request.contextPath}/resources/js/formats.js" />
+			<script type="text/javascript">
+			jQuery('.ui-state-disabled').attr('style', 'cursor: not-allowed!important');
+			jQuery('.ui-state-disabled>.ui-selectonemenu-label').attr('style', 'cursor: not-allowed!important');
+			jQuery('.ui-state-disabled>.ui-selectonemenu-trigger').attr('style', 'cursor: not-allowed!important');
+			</script>
+		</p:outputPanel>
+
+	</h:body>
+
+</html>

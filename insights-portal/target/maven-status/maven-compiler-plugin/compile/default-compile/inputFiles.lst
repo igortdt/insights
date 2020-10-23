@@ -1,0 +1,5 @@
+/Applications/java/workspace_insights/insights/insights-portal/src/main/java/br/com/juremal/portal/insights/controller/ConversationBean.java
+/Applications/java/workspace_insights/insights/insights-portal/src/main/java/br/com/juremal/portal/insights/servlet/RelatorioPortalServlet.java
+/Applications/java/workspace_insights/insights/insights-portal/src/main/java/br/com/juremal/portal/insights/security/insightsSecurityRealm.java
+/Applications/java/workspace_insights/insights/insights-portal/src/main/java/br/com/juremal/portal/insights/util/CodigoBarraPortalFormat.java
+/Applications/java/workspace_insights/insights/insights-portal/src/main/java/br/com/juremal/portal/insights/security/FacesAjaxAwareUserFilter.java

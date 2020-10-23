@@ -1,0 +1,547 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="teste" default="all" basedir="../../..">
+
+	<taskdef name="xmltask" classname="com.oopsconsultancy.xmltask.ant.XmlTask" />
+
+	<property name="work.home" value="${basedir}/work"/>
+
+	<!-- <property name="maven.home" value="/Users/thiago/Ferramentas/apache-maven-3.2.5"/> -->
+	<property name="maven.home" value="/workspace/apache-maven-3.2.5" />
+	<property name="update.repo" value="N" />
+
+	<!-- <property name="ambiente" value="homologacao" />  -->
+	<!-- <property name="site.aspec" value="www.aspec.com.br" /> -->
+	<!-- <property name="site.faciliss" value="www.faciliss.com.br" /> -->
+	<property name="build.number" value="0.3.95" />
+	<tstamp>
+		<format property="today_br" pattern="yyyyMMdd" locale="pt,BR" />
+	</tstamp>
+
+	<condition property="process.update">
+		<equals arg1="${update.repo}" arg2="N" />
+	</condition>
+
+	<scriptdef name="propertyreset" language="javascript"
+	    description="Allows to assign @{property} new value">
+	    <attribute name="name" />
+	    <attribute name="value" />
+	        project.setProperty(attributes.get("name"), attributes.get("value"));
+	</scriptdef>
+
+	<!-- al-anadia, ce-beberibe, ce-carius, ce-crateus, ce-guaramiranga, ce-jaguaretama, ce-missaovelha, ce-oros,
+		ce-palmacia, ce-quixeramobim, ce-salitre,
+		ma-altoalegredomaranhao, ma-carolina, ma-portofranco,
+		pa-montealegre, pa-senadorjoseporfilho,
+		rn-passagem, rn-pureza, rn-ruybarbosa, rn-senadorgeorginoavelino, rn-serradomel, -->
+	
+	<target name="all" depends="clean, prepare, ce-jaguaribara" /> 
+	
+ <!-- <target name="all" depends="clean, prepare, uf-municipio, uf-cidade, ce-carius, ce-missaovelha,
+		ce-abaiara, ce-aiuaba, ce-altaneira, ce-araripe, ce-capistrano, ce-chaval, ce-chorozinho,
+		ce-croata, ce-generalsampaio, ce-groairas, ce-guaiuba, ce-itaicaba, ce-jaguaribara,
+		ce-morrinhos, ce-ocara, ce-saobenedito, ce-solonopole,
+		ma-apicumacu, ma-campestredomaranhao,
+		pa-abaetetuba, pa-augustocorrea, pa-colares, pa-florestadoaraguaia, pa-novorepartimento, pa-oriximina,
+		pa-santanadoaraguaia, pa-terraalta,
+		rn-campogrande, rn-camporedondo, rn-coronelezequiel, rn-saovicente, rn-serradesaobento, rn-umarizal,
+		rn-upanema, pa-trairao, rn-boasaude" /> -->    
+
+	
+	<target name="clean">
+		<echo>Limpando arquivos antigos</echo>
+		<delete dir="${work.home}"/>
+	</target>
+
+	<target name="prepare">
+		<echo>Copiando arquivos necessários</echo>
+		<mkdir dir="${work.home}"/>
+		<copy todir="${work.home}/insights">
+			<fileset dir="${basedir}/insights">
+				<exclude name="**/*.svn"/>
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="uf-municipio">
+		<propertyreset name="uf" value="uf" />
+		<propertyreset name="municipio" value="municipio" />
+		<!-- producao / homologacao -->
+		<propertyreset name="ambiente" value="homologacao" />
+		<ant antfile="${basedir}/insights/insights-ear/ant_scripts/build-main.xml" target="target1" />
+	</target>
+
+	<target name="uf-cidade">
+		<propertyreset name="uf" value="uf" />
+		<propertyreset name="municipio" value="cidade" />
+		<!-- producao / homologacao -->
+		<propertyreset name="ambiente" value="homologacao" />
+		<ant antfile="${basedir}/insights/insights-ear/ant_scripts/build-main.xml" target="target1" />
+	</target>
+
+	<target name="ma-matoesdonorte">
+		<propertyreset name="uf" value="ma" />
+		<propertyreset name="municipio" value="matoesdonorte" />
+		<!-- producao / homologacao -->
+		<propertyreset name="ambiente" value="producao" />
+		<ant antfile="${basedir}/insights/insights-ear/ant_scripts/build-main.xml" target="target1" />
+	</target>
+
+	<target name="ce-croata">
+		<propertyreset name="uf" value="ce" />
+		<propertyreset name="municipio" value="croata" />
+		<!-- producao / homologacao -->
+		<propertyreset name="ambiente" value="producao" />
+		<ant antfile="${basedir}/insights/insights-ear/ant_scripts/build-main.xml" target="target1" />
+	</target>
+
+	<target name="ce-araripe">
+		<propertyreset name="uf" value="ce" />
+		<propertyreset name="municipio" value="araripe" />
+		<!-- producao / homologacao -->
+		<propertyreset name="ambiente" value="producao" />
+		<ant antfile="${basedir}/insights/insights-ear/ant_scripts/build-main.xml" target="target1" />
+	</target>
+
+	<target name="ce-solonopole">
+		<propertyreset name="uf" value="ce" />
+		<propertyreset name="municipio" value="solonopole" />
+		<!-- producao / homologacao -->
+		<propertyreset name="ambiente" value="producao" />
+		<ant antfile="${basedir}/insights/insights-ear/ant_scripts/build-main.xml" target="target1" />
+	</target>
+
+	<target name="rn-saovicente">
+		<propertyreset name="uf" value="rn" />
+		<propertyreset name="municipio" value="saovicente" />
+		<!-- producao / homologacao -->
+		<propertyreset name="ambiente" value="producao" />
+		<ant antfile="${basedir}/insights/insights-ear/ant_scripts/build-main.xml" target="target1" />
+	</target>
+
+	<target name="ma-apicumacu">
+		<propertyreset name="uf" value="ma" />
+		<propertyreset name="municipio" value="apicumacu" />
+		<!-- producao / homologacao -->
+		<propertyreset name="ambiente" value="producao" />
+		<ant antfile="${basedir}/insights/insights-ear/ant_scripts/build-main.xml" target="target1" />
+	</target>
+
+	<target name="ma-campestredomaranhao">
+		<propertyreset name="uf" value="ma" />
+		<propertyreset name="municipio" value="campestredomaranhao" />
+		<!-- producao / homologacao -->
+		<propertyreset name="ambiente" value="producao" />
+		<ant antfile="${basedir}/insights/insights-ear/ant_scripts/build-main.xml" target="target1" />
+	</target>
+
+	<target name="rn-passagem">
+		<propertyreset name="uf" value="rn" />
+		<propertyreset name="municipio" value="passagem" />
+		<!-- producao / homologacao -->
+		<propertyreset name="ambiente" value="producao" />
+		<ant antfile="${basedir}/insights/insights-ear/ant_scripts/build-main.xml" target="target1" />
+	</target>
+
+	<target name="ce-missaovelha">
+		<propertyreset name="uf" value="ce" />
+		<propertyreset name="municipio" value="missaovelha" />
+		<!-- producao / homologacao -->
+		<propertyreset name="ambiente" value="producao" />
+		<ant antfile="${basedir}/insights/insights-ear/ant_scripts/build-main.xml" target="target1" />
+	</target>
+
+	<target name="rn-ruybarbosa">
+		<propertyreset name="uf" value="rn" />
+		<propertyreset name="municipio" value="ruybarbosa" />
+		<!-- producao / homologacao -->
+		<propertyreset name="ambiente" value="producao" />
+		<ant antfile="${basedir}/insights/insights-ear/ant_scripts/build-main.xml" target="target1" />
+	</target>
+
+	<target name="ma-altoalegredomaranhao">
+		<propertyreset name="uf" value="ma" />
+		<propertyreset name="municipio" value="altoalegredomaranhao" />
+		<!--  producao / homologacao -->
+		<propertyreset name="ambiente" value="producao" />
+		<ant antfile="${basedir}/insights/insights-ear/ant_scripts/build-main.xml" target="target1" />
+	</target>
+
+	<target name="ce-palmacia">
+		<propertyreset name="uf" value="ce" />
+		<propertyreset name="municipio" value="palmacia" />
+		<!--  producao / homologacao -->
+		<propertyreset name="ambiente" value="producao" />
+		<ant antfile="${basedir}/insights/insights-ear/ant_scripts/build-main.xml" target="target1" />
+	</target>
+
+	<target name="ce-guaramiranga">
+		<propertyreset name="uf" value="ce" />
+		<propertyreset name="municipio" value="guaramiranga" />
+		<!--  producao / homologacao -->
+		<propertyreset name="ambiente" value="producao" />
+		<ant antfile="${basedir}/insights/insights-ear/ant_scripts/build-main.xml" target="target1" />
+	</target>
+
+	<target name="ce-oros">
+		<propertyreset name="uf" value="ce" />
+		<propertyreset name="municipio" value="oros" />
+		<!--  producao / homologacao -->
+		<propertyreset name="ambiente" value="producao" />
+		<ant antfile="${basedir}/insights/insights-ear/ant_scripts/build-main.xml" target="target1" />
+	</target>
+
+	<target name="rn-camporedondo">
+		<propertyreset name="uf" value="rn" />
+		<propertyreset name="municipio" value="camporedondo" />
+		<!-- producao / homologacao -->
+		<propertyreset name="ambiente" value="producao" />
+		<ant antfile="${basedir}/insights/insights-ear/ant_scripts/build-main.xml" target="target1" />
+	</target>
+
+	<target name="ce-quixeramobim">
+		<propertyreset name="uf" value="ce" />
+		<propertyreset name="municipio" value="quixeramobim" />
+		<!--  producao / homologacao -->
+		<propertyreset name="ambiente" value="producao" />
+		<ant antfile="${basedir}/insights/insights-ear/ant_scripts/build-main.xml" target="target1" />
+	</target>
+
+	<target name="pa-montealegre">
+		<propertyreset name="uf" value="pa" />
+		<propertyreset name="municipio" value="montealegre" />
+		<!--  producao / homologacao -->
+		<propertyreset name="ambiente" value="producao" />
+		<ant antfile="${basedir}/insights/insights-ear/ant_scripts/build-main.xml" target="target1" />
+	</target>
+
+	<target name="ce-crateus">
+		<propertyreset name="uf" value="ce" />
+		<propertyreset name="municipio" value="crateus" />
+		<!--  producao / homologacao -->
+		<propertyreset name="ambiente" value="producao" />
+		<ant antfile="${basedir}/insights/insights-ear/ant_scripts/build-main.xml" target="target1" />
+	</target>
+
+	<target name="pa-oriximina">
+		<propertyreset name="uf" value="pa" />
+		<propertyreset name="municipio" value="oriximina" />
+		<!-- producao / homologacao -->
+		<propertyreset name="ambiente" value="producao" />
+		<ant antfile="${basedir}/insights/insights-ear/ant_scripts/build-main.xml" target="target1" />
+	</target>
+
+	<target name="ce-jaguaretama">
+		<propertyreset name="uf" value="ce" />
+		<propertyreset name="municipio" value="jaguaretama" />
+		<!--  producao / homologacao -->
+		<propertyreset name="ambiente" value="producao" />
+		<ant antfile="${basedir}/insights/insights-ear/ant_scripts/build-main.xml" target="target1" />
+	</target>
+
+	<target name="ce-saobenedito">
+		<propertyreset name="uf" value="ce" />
+		<propertyreset name="municipio" value="saobenedito" />
+		<!-- producao / homologacao -->
+		<propertyreset name="ambiente" value="producao" />
+		<ant antfile="${basedir}/insights/insights-ear/ant_scripts/build-main.xml" target="target1" />
+	</target>
+
+	<target name="ce-carius">
+		<propertyreset name="uf" value="ce" />
+		<propertyreset name="municipio" value="carius" />
+		<!-- producao / homologacao -->
+		<propertyreset name="ambiente" value="producao" />
+		<ant antfile="${basedir}/insights/insights-ear/ant_scripts/build-main.xml" target="target1" />
+	</target>
+
+	<target name="ce-morrinhos">
+		<propertyreset name="uf" value="ce" />
+		<propertyreset name="municipio" value="morrinhos" />
+		<!-- producao / homologacao -->
+		<propertyreset name="ambiente" value="producao" />
+		<ant antfile="${basedir}/insights/insights-ear/ant_scripts/build-main.xml" target="target1" />
+	</target>
+
+	<target name="ce-jaguaribara">
+		<propertyreset name="uf" value="ce" />
+		<propertyreset name="municipio" value="jaguaribara" />
+		<!-- producao / homologacao -->
+		<propertyreset name="ambiente" value="producao" />
+		<ant antfile="${basedir}/insights/insights-ear/ant_scripts/build-main.xml" target="target1" />
+	</target>
+
+	<target name="ce-beberibe">
+		<propertyreset name="uf" value="ce" />
+		<propertyreset name="municipio" value="beberibe" />
+		<!--  producao / homologacao -->
+		<propertyreset name="ambiente" value="producao" />
+		<ant antfile="${basedir}/insights/insights-ear/ant_scripts/build-main.xml" target="target1" />
+	</target>
+
+	<target name="al-anadia">
+		<propertyreset name="uf" value="al" />
+		<propertyreset name="municipio" value="anadia" />
+		<!--  producao / homologacao -->
+		<propertyreset name="ambiente" value="producao" />
+		<ant antfile="${basedir}/insights/insights-ear/ant_scripts/build-main.xml" target="target1" />
+	</target>
+
+	<target name="ma-portofranco">
+		<propertyreset name="uf" value="ma" />
+		<propertyreset name="municipio" value="portofranco" />
+		<!--  producao / homologacao -->
+		<propertyreset name="ambiente" value="producao" />
+		<ant antfile="${basedir}/insights/insights-ear/ant_scripts/build-main.xml" target="target1" />
+	</target>
+
+	<target name="ma-carolina">
+		<propertyreset name="uf" value="ma" />
+		<propertyreset name="municipio" value="carolina" />
+		<!--  producao / homologacao -->
+		<propertyreset name="ambiente" value="producao" />
+		<ant antfile="${basedir}/insights/insights-ear/ant_scripts/build-main.xml" target="target1" />
+	</target>
+
+	<target name="pa-terraalta">
+		<propertyreset name="uf" value="pa" />
+		<propertyreset name="municipio" value="terraalta" />
+		<!-- producao / homologacao -->
+		<propertyreset name="ambiente" value="producao" />
+		<ant antfile="${basedir}/insights/insights-ear/ant_scripts/build-main.xml" target="target1" />
+	</target>
+
+	<target name="ce-aiuaba">
+		<propertyreset name="uf" value="ce" />
+		<propertyreset name="municipio" value="aiuaba" />
+		<!-- producao / homologacao -->
+		<propertyreset name="ambiente" value="producao" />
+		<ant antfile="${basedir}/insights/insights-ear/ant_scripts/build-main.xml" target="target1" />
+	</target>
+
+	<target name="ce-generalsampaio">
+		<propertyreset name="uf" value="ce" />
+		<propertyreset name="municipio" value="generalsampaio" />
+		<!-- producao / homologacao -->
+		<propertyreset name="ambiente" value="producao" />
+		<ant antfile="${basedir}/insights/insights-ear/ant_scripts/build-main.xml" target="target1" />
+	</target>
+
+	<target name="ce-chorozinho">
+		<propertyreset name="uf" value="ce" />
+		<propertyreset name="municipio" value="chorozinho" />
+		<!-- producao / homologacao -->
+		<propertyreset name="ambiente" value="producao" />
+		<ant antfile="${basedir}/insights/insights-ear/ant_scripts/build-main.xml" target="target1" />
+	</target>
+
+	<target name="ce-capistrano">
+		<propertyreset name="uf" value="ce" />
+		<propertyreset name="municipio" value="capistrano" />
+		<!-- producao / homologacao -->
+		<propertyreset name="ambiente" value="producao" />
+		<ant antfile="${basedir}/insights/insights-ear/ant_scripts/build-main.xml" target="target1" />
+	</target>
+
+	<target name="ce-guaiuba">
+		<propertyreset name="uf" value="ce" />
+		<propertyreset name="municipio" value="guaiuba" />
+		<!-- producao / homologacao -->
+		<propertyreset name="ambiente" value="producao" />
+		<ant antfile="${basedir}/insights/insights-ear/ant_scripts/build-main.xml" target="target1" />
+	</target>
+
+	<target name="ce-altaneira">
+		<propertyreset name="uf" value="ce" />
+		<propertyreset name="municipio" value="altaneira" />
+		<!-- producao / homologacao -->
+		<propertyreset name="ambiente" value="producao" />
+		<ant antfile="${basedir}/insights/insights-ear/ant_scripts/build-main.xml" target="target1" />
+	</target>
+
+	<target name="ce-chaval">
+		<propertyreset name="uf" value="ce" />
+		<propertyreset name="municipio" value="chaval" />
+		<!-- producao / homologacao -->
+		<propertyreset name="ambiente" value="producao" />
+		<ant antfile="${basedir}/insights/insights-ear/ant_scripts/build-main.xml" target="target1" />
+	</target>
+
+	<target name="rn-senadorgeorginoavelino">
+		<propertyreset name="uf" value="rn" />
+		<propertyreset name="municipio" value="senadorgeorginoavelino" />
+		<!-- producao / homologacao -->
+		<propertyreset name="ambiente" value="producao" />
+		<ant antfile="${basedir}/insights/insights-ear/ant_scripts/build-main.xml" target="target1" />
+	</target>
+
+	<target name="ce-ocara">
+		<propertyreset name="uf" value="ce" />
+		<propertyreset name="municipio" value="ocara" />
+		<!-- producao / homologacao -->
+		<propertyreset name="ambiente" value="producao" />
+		<ant antfile="${basedir}/insights/insights-ear/ant_scripts/build-main.xml" target="target1" />
+	</target>
+
+	<target name="rn-pureza">
+		<propertyreset name="uf" value="rn" />
+		<propertyreset name="municipio" value="pureza" />
+		<!-- producao / homologacao -->
+		<propertyreset name="ambiente" value="producao" />
+		<ant antfile="${basedir}/insights/insights-ear/ant_scripts/build-main.xml" target="target1" />
+	</target>
+
+	<target name="rn-coronelezequiel">
+		<propertyreset name="uf" value="rn" />
+		<propertyreset name="municipio" value="coronelezequiel" />
+		<!-- producao / homologacao -->
+		<propertyreset name="ambiente" value="producao" />
+		<ant antfile="${basedir}/insights/insights-ear/ant_scripts/build-main.xml" target="target1" />
+	</target>
+
+	<target name="rn-umarizal">
+		<propertyreset name="uf" value="rn" />
+		<propertyreset name="municipio" value="umarizal" />
+		<!-- producao / homologacao -->
+		<propertyreset name="ambiente" value="producao" />
+		<ant antfile="${basedir}/insights/insights-ear/ant_scripts/build-main.xml" target="target1" />
+	</target>
+
+	<target name="rn-upanema">
+		<propertyreset name="uf" value="rn" />
+		<propertyreset name="municipio" value="upanema" />
+		<!-- producao / homologacao -->
+		<propertyreset name="ambiente" value="producao" />
+		<ant antfile="${basedir}/insights/insights-ear/ant_scripts/build-main.xml" target="target1" />
+	</target>
+
+	<target name="pa-florestadoaraguaia">
+		<propertyreset name="uf" value="pa" />
+		<propertyreset name="municipio" value="florestadoaraguaia" />
+		<!-- producao / homologacao -->
+		<propertyreset name="ambiente" value="producao" />
+		<ant antfile="${basedir}/insights/insights-ear/ant_scripts/build-main.xml" target="target1" />
+	</target>
+
+	<target name="pa-senadorjoseporfilho">
+		<propertyreset name="uf" value="pa" />
+		<propertyreset name="municipio" value="senadorjoseporfilho" />
+		<!-- producao / homologacao -->
+		<propertyreset name="ambiente" value="producao" />
+		<ant antfile="${basedir}/insights/insights-ear/ant_scripts/build-main.xml" target="target1" />
+	</target>
+
+	<target name="pa-santanadoaraguaia">
+		<propertyreset name="uf" value="pa" />
+		<propertyreset name="municipio" value="santanadoaraguaia" />
+		<!-- producao / homologacao -->
+		<propertyreset name="ambiente" value="producao" />
+		<ant antfile="${basedir}/insights/insights-ear/ant_scripts/build-main.xml" target="target1" />
+	</target>
+
+	<target name="ce-itaicaba">
+		<propertyreset name="uf" value="ce" />
+		<propertyreset name="municipio" value="itaicaba" />
+		<!-- producao / homologacao -->
+		<propertyreset name="ambiente" value="producao" />
+		<ant antfile="${basedir}/insights/insights-ear/ant_scripts/build-main.xml" target="target1" />
+	</target>
+
+	<target name="rn-serradesaobento">
+		<propertyreset name="uf" value="rn" />
+		<propertyreset name="municipio" value="serradesaobento" />
+		<!-- producao / homologacao -->
+		<propertyreset name="ambiente" value="producao" />
+		<ant antfile="${basedir}/insights/insights-ear/ant_scripts/build-main.xml" target="target1" />
+	</target>
+
+	<target name="ce-salitre">
+		<propertyreset name="uf" value="ce" />
+		<propertyreset name="municipio" value="salitre" />
+		<!-- producao / homologacao -->
+		<propertyreset name="ambiente" value="producao" />
+		<ant antfile="${basedir}/insights/insights-ear/ant_scripts/build-main.xml" target="target1" />
+	</target>
+
+	<target name="pa-novorepartimento">
+		<propertyreset name="uf" value="pa" />
+		<propertyreset name="municipio" value="novorepartimento" />
+		<!-- producao / homologacao -->
+		<propertyreset name="ambiente" value="producao" />
+		<ant antfile="${basedir}/insights/insights-ear/ant_scripts/build-main.xml" target="target1" />
+	</target>
+
+	<target name="ce-abaiara">
+		<propertyreset name="uf" value="ce" />
+		<propertyreset name="municipio" value="abaiara" />
+		<!-- producao / homologacao -->
+		<propertyreset name="ambiente" value="producao" />
+		<ant antfile="${basedir}/insights/insights-ear/ant_scripts/build-main.xml" target="target1" />
+	</target>
+
+	<target name="rn-serradomel">
+		<propertyreset name="uf" value="rn" />
+		<propertyreset name="municipio" value="serradomel" />
+		<!-- producao / homologacao -->
+		<propertyreset name="ambiente" value="producao" />
+		<ant antfile="${basedir}/insights/insights-ear/ant_scripts/build-main.xml" target="target1" />
+	</target>
+
+	<target name="rn-campogrande">
+		<propertyreset name="uf" value="rn" />
+		<propertyreset name="municipio" value="campogrande" />
+		<!-- producao / homologacao -->
+		<propertyreset name="ambiente" value="producao" />
+		<ant antfile="${basedir}/insights/insights-ear/ant_scripts/build-main.xml" target="target1" />
+	</target>
+
+	<target name="ce-groairas">
+		<propertyreset name="uf" value="ce" />
+		<propertyreset name="municipio" value="groairas" />
+		<!-- producao / homologacao -->
+		<propertyreset name="ambiente" value="producao" />
+		<ant antfile="${basedir}/insights/insights-ear/ant_scripts/build-main.xml" target="target1" />
+	</target>
+
+	<target name="pa-colares">
+		<propertyreset name="uf" value="pa" />
+		<propertyreset name="municipio" value="colares" />
+		<!-- producao / homologacao -->
+		<propertyreset name="ambiente" value="producao" />
+		<ant antfile="${basedir}/insights/insights-ear/ant_scripts/build-main.xml" target="target1" />
+	</target>
+
+	<target name="pa-augustocorrea">
+		<propertyreset name="uf" value="pa" />
+		<propertyreset name="municipio" value="augustocorrea" />
+		<!-- producao / homologacao -->
+		<propertyreset name="ambiente" value="producao" />
+		<ant antfile="${basedir}/insights/insights-ear/ant_scripts/build-main.xml" target="target1" />
+	</target>
+
+	<target name="pa-abaetetuba">
+		<propertyreset name="uf" value="pa" />
+		<propertyreset name="municipio" value="abaetetuba" />
+		<!-- producao / homologacao -->
+		<propertyreset name="ambiente" value="producao" />
+		<ant antfile="${basedir}/insights/insights-ear/ant_scripts/build-main.xml" target="target1" />
+	</target>
+
+	<target name="pa-trairao">
+		<propertyreset name="uf" value="pa" />
+		<propertyreset name="municipio" value="trairao" />
+		<!-- producao / homologacao -->
+		<propertyreset name="ambiente" value="producao" />
+		<ant antfile="${basedir}/insights/insights-ear/ant_scripts/build-main.xml" target="target1" />
+	</target>
+	
+		
+	<target name="rn-boasaude">
+		<propertyreset name="uf" value="rn" />
+		<propertyreset name="municipio" value="boasaude" />
+		<!-- producao / homologacao -->
+		<propertyreset name="ambiente" value="producao" />
+		<ant antfile="${basedir}/insights/insights-ear/ant_scripts/build-main.xml" target="target1" />
+	</target>
+	
+</project>

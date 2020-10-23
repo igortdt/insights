@@ -1,0 +1,124 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template/master-template-portal.xhtml">
+	
+	<ui:define name="conteudo">
+		<div class="bg-light">
+				<div class="container">
+					<div class="col-lg-6 col-md-6 col-sm-6">
+						<ul class="list-inline margin-top5px">
+							<li>
+								<p:link outcome="/login.xhtml">
+									#{msg['pagina.inicial']}
+								</p:link>
+							</li>
+							<li>/</li>
+							<li>
+								<p:link outcome="/UC0084EmitirCertidao/T0084L-emitir-certidao.xhtml">
+									#{msg['certidoes']}
+								</p:link>
+							</li>
+							<li>/</li>
+							
+						</ul>
+					</div>
+					<!--  
+					<div class="col-lg-6 col-md-6 col-sm-6">
+						<ul class="list-inline pull-right margin-top5px">
+							<li><i class="fa fa-adjust" aria-hidden="true"></i></li>
+							<li><b>A</b><i class="fa fa-plus" aria-hidden="true"></i></li>
+							<li><small><b>A</b><i class="fa fa-minus" aria-hidden="true"></i></small></li>
+						</ul>
+					</div>
+					-->
+				</div>
+			</div>
+			
+			<section class="bg-white min-height-680px">
+				<div class="container">
+					<div class="row">
+						
+						<div class="col-lg-3">
+
+							<h2 class="novo-portal-chamada-servicos">#{msg['servicos']}</h2>
+						
+							<div class="novo-portal-menu-principal">
+								<!-- Include de componente de Menu -->
+								<ui:include src="/WEB-INF/template/menu-portal.xhtml" />
+							</div>
+							
+						</div>
+						
+						<div class="col-lg-9">
+							<div class="row novo-portal-texto-principal">
+								<div class="col-sm-10">
+									<h1>#{msg['certidoes']}</h1>
+									<p>#{msg['certidoes.texto']}</p>
+								</div>
+								
+								<div class="col-sm-2 novo-portal-texto-principal-ico-area hidden-xs">
+									<i class="fa fa-files-o fa-4x"></i>
+								</div>
+							</div>
+						</div>
+						
+						<div class="col-lg-9 novo-portal-item-home-area">	
+							<div class="row">
+								<p:link outcome="/UC0084EmitirCertidao/T0084L-emitir-certidao-tributos-municipais.xhtml" rendered="#{loginBean.hasModule('certidao-negativa-tributos-municipais')}">
+									<div class="col-sm-4 text-center fadeInUp animation-delay1 novo-portal-item-home">
+										<div class="col-lg-12 text-center teste">
+											<i class="fa fa-certificate fa-4x"></i>
+											<h3 class="margin-top-zero">#{msg['certidao.negativa.tributos.municipais']}</h3>
+											<!-- <p>[Descrição do serviço]</p> -->
+										</div>
+									</div>
+								</p:link>
+								
+								<p:link outcome="/UC0084EmitirCertidao/T0084L-emitir-certidao-negativa-imovel.xhtml" rendered="#{loginBean.hasModule('certidao-negativa-imoveis')}">
+									<div class="col-sm-4 text-center fadeInUp animation-delay2 novo-portal-item-home">
+										<div class="col-lg-12">
+											<i class="fa fa-home fa-4x"></i>
+											<h3 class="margin-top-zero">#{msg['certidao.negativa.imoveis']}</h3>
+											<!-- <p>[Descrição do serviço]</p> -->
+										</div>
+									</div>
+								</p:link>
+							</div>
+						</div>
+						
+						<div class="col-lg-9 novo-portal-item-home-area">
+							<p:dataTable value="#{loginBean.documentosVO}" var="documento" rendered="#{!empty loginBean.documentosVO}">
+								<p:column headerText="#{msg['arquivo']}">
+									#{documento.nome}
+								</p:column>
+								
+								<p:column headerText="#{msg['tipo']}" width="50">
+									#{msg['pdf']}
+								</p:column>
+								
+								<p:column headerText="#{msg['tamanho']}" width="100">
+									#{documento.tamanho} KB
+								</p:column>
+								
+								<p:column headerText="#{msg['baixar']}" width="80" style="text-align: center;">
+									<p:link  href="#{documento.url}" target="_blank" >
+										<i class="fa fa-download"/>
+									</p:link>
+								</p:column>
+							</p:dataTable>	
+						</div>
+					
+					</div><!-- End of row -->
+				</div><!-- End of container -->
+			</section>	
+			
+			<f:metadata>
+				<f:event listener="#{loginBean.listarDocumentos('certidoes')}" type="preRenderView" />
+			</f:metadata>		
+	</ui:define>
+</ui:composition>

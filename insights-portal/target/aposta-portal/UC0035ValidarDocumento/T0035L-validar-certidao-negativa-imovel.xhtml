@@ -1,0 +1,161 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template/master-template-portal.xhtml">
+	
+	<ui:define name="conteudo">
+	<h:form>
+		<div class="bg-light">
+				<div class="container">
+					<div class="col-lg-7 col-md-7 col-sm-7">
+						<ul class="list-inline margin-top5px">
+							<li>
+								<p:link outcome="/login.xhtml">
+									Página Inicial
+								</p:link>
+							</li>
+							<li>/</li>
+							<li>
+								<p:link outcome="/UC0035ValidarDocumento/T0035L-validar-documento.xhtml">
+									Validação de Documentos
+								</p:link>
+							</li>
+							<li>/</li>
+							<li>
+								<a href="#">
+									Informações Gerais da Certidão Negativa de Imóvel
+								</a>
+							</li>
+							<li>/</li>
+						</ul>
+					</div>
+					
+					<div class="col-lg-5 col-md-5 col-sm-5">
+						<ul class="list-inline pull-right margin-top5px">
+							<li><i class="fa fa-adjust" aria-hidden="true"></i></li>
+							<li><b>A</b><i class="fa fa-plus" aria-hidden="true"></i></li>
+							<li><small><b>A</b><i class="fa fa-minus" aria-hidden="true"></i></small></li>
+						</ul>
+					</div>
+					
+				</div>
+			</div>
+			
+			<section class="bg-white min-height-680px">
+				<div class="container">
+					<div class="row">
+						
+						<div class="col-lg-3">
+
+							<h2 class="novo-portal-chamada-servicos">Serviços</h2>
+						
+							<div class="novo-portal-menu-principal">
+								<!-- Include de componente de Menu -->
+								<ui:include src="/WEB-INF/template/menu-portal.xhtml" />
+							</div>
+							
+							<!-- O INCLUDE DOS BANNERS DEVERÃO  FICAR AQUI -->
+							
+						</div>
+						
+						<div class="col-lg-9">
+							<div class="row novo-portal-texto-principal">
+								<div class="col-lg-12">
+									<h1>Informações Gerais da Certidão Negativa de Imóvel</h1>
+								</div>
+							</div>
+						</div>
+						
+						
+						<div class="col-lg-9">
+						
+						
+						<!-- ******************************* -->
+						<!-- INICIO DOS CAMPOS DO FORMULARIO -->
+						<!-- ******************************* -->
+						
+						<p:messages autoUpdate="true" globalOnly="true" />
+						
+				
+							<div class="panel panel-default">
+								<div class="panel-heading">#{msg['dados.certidao.negativa.imovel']}</div>
+								<div class="panel-body">
+									<p:panelGrid columns="1" layout="grid" id="form-certidaoNegativaTributos" styleClass="form-panel">
+										<h:panelGroup>
+				
+											<div class="fixo width150px">
+												<p:outputLabel value="#{msg['numero']}" styleClass="width100" />
+												<h:outputText value="#{validarCertidaoNegativaImovelBean.certidaoNegativaImovel.numero}" />
+											</div>
+				
+											<div class="fixo width150px">
+												<p:outputLabel value="#{msg['data.requerimento']}" styleClass="width100" />
+												<h:outputText value="#{validarCertidaoNegativaImovelBean.certidaoNegativaImovel.dataRequerimento}">
+													<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-3" />
+												</h:outputText>
+											</div>
+				
+											<div class="fixo width150px">
+												<p:outputLabel value="#{msg['data.validade']}" styleClass="width100" />
+												<h:outputText value="#{validarCertidaoNegativaImovelBean.certidaoNegativaImovel.dataValidade}">
+													<f:convertDateTime pattern="dd/MM/yyyy" timeZone="GMT-3" />
+												</h:outputText>
+											</div>
+				
+										</h:panelGroup>						
+									</p:panelGrid>
+				
+								</div>
+							</div>
+							
+							<div class="panel panel-default">
+								<div class="panel-heading">#{msg['dados.contribuinte']}</div>
+								<div class="panel-body">
+									<p:panelGrid columns="1" layout="grid">
+										<h:panelGroup>
+				
+											<div class="fixo width140px">
+												<p:outputLabel value="#{msg['cpf.cnpj']}" styleClass="width100" />
+												<h:outputText value="#{validarCertidaoNegativaImovelBean.certidaoNegativaImovel.cpfPessoaContribuinte}"
+													converter="cpfCnpjConverter" rendered="#{validarCertidaoNegativaImovelBean.contribuinteEhPessoaFisica}" />
+												<h:outputText value="#{validarCertidaoNegativaImovelBean.certidaoNegativaImovel.cnpjPessoaContribuinte}"
+													converter="cpfCnpjConverter" rendered="#{!validarCertidaoNegativaImovelBean.contribuinteEhPessoaFisica}" />
+											</div>
+				
+											<div class="responsivo width390px">
+												<p:outputLabel value="#{msg['nome.razao']}" styleClass="width100" />
+												<h:outputText value="#{validarCertidaoNegativaImovelBean.certidaoNegativaImovel.nomePessoaContribuinte}"
+													rendered="#{validarCertidaoNegativaImovelBean.contribuinteEhPessoaFisica}" />
+												<h:outputText value="#{validarCertidaoNegativaImovelBean.certidaoNegativaImovel.razaoSocialPessoaContribuinte}"
+													rendered="#{!validarCertidaoNegativaImovelBean.contribuinteEhPessoaFisica}" />
+											</div>
+				
+										</h:panelGroup>
+										<h:panelGroup>
+				
+											<div class="responsivo width100">
+												<p:outputLabel value="#{msg['endereco']}" styleClass="width100" />
+												<h:outputText value="#{validarCertidaoNegativaImovelBean.certidaoNegativaImovel.enderecoCompletoContribuinte}" />
+											</div>
+				
+										</h:panelGroup>
+									</p:panelGrid>
+								</div>
+							</div>
+							
+						</div><!-- End of Col LG 9 -->	
+					
+					</div><!-- End of row -->
+				</div><!-- End of container -->
+			</section>			
+			
+			<f:metadata>
+				<f:event listener="#{conversationBean.begin}" type="preRenderView" />
+			</f:metadata>
+	</h:form>
+	</ui:define>
+</ui:composition>

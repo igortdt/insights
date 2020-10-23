@@ -1,0 +1,254 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template/master-template-portal.xhtml">
+	
+	<ui:define name="conteudo">
+	<h:form>
+		<div class="bg-light">
+				<div class="container">
+					<div class="col-lg-7 col-md-7 col-sm-7">
+						<ul class="list-inline margin-top5px">
+							<li>
+								<p:link outcome="/login.xhtml">
+									Página Inicial
+								</p:link>
+							</li>
+							<li>/</li>
+							<li>
+								<p:link outcome="/UC0035ValidarDocumento/T0035L-validar-documento.xhtml">
+									Validação de Documentos
+								</p:link>
+							</li>
+							<li>/</li>
+							<li>
+								<a href="#">
+									Informações Gerais da Nota
+								</a>
+							</li>
+							<li>/</li>
+						</ul>
+					</div>
+					
+					<div class="col-lg-5 col-md-5 col-sm-5">
+						<ul class="list-inline pull-right margin-top5px">
+							<li><i class="fa fa-adjust" aria-hidden="true"></i></li>
+							<li><b>A</b><i class="fa fa-plus" aria-hidden="true"></i></li>
+							<li><small><b>A</b><i class="fa fa-minus" aria-hidden="true"></i></small></li>
+						</ul>
+					</div>
+					
+				</div>
+			</div>
+			
+			<section class="bg-white min-height-680px">
+				<div class="container">
+					<div class="row">
+						
+						<div class="col-lg-3">
+
+							<h2 class="novo-portal-chamada-servicos">Serviços</h2>
+						
+							<div class="novo-portal-menu-principal">
+								<!-- Include de componente de Menu -->
+								<ui:include src="/WEB-INF/template/menu-portal.xhtml" />
+							</div>
+							
+							<!-- O INCLUDE DOS BANNERS DEVERÃO  FICAR AQUI -->
+							
+						</div>
+						
+						<div class="col-lg-9">
+							<div class="row novo-portal-texto-principal">
+								<div class="col-lg-12">
+									<h1>Informações Gerais da Nota</h1>
+								</div>
+							</div>
+												
+						</div>
+						<div class="col-lg-9">
+				
+							<!-- ******************************* -->
+							<!-- INICIO DOS CAMPOS DO FORMULARIO -->
+							<!-- ******************************* -->
+									
+										
+							<div class="panel panel-default">
+							
+								<p:link id="optButton" styleClass="btn btn-default pull-right" onclick="return false;">
+										<i class="fa fa-bars"></i>
+										#{msg['opcoes']}
+								</p:link>
+								<p:menu overlay="true" trigger="optButton" my="right top" at="right bottom">
+									<p:menuitem value="#{msg['gerar.pdf']}" action="#{validarNFSeBean.visualizarNFSe()}"
+											icon="fa fa-search" ajax="false" target="_blank" />
+								</p:menu>	
+								
+								
+								<div class="panel-heading">#{msg['prestador']}</div>
+								<div class="panel-body">
+				
+									<p:panelGrid id="prestador-panel" columns="1" layout="grid"
+										styleClass="form-panel">
+				
+										<h:panelGroup>
+											<div class="fixo width150px">
+												<p:outputLabel value="#{msg['cpf']}" rendered="#{validarNFSeBean.renderPropPF}"/>
+												<p:outputLabel value="#{msg['cnpj']}" rendered="#{!validarNFSeBean.renderPropPF}"/>
+												<br clear="all"/>
+												<h:outputText value="#{validarNFSeBean.nfse.prestador.documento}" converter="cpfCnpjConverter" />
+											</div>
+											<div class="fixo width250px">
+												<p:outputLabel value="#{msg['nome']}" rendered="#{validarNFSeBean.renderPropPF}"/>
+												<p:outputLabel value="#{msg['razao.social']}" rendered="#{!validarNFSeBean.renderPropPF}"/>
+												<br clear="all"/>
+												<h:outputText value="#{validarNFSeBean.nfse.prestador.descricao}"/>
+											</div>
+										</h:panelGroup>
+																
+									</p:panelGrid>
+								</div>
+								
+								
+								<div class="panel-heading">#{msg['tomador']}</div>
+								<div class="panel-body">
+				
+									<p:panelGrid id="tomador-panel" columns="1" layout="grid"
+										styleClass="form-panel">
+				
+										<h:panelGroup>
+											<div class="fixo width150px">
+												<p:outputLabel value="#{msg['cpf']}" rendered="#{validarNFSeBean.renderPropPF}"/>
+												<p:outputLabel value="#{msg['cnpj']}" rendered="#{!validarNFSeBean.renderPropPF}"/>
+												<br clear="all"/>
+												<h:outputText value="#{validarNFSeBean.nfse.tomador.documento}" converter="cpfCnpjConverter" />
+											</div>
+											<div class="fixo width250px">
+												<p:outputLabel value="#{msg['nome']}" rendered="#{validarNFSeBean.renderPropPF}"/>
+												<p:outputLabel value="#{msg['razao.social']}" rendered="#{!validarNFSeBean.renderPropPF}"/>
+												<br clear="all"/>
+												<h:outputText value="#{validarNFSeBean.nfse.tomador.descricao}"/>
+											</div>
+										</h:panelGroup>
+										
+																
+										<h:panelGroup>
+											<div class="responsivo width100">
+												<p:outputLabel value="#{msg['endereco']}"/>
+												<br clear="all"/>
+												<h:outputText value="#{validarNFSeBean.nfse.tomador.endereco}"/>
+											</div>
+										</h:panelGroup>
+										
+									</p:panelGrid>
+								</div>
+								
+								
+								<div class="panel-heading">#{msg['servico.prestado']}</div>
+								<div class="panel-body">
+				
+									<p:panelGrid id="servico-panel" columns="1" layout="grid"
+										styleClass="form-panel">
+										
+										<h:panelGroup>
+											<div class="responsivo width100">
+												<p:outputLabel value="#{msg['servico']}"/>
+												<br clear="all"/>
+												<h:outputText value="#{validarNFSeBean.nfse.servico.descricao}" converter="cpfCnpjConverter" />
+											</div>
+										</h:panelGroup>
+										
+										<h:panelGroup>
+				
+											<div class="fixo width250px">
+												<p:outputLabel value="#{msg['aliquota']}"/>
+												<br clear="all"/>
+												<h:outputText value="#{validarNFSeBean.nfse.servico.aliquota} %">
+													<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+												</h:outputText>	
+											</div>
+											
+											<div class="fixo width250px">
+												<p:outputLabel value="#{msg['local.tributacao.servico']}"/>
+												<h:outputText value="#{msg[validarNFSeBean.nfse.servico.localTributacaoServico.label]}"/>
+											</div>
+											
+										</h:panelGroup>
+										
+										
+										<h:panelGroup>
+											<div class="responsivo width100">
+												<p:outputLabel value="#{msg['descricao.servico']}" />
+												<br clear="all"/>
+												<p:outputLabel  value="#{validarNFSeBean.nfse.discriminacaoServico}" />
+											</div>
+										</h:panelGroup>
+										
+										<h:panelGroup>
+											<div class="fixo width250px">
+												<p:outputLabel value="#{msg['local.execucao.servico']}"/>
+												<br clear="all"/>
+												<h:outputText value="#{validarNFSeBean.nfse.localPrestacaoServico}"/>
+											</div>
+										</h:panelGroup>
+										
+										
+										<h:panelGroup>
+											<div class="fixo width250px">
+												<p:outputLabel value="#{msg['valor.servico']}"/>
+												<br clear="all"/>
+												<h:outputText value="#{validarNFSeBean.nfse.valorTotal}" converter="moneyConverter"/>
+											</div>	
+											
+											<div class="fixo width250px">
+												<p:outputLabel value="#{msg['valor.deducoes']}"/>
+												<br clear="all"/>
+												<h:outputText value="#{validarNFSeBean.nfse.valorDeducoes}" converter="moneyConverter"/>
+												
+											</div>	
+											
+											<div class="fixo width250px">
+												<p:outputLabel value="#{msg['base.calculo']}"/>
+												<br clear="all"/>
+												<h:outputText value="#{validarNFSeBean.nfse.valorBaseCalculo}" converter="moneyConverter"/>
+											</div>	
+											
+											<div class="fixo width250px">
+												<p:outputLabel value="#{msg['valor.iss']}"/>
+												<br clear="all"/>
+												<h:outputText value="#{validarNFSeBean.nfse.valorISS}" converter="moneyConverter"/>
+											</div>	
+											
+										</h:panelGroup>
+										
+										
+										<h:panelGroup rendered="#{validarNFSeBean.nfse.motivoCancelamento != null}">
+											<div class="responsivo width100">
+												<p:outputLabel value="#{msg['motivo.cancelamento']}" />
+												<br clear="all"/>
+												<h:outputText value="#{validarNFSeBean.nfse.motivoCancelamento}"/>								
+											</div>							
+										</h:panelGroup>	
+										
+									</p:panelGrid>
+								</div>
+								
+								
+							</div>
+							
+						</div><!-- End of Col LG 9 -->	
+					
+					</div><!-- End of row -->
+				</div><!-- End of container -->
+			</section>			
+			
+			<f:metadata>
+				<f:event listener="#{conversationBean.begin}" type="preRenderView" />
+			</f:metadata>
+	</h:form>
+	</ui:define>
+</ui:composition>

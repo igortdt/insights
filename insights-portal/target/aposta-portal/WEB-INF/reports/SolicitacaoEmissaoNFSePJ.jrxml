@@ -1,0 +1,490 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.0.1.final using JasperReports Library version 6.0.0  -->
+<!-- 2016-03-08T11:12:14 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="SolicitacaoEmissaoNFSePJ" pageWidth="595" pageHeight="842" columnWidth="565" leftMargin="15" rightMargin="15" topMargin="20" bottomMargin="20" uuid="d78f85f5-c152-4c1b-bfbb-36f85963b9f6">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<parameter name="path_img" class="java.lang.String"/>
+	<parameter name="prefeitura" class="java.lang.String"/>
+	<parameter name="municipio_uf" class="java.lang.String"/>
+	<parameter name="endereco_prefeitura" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="dataSolicitacao" class="java.util.Date">
+		<fieldDescription><![CDATA[dataSolicitacao]]></fieldDescription>
+	</field>
+	<field name="motivoIndeferimento" class="java.lang.String">
+		<fieldDescription><![CDATA[motivoIndeferimento]]></fieldDescription>
+	</field>
+	<field name="tipo" class="br.com.juremal.insights.entity.TipoSolicitacaoEmissaoNFSe">
+		<fieldDescription><![CDATA[tipo]]></fieldDescription>
+	</field>
+	<field name="pessoa" class="br.com.juremal.insights.entity.PessoaJuridica">
+		<fieldDescription><![CDATA[pessoa]]></fieldDescription>
+	</field>
+	<field name="situacaoSolicitacaoEmissaoNFSe" class="br.com.juremal.insights.entity.SituacaoSolicitacaoEmissaoNFSe">
+		<fieldDescription><![CDATA[situacaoSolicitacaoEmissaoNFSe]]></fieldDescription>
+	</field>
+	<field name="numero" class="java.lang.Long">
+		<fieldDescription><![CDATA[numero]]></fieldDescription>
+	</field>
+	<field name="motivoCancelamento" class="java.lang.String">
+		<fieldDescription><![CDATA[motivoCancelamento]]></fieldDescription>
+	</field>
+	<field name="dataIniAutorizacao" class="java.util.Date">
+		<fieldDescription><![CDATA[dataIniAutorizacao]]></fieldDescription>
+	</field>
+	<field name="usuarioResponsavel" class="br.com.juremal.insights.entity.Usuario">
+		<fieldDescription><![CDATA[usuarioResponsavel]]></fieldDescription>
+	</field>
+	<field name="dataFimAutorizacao" class="java.util.Date">
+		<fieldDescription><![CDATA[dataFimAutorizacao]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="61" splitType="Stretch">
+			<property name="local_mesure_unitheight" value="pixel"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<image scaleImage="FillFrame" hAlign="Center" vAlign="Middle">
+				<reportElement x="0" y="0" width="60" height="60" uuid="74a5ad56-0980-476e-b895-adc99d558a0b">
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<imageExpression><![CDATA[$P{path_img}]]></imageExpression>
+			</image>
+			<textField>
+				<reportElement x="70" y="14" width="360" height="15" uuid="f957c4cf-ba87-473c-9bdd-0dabb653ca92">
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{prefeitura}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="70" y="33" width="360" height="15" uuid="c112ac61-2b94-4f54-a5a6-b95f3c1595c8">
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[SOLICITAÇÃO PARA EMISSÃO DE NOTA FISCAL]]></text>
+			</staticText>
+			<frame>
+				<reportElement x="440" y="16" width="125" height="30" uuid="9355d9a9-6d9c-454d-b8f8-59bd9cba499b">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<staticText>
+					<reportElement x="0" y="0" width="125" height="13" uuid="28bc2927-41a8-43e5-80c4-d8fa4088f74a">
+						<property name="local_mesure_unitx" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+						<property name="local_mesure_unity" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="local_mesure_unitwidth" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="local_mesure_unitheight" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[Solicitação Nº:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="0" y="14" width="125" height="16" uuid="a472ad83-3f5e-440a-bc8e-755bdd946bdd">
+						<property name="local_mesure_unitx" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.x" value="px"/>
+						<property name="local_mesure_unity" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="px"/>
+						<property name="local_mesure_unitwidth" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="local_mesure_unitheight" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$F{numero}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="672" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="330" width="565" height="337" forecolor="#990000" uuid="65ca95c3-3a1d-4310-bacb-5bc0735439e9"/>
+			</rectangle>
+			<textField>
+				<reportElement x="0" y="58" width="565" height="67" uuid="dd9be04d-a8fb-4919-85e4-80069aa48246">
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Justified">
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Eu, " + $F{pessoa}.getResponsavelLegal().getDescricao().toUpperCase() + ", representante legal da empresa " + $F{pessoa}.getDescricao().toUpperCase() + ", inscrita no CNPJ/MF sob nº " + new br.com.juremal.insights.util.CpfCnpjFormat().format($F{pessoa}.getDocumento()) + ", solicito autorização para emissão de notas fiscais eletrônicas de serviços e, consequentemente, inscrição no cadastro de produtores de bens e serviços do município."]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="134" width="565" height="32" uuid="9598f57f-dd6c-4a95-a2b0-d88bcc940f05">
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement>
+					<paragraph lineSpacing="1_1_2"/>
+				</textElement>
+				<text><![CDATA[DECLARO ainda ter ciência que a senha de acesso ao sistema de nota fiscal de serviços eletrônica (NFS-e) é intransferível e que representa a assinatura da pessoa jurídica e assumo total responsabilidade decorrente do uso indevido.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="5" width="117" height="15" uuid="378b093b-0220-4c73-8159-feaa58b5653f">
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[RAZÃO SOCIAL:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="20" width="117" height="15" uuid="e5a78348-43c7-48d2-bdc6-0dfb7e4ad71b">
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[CNPJ/MF:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="35" width="117" height="15" uuid="6c5e6ef3-64ec-4141-91b8-24eca9bbe6c4">
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Representante Legal:]]></text>
+			</staticText>
+			<textField pattern="">
+				<reportElement x="0" y="181" width="565" height="15" uuid="adcec3a0-d74c-4384-a904-2f275efe6119"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{municipio_uf} + ", " + java.text.DateFormat.getDateInstance(java.text.DateFormat.LONG, new java.util.Locale("pt", "BR")).format(new java.util.Date())]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="10" y="234" width="232" height="1" uuid="f9304d67-1c48-4777-acc1-6c8dc9af8329"/>
+			</line>
+			<line>
+				<reportElement x="305" y="234" width="237" height="1" uuid="5361dd1c-8077-435b-a4bd-4d842fb26ea0"/>
+			</line>
+			<staticText>
+				<reportElement x="10" y="235" width="232" height="13" uuid="104a9b3f-4643-48be-929a-cc4e819e9d3e"/>
+				<textElement textAlignment="Center">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Assinatura do(a) representante legal]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="305" y="235" width="237" height="13" uuid="ff04591d-f04d-4b17-8b56-3842ed7382b3"/>
+				<textElement textAlignment="Center">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Assinatura do(a) representante contábil]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="251" width="30" height="13" uuid="2ed248b8-4f4f-441c-904e-f120c55007aa"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Nome:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="10" y="265" width="30" height="13" uuid="b004bd0f-a18f-45d0-b375-5c9041162712"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[Cpf:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="34" y="641" width="508" height="23" uuid="c282dd0b-d846-4c7e-beff-e4f1e17a2685"/>
+				<textElement textAlignment="Justified">
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[• Os documentos devem ser entregues na forma de: cópia autenticada ou cópia simples com a apresentação da original.
+• O bloco de nota de papel não será válido depois da aprovação dessa solicitação.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="330" width="565" height="15" uuid="cae55bd6-6e4d-402b-8beb-6cb9c767881c"/>
+				<box>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[DOCUMENTOS NECESSÁRIOS:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="20" y="346" width="100" height="13" uuid="49d50d2a-61cc-4e7b-829a-e632ce739a0b"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[1. Sócios:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="34" y="359" width="296" height="27" uuid="1bd396da-d7ea-4992-924a-33f6ffa445f9"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[1.1. CPF e RG;
+1.2. Comprovante de residência com data de até 90 dias passados;]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="20" y="386" width="271" height="13" uuid="efb3c7a9-7559-4312-ba0f-9b94e4bcf8c3"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[2. Representante Legal - Administrador: (caso não seja sócio)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="34" y="399" width="296" height="27" uuid="73ec69a4-92b1-4f72-84e9-e38613ac1887"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[2.1. CPF e RG;
+2.2. Comprovante de residência com data de até 90 dias passados;]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="20" y="426" width="199" height="13" uuid="01dbfbba-6855-4c2d-895a-9f18f9cb509b"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[3. Pessoa Jurídica:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="20" y="487" width="199" height="13" uuid="1dd0f440-e624-479c-bc47-26c8f0bc6323"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[4. Contador: (Representante Contábil)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="34" y="500" width="271" height="37" uuid="9720f218-ca1b-4dfe-bc01-6c4efe66f034"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[4.1. CPF e RG;
+4.2. CRC;
+4.3. Comprovante de residência com data de até 90 dias passados;]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="20" y="537" width="295" height="13" uuid="774aaa7f-87c9-46f3-b4f1-eb58f8cf6cd1"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[5. Procurador: (caso procuração, todas as cópias autenticadas)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="34" y="550" width="315" height="38" uuid="9eec3e03-86e4-49ab-8f0f-c1c1023e5072"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[i.   Procuração com firma reconhecida
+ii.  CPF e RG;
+iii. Comprovante de residência no máximo do mês passado;]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="20" y="628" width="100" height="13" uuid="80e479ab-88e0-4f39-9465-6884cd0bcd1d"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Obs.:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="671" width="565" height="1" uuid="d3ca4e5d-c612-4358-b4bc-424b7fb6ce9c">
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<graphicElement>
+					<pen lineStyle="Dashed"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="117" y="5" width="448" height="15" uuid="973366f7-80b3-4caa-a6d1-a4f306e34cfd"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{pessoa}.getDescricao().toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="117" y="20" width="448" height="15" uuid="1e8aa994-af0c-428e-9882-8206a03b8cc8"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[new br.com.juremal.insights.util.CpfCnpjFormat().format($F{pessoa}.getDocumento())]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="117" y="35" width="448" height="15" uuid="572b2812-5e5c-44ec-ae66-8b1bdbdfae6d"/>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$F{pessoa}.getResponsavelLegal()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="40" y="251" width="202" height="13" uuid="5b012e13-a66b-4b11-ada4-fbde9a94f367"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pessoa}.getResponsavelLegal().getDescricao().toUpperCase()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="40" y="265" width="202" height="13" uuid="ab334d97-b722-4418-8f89-e36ec577919f"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new br.com.juremal.insights.util.CpfCnpjFormat().format($F{pessoa}.getResponsavelLegal().getDocumento())]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="307" width="565" height="15" uuid="db923e82-a710-48de-b859-0a81541ba56d">
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle"/>
+				<textFieldExpression><![CDATA[$P{endereco_prefeitura}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="292" width="565" height="15" uuid="6d91db52-438e-412d-96df-4286be76e0d1">
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[A SOLICITAÇÃO DE CREDENCIAMENTO DA NFSE DEVERÁ SER ENTREGUE NO ENDEREÇO:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="20" y="588" width="295" height="13" uuid="774aaa7f-87c9-46f3-b4f1-eb58f8cf6cd1"/>
+				<textElement>
+					<font size="9" isBold="true"/>
+				</textElement>
+				<text><![CDATA[6. Optante do Simples: (se for o caso)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="34" y="601" width="496" height="27" uuid="9eec3e03-86e4-49ab-8f0f-c1c1023e5072"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[i.   Extrato do Simples Nacional referente ao mês anterior – emitido pelo Programa Gerador do Documento de Arrecadação do Simples Nacional.]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="34" y="439" width="296" height="48" uuid="360cb367-bd7e-4059-8764-e0ef4a7edfae"/>
+				<textElement>
+					<font size="9"/>
+				</textElement>
+				<text><![CDATA[3.1. Cartão CNPJ;
+3.2. Contrato Social e aditivos;
+3.3. Alvará;                                                                                                 3.4. Contrato de locação ou matrícula do imóvel;]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="68" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="6" width="271" height="15" uuid="3139194e-9518-4c75-97f8-28bf75babff1">
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[SOLICITAÇÃO DE CREDENCIAMENTO DE EMPRESA.]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="23" width="271" height="15" uuid="0462eb5e-cdce-4252-986a-c9c73702d130">
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["CNPJ: " + new br.com.juremal.insights.util.CpfCnpjFormat().format($F{pessoa}.getDocumento())]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="10" y="47" width="180" height="20" uuid="c14c3dca-d411-4987-ae69-0256dede7f46"/>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Nº: " + $F{numero}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="379" y="6" width="186" height="15" uuid="8b0f1ef7-6941-47f0-a431-bb3c87633c34">
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[Recebido em ____ / ____ / _______]]></text>
+			</staticText>
+			<line>
+				<reportElement x="328" y="44" width="237" height="1" uuid="0bb951cc-6ef0-4e76-8221-bc4d4d057710">
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+			</line>
+			<staticText>
+				<reportElement x="328" y="45" width="237" height="20" uuid="9e90be58-a5a3-4c18-9848-745b61db3e24">
+					<property name="local_mesure_unitx" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[Servidor]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

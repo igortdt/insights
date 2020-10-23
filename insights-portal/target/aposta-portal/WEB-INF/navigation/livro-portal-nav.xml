@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<faces-config version="2.2" xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
+
+	<navigation-rule id="livro_navigation">
+
+		<navigation-case id="pesquisar_livro">
+			<from-outcome>pesquisar_livro</from-outcome>
+			<to-view-id>/app/UC0059LivroPortal/T0059L-livro-portal.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+
+	
+
+	</navigation-rule>
+
+</faces-config>

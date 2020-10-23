@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<faces-config version="2.2" xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
+
+	<navigation-rule id="dam_navigation">
+
+		<navigation-case id="pesquisar_dam_nfse">
+			<from-outcome>pesquisar_dam_nfse</from-outcome>
+			<to-view-id>/app/UC0060DAMPortal/T0060L-dam-nfse.xhtml</to-view-id>
+			<redirect />
+		</navigation-case>
+
+		<navigation-case id="detalhar_dam_nfse">
+			<from-outcome>detalhar_dam_nfse</from-outcome>
+			<to-view-id>/app/UC0060DAMPortal/T0060C-detalhe-dam-nfse.xhtml</to-view-id>
+		</navigation-case>
+
+	</navigation-rule>
+
+</faces-config>

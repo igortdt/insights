@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:head>
+		<title>#{msg['subclasses.cnae']}</title>
+		<h:outputStylesheet library="css" name="insights.css" />
+		<link href="#{request.contextPath}/theme/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+		<link href="#{request.contextPath}/theme/css/theme.css" rel="stylesheet" />
+		<link href="#{request.contextPath}/theme/css/colorbox/colorbox.css" rel="stylesheet" />
+	</h:head>
+
+	<h:body>
+		<h:form prependId="false">
+
+			<p:inputText id="query" value="#{modalCNAEPortal.query}">
+				<p:ajax event="keyup" update="result" listener="#{modalCNAEPortal.filtrar}" delay="500" resetValues="true" />
+			</p:inputText>
+			<p:watermark for="query" value="#{msg['codigo.ou.descricao']}" />
+
+			<br clear="all"/>
+			<br clear="all"/>
+
+			<p:dataTable id="result" value="#{modalCNAEPortal.subClasses}" var="cnae"
+				emptyMessage="#{msg['sem.dados']}" styleClass="tabela-de-dados panel panel-default table-responsive"
+				paginator="true" rows="15" paginatorAlwaysVisible="false" paginatorPosition="bottom">
+
+				<p:column headerText="#{msg['codigo']}" sortBy="#{cnae.codigo}" styleClass="width100px">
+					<p:commandLink value="#{cnae.codigo}" actionListener="#{modalCNAEPortal.selectFromDialog(cnae)}" />
+				</p:column>
+				<p:column headerText="#{msg['descricao']}" sortBy="#{cnae.descricao}">
+					<p:commandLink value="#{cnae.descricao}" actionListener="#{modalCNAEPortal.selectFromDialog(cnae)}" />
+				</p:column>
+
+			</p:dataTable>
+
+			<p:focus context="@form" />
+
+		</h:form>
+	</h:body>
+
+</html>

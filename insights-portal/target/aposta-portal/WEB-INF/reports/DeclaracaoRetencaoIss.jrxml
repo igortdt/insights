@@ -1,0 +1,945 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.0.1.final using JasperReports Library version 6.0.0  -->
+<!-- 2018-01-02T17:04:22 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="SolicitacaoEmissaoNFSePJ" pageWidth="595" pageHeight="842" columnWidth="565" leftMargin="15" rightMargin="15" topMargin="20" bottomMargin="20" uuid="d78f85f5-c152-4c1b-bfbb-36f85963b9f6">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<style name="Table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="Table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+			<topPen lineWidth="0.5" lineColor="#000000"/>
+			<leftPen lineWidth="0.5" lineColor="#000000"/>
+			<bottomPen lineWidth="0.5" lineColor="#000000"/>
+			<rightPen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<parameter name="nome_prefeitura" class="java.lang.String"/>
+	<parameter name="orgao" class="java.lang.String"/>
+	<parameter name="path_img" class="java.lang.String"/>
+	<parameter name="prestador" class="br.com.juremal.insights.entity.Pessoa"/>
+	<parameter name="tomador" class="br.com.juremal.insights.entity.Pessoa"/>
+	<parameter name="uf_municipio" class="java.lang.String"/>
+	<parameter name="competencia" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="dataHoraEmissao" class="java.util.Date">
+		<fieldDescription><![CDATA[dataHoraEmissao]]></fieldDescription>
+	</field>
+	<field name="telefoneFixoTomador" class="java.lang.String">
+		<fieldDescription><![CDATA[telefoneFixoTomador]]></fieldDescription>
+	</field>
+	<field name="motivoCancelamento" class="java.lang.String">
+		<fieldDescription><![CDATA[motivoCancelamento]]></fieldDescription>
+	</field>
+	<field name="inscricaoEstadualPrestador" class="java.lang.String">
+		<fieldDescription><![CDATA[inscricaoEstadualPrestador]]></fieldDescription>
+	</field>
+	<field name="valorISS" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[valorISS]]></fieldDescription>
+	</field>
+	<field name="descricaoRegimeTributacao" class="java.lang.String">
+		<fieldDescription><![CDATA[descricaoRegimeTributacao]]></fieldDescription>
+	</field>
+	<field name="numeroTelefoneFixoPrestador" class="java.lang.String">
+		<fieldDescription><![CDATA[numeroTelefoneFixoPrestador]]></fieldDescription>
+	</field>
+	<field name="distritoEnderecoPrestador" class="java.lang.String">
+		<fieldDescription><![CDATA[distritoEnderecoPrestador]]></fieldDescription>
+	</field>
+	<field name="dddFixoTomador" class="java.lang.String">
+		<fieldDescription><![CDATA[dddFixoTomador]]></fieldDescription>
+	</field>
+	<field name="exercicio" class="java.lang.Integer">
+		<fieldDescription><![CDATA[exercicio]]></fieldDescription>
+	</field>
+	<field name="inscricaoEstadualTomador" class="java.lang.String">
+		<fieldDescription><![CDATA[inscricaoEstadualTomador]]></fieldDescription>
+	</field>
+	<field name="cofins" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[cofins]]></fieldDescription>
+	</field>
+	<field name="nomePessoaPrestador" class="java.lang.String">
+		<fieldDescription><![CDATA[nomePessoaPrestador]]></fieldDescription>
+	</field>
+	<field name="dddTelefoneFixoPrestador" class="java.lang.String">
+		<fieldDescription><![CDATA[dddTelefoneFixoPrestador]]></fieldDescription>
+	</field>
+	<field name="numeroNFSe" class="java.lang.Long">
+		<fieldDescription><![CDATA[numeroNFSe]]></fieldDescription>
+	</field>
+	<field name="logradouroEnderecoTomador" class="java.lang.String">
+		<fieldDescription><![CDATA[logradouroEnderecoTomador]]></fieldDescription>
+	</field>
+	<field name="aliquota" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[aliquota]]></fieldDescription>
+	</field>
+	<field name="codigoVerificacao" class="java.lang.String">
+		<fieldDescription><![CDATA[codigoVerificacao]]></fieldDescription>
+	</field>
+	<field name="cpfPessoaPrestador" class="java.lang.String">
+		<fieldDescription><![CDATA[cpfPessoaPrestador]]></fieldDescription>
+	</field>
+	<field name="pisPasep" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[pisPasep]]></fieldDescription>
+	</field>
+	<field name="valorTotal" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[valorTotal]]></fieldDescription>
+	</field>
+	<field name="bairroEnderecoPrestador" class="java.lang.String">
+		<fieldDescription><![CDATA[bairroEnderecoPrestador]]></fieldDescription>
+	</field>
+	<field name="id" class="java.lang.Long">
+		<fieldDescription><![CDATA[id]]></fieldDescription>
+	</field>
+	<field name="situacaoNFSe" class="br.com.juremal.insights.entity.SituacaoNFSe">
+		<fieldDescription><![CDATA[situacaoNFSe]]></fieldDescription>
+	</field>
+	<field name="logradouroEnderecoPrestador" class="java.lang.String">
+		<fieldDescription><![CDATA[logradouroEnderecoPrestador]]></fieldDescription>
+	</field>
+	<field name="tipoLogradouroEnderecoTomador" class="java.lang.String">
+		<fieldDescription><![CDATA[tipoLogradouroEnderecoTomador]]></fieldDescription>
+	</field>
+	<field name="complementoEnderecoTomador" class="java.lang.String">
+		<fieldDescription><![CDATA[complementoEnderecoTomador]]></fieldDescription>
+	</field>
+	<field name="emailTomador" class="java.lang.String">
+		<fieldDescription><![CDATA[emailTomador]]></fieldDescription>
+	</field>
+	<field name="numeroEnderecoTomador" class="java.lang.String">
+		<fieldDescription><![CDATA[numeroEnderecoTomador]]></fieldDescription>
+	</field>
+	<field name="distritoEnderecoTomador" class="java.lang.String">
+		<fieldDescription><![CDATA[distritoEnderecoTomador]]></fieldDescription>
+	</field>
+	<field name="inscricaoMunicipalTomador" class="java.lang.String">
+		<fieldDescription><![CDATA[inscricaoMunicipalTomador]]></fieldDescription>
+	</field>
+	<field name="descontoIncondicionado" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[descontoIncondicionado]]></fieldDescription>
+	</field>
+	<field name="discriminacaoServico" class="java.lang.String">
+		<fieldDescription><![CDATA[discriminacaoServico]]></fieldDescription>
+	</field>
+	<field name="tipoLogradouroEnderecoPrestador" class="java.lang.String">
+		<fieldDescription><![CDATA[tipoLogradouroEnderecoPrestador]]></fieldDescription>
+	</field>
+	<field name="inscricaoMunicipalPrestador" class="java.lang.String">
+		<fieldDescription><![CDATA[inscricaoMunicipalPrestador]]></fieldDescription>
+	</field>
+	<field name="irrf" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[irrf]]></fieldDescription>
+	</field>
+	<field name="nomeLocalPrestacao" class="java.lang.String">
+		<fieldDescription><![CDATA[nomeLocalPrestacao]]></fieldDescription>
+	</field>
+	<field name="bairroEnderecoTomador" class="java.lang.String">
+		<fieldDescription><![CDATA[bairroEnderecoTomador]]></fieldDescription>
+	</field>
+	<field name="naturezaOperacao" class="br.com.juremal.insights.entity.NaturezaOperacao">
+		<fieldDescription><![CDATA[naturezaOperacao]]></fieldDescription>
+	</field>
+	<field name="paisLocalPrestacaoServico" class="br.com.juremal.insights.entity.Pais">
+		<fieldDescription><![CDATA[paisLocalPrestacaoServico]]></fieldDescription>
+	</field>
+	<field name="valorDeducoes" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[valorDeducoes]]></fieldDescription>
+	</field>
+	<field name="numeroEnderecoPrestador" class="java.lang.String">
+		<fieldDescription><![CDATA[numeroEnderecoPrestador]]></fieldDescription>
+	</field>
+	<field name="aviso" class="java.lang.String">
+		<fieldDescription><![CDATA[aviso]]></fieldDescription>
+	</field>
+	<field name="codigoHash" class="java.lang.String">
+		<fieldDescription><![CDATA[codigoHash]]></fieldDescription>
+	</field>
+	<field name="cepEnderecoPrestador" class="java.lang.String">
+		<fieldDescription><![CDATA[cepEnderecoPrestador]]></fieldDescription>
+	</field>
+	<field name="tipoPessoaTomador" class="br.com.juremal.insights.entity.TipoPessoa">
+		<fieldDescription><![CDATA[tipoPessoaTomador]]></fieldDescription>
+	</field>
+	<field name="siglaUfPrestador" class="java.lang.String">
+		<fieldDescription><![CDATA[siglaUfPrestador]]></fieldDescription>
+	</field>
+	<field name="codItemServico" class="java.lang.String">
+		<fieldDescription><![CDATA[codItemServico]]></fieldDescription>
+	</field>
+	<field name="rpsDataEmissao" class="java.util.Date">
+		<fieldDescription><![CDATA[rpsDataEmissao]]></fieldDescription>
+	</field>
+	<field name="siglaUfPrestacao" class="java.lang.String">
+		<fieldDescription><![CDATA[siglaUfPrestacao]]></fieldDescription>
+	</field>
+	<field name="descricaoItemServico" class="java.lang.String">
+		<fieldDescription><![CDATA[descricaoItemServico]]></fieldDescription>
+	</field>
+	<field name="competencia" class="java.lang.Integer">
+		<fieldDescription><![CDATA[competencia]]></fieldDescription>
+	</field>
+	<field name="tipoPessoaPrestador" class="br.com.juremal.insights.entity.TipoPessoa">
+		<fieldDescription><![CDATA[tipoPessoaPrestador]]></fieldDescription>
+	</field>
+	<field name="issRetidoPeloTomador" class="br.com.juremal.insights.entity.SimNao">
+		<fieldDescription><![CDATA[issRetidoPeloTomador]]></fieldDescription>
+	</field>
+	<field name="prestador" class="br.com.juremal.insights.entity.Pessoa">
+		<fieldDescription><![CDATA[prestador]]></fieldDescription>
+	</field>
+	<field name="nomePessoaTomador" class="java.lang.String">
+		<fieldDescription><![CDATA[nomePessoaTomador]]></fieldDescription>
+	</field>
+	<field name="rpsNumero" class="java.lang.Long">
+		<fieldDescription><![CDATA[rpsNumero]]></fieldDescription>
+	</field>
+	<field name="prestadorOptanteSIMPLES" class="br.com.juremal.insights.entity.SimNao">
+		<fieldDescription><![CDATA[prestadorOptanteSIMPLES]]></fieldDescription>
+	</field>
+	<field name="cnpjPessoaTomador" class="java.lang.String">
+		<fieldDescription><![CDATA[cnpjPessoaTomador]]></fieldDescription>
+	</field>
+	<field name="siglaUfTomador" class="java.lang.String">
+		<fieldDescription><![CDATA[siglaUfTomador]]></fieldDescription>
+	</field>
+	<field name="razaoSocialPessoaPrestador" class="java.lang.String">
+		<fieldDescription><![CDATA[razaoSocialPessoaPrestador]]></fieldDescription>
+	</field>
+	<field name="class" class="java.lang.Class">
+		<fieldDescription><![CDATA[class]]></fieldDescription>
+	</field>
+	<field name="localTributacaoNFSe" class="br.com.juremal.insights.entity.LocalTributacaoNFSe">
+		<fieldDescription><![CDATA[localTributacaoNFSe]]></fieldDescription>
+	</field>
+	<field name="csll" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[csll]]></fieldDescription>
+	</field>
+	<field name="localPrestacaoServico" class="br.com.juremal.insights.entity.Municipio">
+		<fieldDescription><![CDATA[localPrestacaoServico]]></fieldDescription>
+	</field>
+	<field name="razaoSocialPessoaTomador" class="java.lang.String">
+		<fieldDescription><![CDATA[razaoSocialPessoaTomador]]></fieldDescription>
+	</field>
+	<field name="complementoEnderecoPrestador" class="java.lang.String">
+		<fieldDescription><![CDATA[complementoEnderecoPrestador]]></fieldDescription>
+	</field>
+	<field name="emailPrestador" class="java.lang.String">
+		<fieldDescription><![CDATA[emailPrestador]]></fieldDescription>
+	</field>
+	<field name="municipioEnderecoTomador" class="java.lang.String">
+		<fieldDescription><![CDATA[municipioEnderecoTomador]]></fieldDescription>
+	</field>
+	<field name="cepEnderecoTomador" class="java.lang.String">
+		<fieldDescription><![CDATA[cepEnderecoTomador]]></fieldDescription>
+	</field>
+	<field name="nomeFantasiaTomador" class="java.lang.String">
+		<fieldDescription><![CDATA[nomeFantasiaTomador]]></fieldDescription>
+	</field>
+	<field name="ufTomador" class="java.lang.String">
+		<fieldDescription><![CDATA[ufTomador]]></fieldDescription>
+	</field>
+	<field name="municipioEnderecoPrestador" class="java.lang.String">
+		<fieldDescription><![CDATA[municipioEnderecoPrestador]]></fieldDescription>
+	</field>
+	<field name="valorBaseCalculo" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[valorBaseCalculo]]></fieldDescription>
+	</field>
+	<field name="ufPrestador" class="java.lang.String">
+		<fieldDescription><![CDATA[ufPrestador]]></fieldDescription>
+	</field>
+	<field name="cpfPessoaTomador" class="java.lang.String">
+		<fieldDescription><![CDATA[cpfPessoaTomador]]></fieldDescription>
+	</field>
+	<field name="tomador" class="br.com.juremal.insights.entity.Pessoa">
+		<fieldDescription><![CDATA[tomador]]></fieldDescription>
+	</field>
+	<field name="cnpjPessoaPrestador" class="java.lang.String">
+		<fieldDescription><![CDATA[cnpjPessoaPrestador]]></fieldDescription>
+	</field>
+	<field name="faixaReceitaBrutaSIMPLES" class="br.com.juremal.insights.entity.FaixaReceitaBrutaSIMPLES">
+		<fieldDescription><![CDATA[faixaReceitaBrutaSIMPLES]]></fieldDescription>
+	</field>
+	<field name="inss" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[inss]]></fieldDescription>
+	</field>
+	<field name="regimeTributacao" class="br.com.juremal.insights.entity.RegimeTributacao">
+		<fieldDescription><![CDATA[regimeTributacao]]></fieldDescription>
+	</field>
+	<field name="descontoCondicionado" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[descontoCondicionado]]></fieldDescription>
+	</field>
+	<field name="rpsSerie" class="java.lang.String">
+		<fieldDescription><![CDATA[rpsSerie]]></fieldDescription>
+	</field>
+	<field name="nomeFantasiaPrestador" class="java.lang.String">
+		<fieldDescription><![CDATA[nomeFantasiaPrestador]]></fieldDescription>
+	</field>
+	<field name="servico" class="br.com.juremal.insights.entity.SubitemServico">
+		<fieldDescription><![CDATA[servico]]></fieldDescription>
+	</field>
+	<variable name="total_iss" class="java.math.BigDecimal" calculation="Sum">
+		<variableExpression><![CDATA[$F{valorISS}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="437">
+			<image scaleImage="FillFrame" hAlign="Center" vAlign="Middle">
+				<reportElement x="0" y="9" width="92" height="74" uuid="04048c73-55ed-4247-b19b-e45536997ed4"/>
+				<imageExpression><![CDATA[$P{path_img}]]></imageExpression>
+			</image>
+			<rectangle>
+				<reportElement x="5" y="95" width="557" height="96" forecolor="#050505" uuid="65ca95c3-3a1d-4310-bacb-5bc0735439e9">
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+			</rectangle>
+			<textField>
+				<reportElement x="102" y="10" width="456" height="25" uuid="27d09178-759a-49af-8263-584ddbf1eda5"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle" markup="none">
+					<font fontName="Courier New" size="12" isBold="true" pdfFontName="Courier-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{nome_prefeitura}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="102" y="27" width="456" height="18" uuid="eec4f532-7144-4190-90df-5c696e8988d7"/>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Courier New" size="12" isBold="true" pdfFontName="Courier-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{orgao}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Transparent" x="102" y="59" width="274" height="15" backcolor="#CCCCCC" uuid="6f6d3230-860b-4cb9-83d6-57b386cf7de8">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Left" verticalAlignment="Middle">
+					<font fontName="Courier New" size="12" isBold="true" pdfFontName="Courier-Bold"/>
+				</textElement>
+				<text><![CDATA[DECLARAÇÃO DE RETENÇÃO DO ISS]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="416" y="61" width="100" height="15" uuid="5e5dcab6-e5eb-4e49-993f-8b1385d4e78f">
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Right">
+					<font fontName="Courier New" size="9" isBold="true" pdfFontName="Courier-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Página " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="516" y="61" width="42" height="15" uuid="88fa4881-785a-4cb6-b243-b83892303ddc">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font fontName="Courier New" size="9" isBold="true" pdfFontName="Courier-Bold"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" de " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="11" y="115" width="540" height="60" uuid="f5fbfe4e-4432-4013-aae3-b67913c69c5f"/>
+				<textElement textAlignment="Justified">
+					<font fontName="Courier New" pdfFontName="Courier"/>
+				</textElement>
+				<textFieldExpression><![CDATA["	Declaro em nome da tomadora de serviços "+$P{tomador}.getDescricao() +", a efetivação da retenção do Imposto sobre Serviços – ISS do contribuinte "+$P{prestador}.getDescricao() +", conforme constante nas notas fiscais abaixo discriminadas, para fins de cumprimento dos mandamentos legais cabíveis."]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Opaque" x="6" y="96" width="556" height="15" backcolor="#CCCCCC" uuid="cae55bd6-6e4d-402b-8beb-6cb9c767881c">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<bottomPen lineWidth="0.5"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Courier New" size="10" isBold="true" pdfFontName="Courier-Bold"/>
+				</textElement>
+				<text><![CDATA[DECLARAÇÃO]]></text>
+			</staticText>
+			<textField>
+				<reportElement mode="Opaque" x="5" y="176" width="556" height="15" backcolor="#CCCCCC" uuid="f3de364d-768d-4c3d-924d-1eeec43b2a6f">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Courier New" isBold="true" pdfFontName="Courier-Bold"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA["COMPETÊNCIA: " + $P{competencia}]]></textFieldExpression>
+			</textField>
+			<frame>
+				<reportElement x="-2" y="200" width="566" height="230" isRemoveLineWhenBlank="true" uuid="60466b1d-c270-42e2-ad74-199efc25d3a8">
+					<printWhenExpression><![CDATA[$V{PAGE_NUMBER} == 1]]></printWhenExpression>
+				</reportElement>
+				<rectangle>
+					<reportElement x="7" y="118" width="557" height="97" forecolor="#030202" uuid="00a197c1-1284-47a2-8bbe-acfb203904b4"/>
+				</rectangle>
+				<rectangle>
+					<reportElement x="7" y="9" width="558" height="97" forecolor="#030202" uuid="69e7d8f5-d602-421b-af30-b54ee33d0567"/>
+				</rectangle>
+				<textField>
+					<reportElement x="48" y="158" width="408" height="16" uuid="547e47ce-13f4-43c8-ad33-60c3ecd47672">
+						<property name="local_mesure_unitheight" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement>
+						<font fontName="Courier New" pdfFontName="Courier"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new br.com.juremal.insights.util.CpfCnpjFormat().format($P{prestador}.getDocumento())]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="12" y="174" width="89" height="16" uuid="e1f6d3ee-3c46-4ec2-85ea-72f717264171">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="local_mesure_unitwidth" value="pixel"/>
+					</reportElement>
+					<textElement>
+						<font fontName="Courier New" size="10" isBold="true" pdfFontName="Courier-Bold" pdfEncoding=""/>
+					</textElement>
+					<text><![CDATA[RAZÃO SOCIAL: ]]></text>
+				</staticText>
+				<staticText>
+					<reportElement mode="Opaque" x="8" y="119" width="556" height="15" backcolor="#CCCCCC" uuid="cf9822e9-6cd2-417e-85ae-fe924aeaac82"/>
+					<box>
+						<bottomPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Courier New" size="10" isBold="true" pdfFontName="Courier-Bold"/>
+					</textElement>
+					<text><![CDATA[DADOS DO PRESTADOR]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="101" y="174" width="462" height="16" uuid="10ec73bc-1f0c-4f40-a9ce-54c366134c06">
+						<property name="local_mesure_unitheight" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement>
+						<font fontName="Courier New" pdfFontName="Courier"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{prestador}.getDescricao()]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="138" y="142" width="408" height="16" uuid="fcee9302-da2f-458e-963a-e61a2ffea019">
+						<property name="local_mesure_unitheight" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement>
+						<font fontName="Courier New" pdfFontName="Courier"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{prestador}.getInscricaoMunicipal() != null ? $P{prestador}.getInscricaoMunicipal() : ""]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="12" y="158" width="36" height="16" uuid="27e0b407-cb38-438c-b97d-a657b15d18c7">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="local_mesure_unitwidth" value="pixel"/>
+					</reportElement>
+					<textElement>
+						<font fontName="Courier New" size="10" isBold="true" pdfFontName="Courier-Bold" pdfEncoding=""/>
+					</textElement>
+					<text><![CDATA[CNPJ:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="69" y="191" width="494" height="16" uuid="53a7929d-adbc-4cb0-90a1-ea659578906e">
+						<property name="local_mesure_unitheight" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement>
+						<font fontName="Courier New" pdfFontName="Courier"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{prestador}.getEndereco()]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="12" y="142" width="126" height="16" uuid="21a5aca9-45ae-4b6e-ba55-214761deeca2">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="local_mesure_unitwidth" value="pixel"/>
+					</reportElement>
+					<textElement>
+						<font fontName="Courier New" size="10" isBold="true" pdfFontName="Courier-Bold" pdfEncoding=""/>
+					</textElement>
+					<text><![CDATA[INSCRIÇÃO MUNICIPAL:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="13" y="191" width="56" height="16" uuid="9045cee0-05f4-4ac4-b7b1-ec73e2f76695">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="local_mesure_unitwidth" value="pixel"/>
+					</reportElement>
+					<textElement>
+						<font fontName="Courier New" size="10" isBold="true" pdfFontName="Courier-Bold" pdfEncoding=""/>
+					</textElement>
+					<text><![CDATA[ENDEREÇO:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="136" y="32" width="408" height="16" uuid="39935f61-1d9b-45bf-ad4a-065a4c463f21">
+						<property name="local_mesure_unitheight" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement>
+						<font fontName="Courier New" pdfFontName="Courier"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{tomador}.getInscricaoMunicipal()]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="97" y="65" width="466" height="16" uuid="5a3340ba-445a-4b94-9797-c29ec403bc53">
+						<property name="local_mesure_unitheight" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement>
+						<font fontName="Courier New" pdfFontName="Courier"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{tomador}.getDescricao()]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement mode="Opaque" x="8" y="10" width="556" height="15" backcolor="#CCCCCC" uuid="dd12ce76-64e4-4998-b999-986f5024ebaf"/>
+					<box>
+						<bottomPen lineWidth="0.5"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font fontName="Courier New" size="10" isBold="true" pdfFontName="Courier-Bold"/>
+					</textElement>
+					<text><![CDATA[DADOS DO TOMADOR]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="10" y="48" width="36" height="16" uuid="e40d145b-1998-4703-bec1-a4b3d6c8d255">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="local_mesure_unitwidth" value="pixel"/>
+					</reportElement>
+					<textElement>
+						<font fontName="Courier New" size="10" isBold="true" pdfFontName="Courier-Bold" pdfEncoding=""/>
+					</textElement>
+					<text><![CDATA[CNPJ:]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="47" y="48" width="408" height="16" uuid="fdf03254-d9ec-43d5-bd4d-34b2dc8b5fbd">
+						<property name="local_mesure_unitheight" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement>
+						<font fontName="Courier New" pdfFontName="Courier"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new br.com.juremal.insights.util.CpfCnpjFormat().format($P{tomador}.getDocumento())]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="10" y="32" width="126" height="16" uuid="44e896d8-b223-4570-9602-4c37aaa0f55f">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="local_mesure_unitwidth" value="pixel"/>
+					</reportElement>
+					<textElement>
+						<font fontName="Courier New" size="10" isBold="true" pdfFontName="Courier-Bold" pdfEncoding=""/>
+					</textElement>
+					<text><![CDATA[INSCRIÇÃO MUNICIPAL:]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="10" y="65" width="89" height="16" uuid="21870ee2-2391-4dc3-900c-c18462cab5ee">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="local_mesure_unitwidth" value="pixel"/>
+					</reportElement>
+					<textElement>
+						<font fontName="Courier New" size="10" isBold="true" pdfFontName="Courier-Bold" pdfEncoding=""/>
+					</textElement>
+					<text><![CDATA[RAZÃO SOCIAL: ]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="67" y="81" width="496" height="16" uuid="4a05c10c-c210-41d6-a3e9-cdbf05543a25">
+						<property name="local_mesure_unitheight" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					</reportElement>
+					<textElement>
+						<font fontName="Courier New" pdfFontName="Courier"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{tomador}.getEndereco()]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="10" y="81" width="56" height="16" uuid="c7876fce-97ee-4464-a655-f24481ef6163">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="px"/>
+						<property name="local_mesure_unitwidth" value="pixel"/>
+					</reportElement>
+					<textElement>
+						<font fontName="Courier New" size="10" isBold="true" pdfFontName="Courier-Bold" pdfEncoding=""/>
+					</textElement>
+					<text><![CDATA[ENDEREÇO:]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="30" splitType="Stretch">
+			<property name="local_mesure_unitheight" value="pixel"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<staticText>
+				<reportElement x="407" y="15" width="65" height="15" uuid="160ff24b-d8ea-4bba-90c1-a66b8be0c3df">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Courier New" isBold="true" pdfFontName="Courier-Bold"/>
+				</textElement>
+				<text><![CDATA[ALÍQUOTA %]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="137" y="15" width="75" height="15" uuid="42cf8289-99cd-4274-8c4b-b936661599ab">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Courier New" isBold="true" pdfFontName="Courier-Bold"/>
+				</textElement>
+				<text><![CDATA[ITEM SERVIÇO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="472" y="15" width="90" height="15" uuid="158c1ef0-07d7-4705-a665-975b5676fd96">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Courier New" isBold="true" pdfFontName="Courier-Bold"/>
+				</textElement>
+				<text><![CDATA[ISS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="79" y="15" width="58" height="15" uuid="02907b88-85d1-4e5e-9df6-cd0711a3dc0f">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Courier New" isBold="true" pdfFontName="Courier-Bold"/>
+				</textElement>
+				<text><![CDATA[NUMERO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="212" y="15" width="105" height="15" uuid="ceff0a20-c56d-4f73-a85e-0704eed16c90">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Courier New" isBold="true" pdfFontName="Courier-Bold"/>
+				</textElement>
+				<text><![CDATA[VALOR DO SERVIÇO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Opaque" x="4" y="0" width="558" height="15" backcolor="#CCCCCC" uuid="9db5fa7c-d443-4a9e-a1c8-c39966db8b77">
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Courier New" size="10" isBold="true" pdfFontName="Courier-Bold"/>
+				</textElement>
+				<text><![CDATA[DISCRIMINAÇÃO DAS NOTAS RETIDAS]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="4" y="15" width="75" height="15" uuid="e1974299-467d-448b-81c3-361fd3fd3c56">
+					<property name="local_mesure_unity" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Courier New" isBold="true" pdfFontName="Courier-Bold"/>
+				</textElement>
+				<text><![CDATA[DATA]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="317" y="15" width="90" height="15" uuid="79de0b3d-4d9e-4e5e-9c53-ae5eaecd7680">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Courier New" isBold="true" pdfFontName="Courier-Bold"/>
+				</textElement>
+				<text><![CDATA[DEDUÇÕES]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="15" splitType="Stretch">
+			<property name="local_mesure_unitheight" value="pixel"/>
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<textField pattern="">
+				<reportElement x="472" y="0" width="90" height="15" uuid="6b598ecb-684e-47c4-bf5e-600b0061191a">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Courier New" isBold="false" pdfFontName="Courier"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new br.com.juremal.insights.util.ValorNumericoUtil().converterEmMoeda($F{valorISS})]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement x="4" y="0" width="75" height="15" uuid="65fd77e2-e490-4878-b9ac-547130ecf2a3">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Courier New" isBold="false" pdfFontName="Courier"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{dataHoraEmissao}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="79" y="0" width="58" height="15" uuid="7bda6e44-95f4-4024-93c8-3ef93daeae4f">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Courier New" isBold="false" pdfFontName="Courier"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{numeroNFSe}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="137" y="0" width="75" height="15" uuid="b031934d-f5b0-4146-ac2d-0c0216100aae">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Courier New" isBold="false" pdfFontName="Courier"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codItemServico}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement x="212" y="0" width="105" height="15" uuid="12109621-5dec-4482-b96c-1d04c6810bc8">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Courier New" isBold="false" pdfFontName="Courier"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new br.com.juremal.insights.util.ValorNumericoUtil().converterEmMoeda($F{valorBaseCalculo})]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="407" y="0" width="65" height="15" uuid="8a39619c-6ca1-4f7d-9e85-8d88da1967f5">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Courier New" isBold="false" pdfFontName="Courier"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{aliquota}]]></textFieldExpression>
+			</textField>
+			<textField pattern="">
+				<reportElement x="317" y="0" width="90" height="15" uuid="985633f0-e8be-482e-9215-ba7e0a1dc326">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="local_mesure_unitwidth" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="Courier New" isBold="false" pdfFontName="Courier"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new br.com.juremal.insights.util.ValorNumericoUtil().converterEmMoeda($F{valorDeducoes})]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="197" splitType="Stretch">
+			<textField pattern="">
+				<reportElement x="4" y="5" width="558" height="30" uuid="696d9334-d885-4a8c-9358-1732f76b9d00">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<box>
+					<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Courier New" pdfFontName="Courier-Bold"/>
+					<paragraph leftIndent="5"/>
+				</textElement>
+				<textFieldExpression><![CDATA["TOTAL RETIDO NO PERÍODO: "
++ new br.com.juremal.insights.util.ValorNumericoUtil().converterEmMoeda($V{total_iss}) +" ("
++ new br.com.juremal.insights.util.ValorNumericoUtil().valorPorExtenso($V{total_iss}.doubleValue())+")"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="3" y="65" width="558" height="15" uuid="739a9a37-5e62-4418-8f72-99c69c2cb39b">
+					<property name="local_mesure_unitheight" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Center">
+					<font fontName="Courier New" pdfFontName="Courier"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{uf_municipio} + ", " + new java.text.SimpleDateFormat("dd 'de' MMMMM 'de' yyyy").format(new java.util.Date())]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="4" y="102" width="558" height="20" uuid="91841330-2bf9-4fdf-9058-abb99516cffe"/>
+				<textElement textAlignment="Center">
+					<font fontName="Courier New" pdfFontName="Courier"/>
+				</textElement>
+				<text><![CDATA[DECLARANTE]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="12" y="130" width="542" height="60" uuid="4da8ad08-1662-4770-94ce-adb5f284fde9"/>
+				<textElement textAlignment="Justified" verticalAlignment="Bottom">
+					<font fontName="Courier New" pdfFontName="Courier"/>
+				</textElement>
+				<text><![CDATA[	Obs: Conforme art. 128 do Código Tributário Nacional: Sem prejuízo do disposto neste capítulo, a lei pode atribuir de modo expresso a responsabilidade pelo crédito tributário a terceira pessoa, vinculada ao fato gerador da respectiva obrigação, excluindo a responsabilidade do contribuinte ou atribuindo-a a este em caráter supletivo do cumprimento total ou parcial da referida obrigação.]]></text>
+			</staticText>
+			<line>
+				<reportElement x="140" y="100" width="289" height="1" uuid="ae843f01-8c54-4c0d-9d16-583939b5299c"/>
+			</line>
+		</band>
+	</summary>
+</jasperReport>

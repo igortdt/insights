@@ -1,0 +1,111 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+	<h:head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title><ui:insert name="titulo">#{msg['nome.sistema']}</ui:insert></title>
+
+		<h:outputStylesheet library="css" name="insights.css" />
+
+		<link href="#{request.contextPath}/theme/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+		<link href="#{request.contextPath}/theme/css/font-awesome.min.css" rel="stylesheet" />
+		<link href="#{request.contextPath}/theme/css/endless.min.css" rel="stylesheet" />
+
+		<link rel="shortcut icon" href="#{request.contextPath}/resources/img/favicon-aspec.ico" type="image/x-icon" />
+		<link rel="icon" href="#{request.contextPath}/resources/img/favicon-aspec.ico" type="image/x-icon" />
+
+	</h:head>
+
+	<h:body>
+
+		<div class="login-wrapper">
+		
+					
+			<div style="width:65px; margin-left: auto; margin-right: auto;">
+				<img src="#{request.contextPath}/resources/#{initParam['uf_municipio']}/img/brasao-sistema.jpg"  />
+			</div>
+			<div style="width:250px; margin-left: auto; margin-right: auto;" class="text-center clear">
+						<h4>#{msg[request.contextPath.substring(1).concat('.pref')]}</h4>
+						<h4 class="negrito fadeInUp animation-delay4 font80em">#{msg[request.contextPath.substring(1).concat('.nome')]}</h4>
+			</div>
+						
+			<div class="login-widget animation-delay1 width350px">
+				<div class="panel panel-default painel-login-sb">
+					<p:messages autoUpdate="true" globalOnly="true" />
+						<h:form id="frm" prependId="false" >
+							<p:focus context="frm" />
+							
+		
+							<!--  <div class="panel-heading clearfix"></div> -->
+							
+							<div class="panel-heading clearfix">
+								<div class="pull-left">									
+									<span>#{msg['recuperar.senha']}</span>
+								</div>								
+							</div>
+							
+							<div class="panel-body">
+
+									<div class="form-group overflow-hidden margin-zero">
+										<h:panelGrid columns="1" layout="grid" styleClass="float-left">
+											<p:selectOneButton id="tipo_login"
+												value="#{recuperarSenhaPortalBean.tipoLogin}">
+			
+												<f:selectItem itemLabel="#{msg['cpf']}" itemValue="1" />
+			
+												<f:selectItem itemLabel="#{msg['email']}" itemValue="2" />
+												
+												<p:ajax event="change" update="frm" resetValues="true" />
+											</p:selectOneButton>
+										</h:panelGrid>
+									</div>
+									
+									<br clear="all"/>
+									
+								
+										<!-- Login por CPF -->
+										<p:outputLabel for="cpf" value="#{msg['cpf']}" rendered="#{recuperarSenhaPortalBean.tipoLogin eq 1}" />
+										<p:inputMask mask="999.999.999-99" id="cpf" value="#{recuperarSenhaPortalBean.filtroBusca}" size="30" required="true"
+											styleClass="form-control input-sm" rendered="#{recuperarSenhaPortalBean.tipoLogin eq 1}" converter="cpfCnpjConverter">
+											<f:passThroughAttribute name="pattern" value="[0-9]*" />
+										</p:inputMask>
+										<p:message for="cpf" rendered="#{recuperarSenhaPortalBean.tipoLogin eq 1}" />
+									
+										<!-- Login por E-MAIL -->
+										<p:outputLabel for="email" value="#{msg['email']}" rendered="#{recuperarSenhaPortalBean.tipoLogin ne 1}" /> 
+										<p:inputText id="email" value="#{recuperarSenhaPortalBean.filtroBusca}" size="30" required="true"  
+											styleClass="form-control input-sm" type="email" rendered="#{recuperarSenhaPortalBean.tipoLogin ne 1}" />
+										<p:message for="email" rendered="#{recuperarSenhaPortalBean.tipoLogin ne 1}" />
+								
+		
+									<br clear="all"/>
+									
+									<p:link outcome="login" 
+										styleClass="btn btn-danger" style="float:left;" >
+										<i class="fa fa-reply"></i>
+										#{msg['voltar']}
+									</p:link>
+																		
+									<p:commandButton id="btEntrar" value="#{msg['recuperar']}" icon="fa fa-sign-in" action="#{recuperarSenhaPortalBean.recuperar}" update="@form"
+										styleClass="btn btn-success btn-sm pull-right">
+									</p:commandButton>
+									<!-- <p:defaultCommand target="btEntrar" /> -->
+							</div>
+					</h:form>
+				</div>
+				<p>© 2016 Aspec. Todos os direitos reservados.</p>
+			</div>
+			
+		</div>
+		
+		<script src="#{request.contextPath}/theme/js/theme.js"></script>
+		
+	</h:body>
+
+</html>

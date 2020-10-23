@@ -1,0 +1,293 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template/master-template-portal.xhtml">
+	
+	<ui:define name="conteudo">
+	<h:form>
+		<div class="bg-light">
+				<div class="container">
+					<div class="col-lg-6 col-md-6 col-sm-6">
+						<ul class="list-inline margin-top5px">
+							<li>
+								<p:link outcome="/login.xhtml">
+									Página Inicial
+								</p:link>
+							</li>
+							<li>/</li>
+							<li>
+								<p:link outcome="/UC0035ValidarDocumento/T0035L-validar-documento.xhtml">
+									Validação de Documentos
+								</p:link>
+							</li>
+							<li>/</li>
+							<li>
+								<a href="#">
+									Validação de NFS-e Avulsa
+								</a>
+							</li>
+							<li>/</li>
+						</ul>
+					</div>
+					
+					<div class="col-lg-6 col-md-6 col-sm-6">
+						<ul class="list-inline pull-right margin-top5px">
+							<li><i class="fa fa-adjust" aria-hidden="true"></i></li>
+							<li><b>A</b><i class="fa fa-plus" aria-hidden="true"></i></li>
+							<li><small><b>A</b><i class="fa fa-minus" aria-hidden="true"></i></small></li>
+						</ul>
+					</div>
+					
+				</div>
+			</div>
+			
+			<section class="bg-white min-height-680px">
+				<div class="container">
+					<div class="row">
+						
+						<div class="col-lg-3">
+
+							<h2 class="novo-portal-chamada-servicos">Serviços</h2>
+						
+							<div class="novo-portal-menu-principal">
+								<!-- Include de componente de Menu -->
+								<ui:include src="/WEB-INF/template/menu-portal.xhtml" />
+							</div>
+							
+							<!-- O INCLUDE DOS BANNERS DEVERÃO  FICAR AQUI -->
+							
+						</div>
+						
+						<div class="col-lg-9">
+							<div class="row novo-portal-texto-principal">
+								<div class="col-lg-12">
+									<h1>Validação de NFS-e Avulsa</h1>
+								</div>
+							</div>							
+						</div>
+						<div class="col-lg-9">
+						
+							<!-- ********************************************* -->
+							<!-- BARRA DE FERRAMENTAS - BOTOES DO LADO DIREITO -->
+							<!-- ********************************************* -->
+							
+							<p:link id="optButton" styleClass="btn btn-default pull-right" onclick="return false;">
+									<i class="fa fa-bars"></i>
+									#{msg['opcoes']}
+							</p:link>
+							<p:menu overlay="true" trigger="optButton" my="right top" at="right bottom">
+								<p:menuitem value="#{msg['gerar.pdf']}" action="#{validarNFSeAvulsaBean.visualizarNFSe()}"
+										icon="fa fa-search" ajax="false" target="_blank" />
+							</p:menu>
+							
+							<div class="clearfix"></div>
+							
+							<p:outputPanel styleClass="panel panel-default"
+								rendered="#{validarNFSeAvulsaBean.nfSeAvulsa.situacaoNFSeAvulsa eq 'CANCELADA'}"> 
+								<div class="panel-heading">#{msg['dados.cancelamento']}</div>
+								<div class="panel-body">
+									<p:panelGrid columns="1" layout="grid" styleClass="form-panel">
+										<!-- <h:panelGroup>
+											<div class="fixo width150px">
+												<p:outputLabel value="#{msg['motivo.cancelamento']}" />
+												<h:outputText value="#{detalheSolicitarNFSeAvulsaBean.solicitacaoNFSeAvulsa.motivoCancelamento}" />
+											</div>
+										</h:panelGroup> -->
+										<h:panelGroup>
+											<div class="responsivo width420px">
+												<p:outputLabel value="#{msg['motivo.cancelamento']}" styleClass="width100" />
+												<h:outputText value="#{validarNFSeAvulsaBean.nfSeAvulsa.motivoCancelamento}" />
+											</div>
+										</h:panelGroup>
+				
+									</p:panelGrid>
+								</div>
+							</p:outputPanel>
+							
+							
+							<div class="panel panel-default">
+
+								<div class="panel-heading">#{msg['prestador']}</div>
+								<div class="panel-body">
+				
+									<p:panelGrid id="prestador-panel" columns="1" layout="grid"
+										styleClass="form-panel">
+				
+										<h:panelGroup>
+											<div class="fixo width150px">
+												 <p:outputLabel value="#{msg['cpf']}" rendered="#{validarNFSeAvulsaBean.nfSeAvulsa.tipoPessoaPrestador eq 'PESSOA_FISICA'}"/>
+												<p:outputLabel value="#{msg['cnpj']}" rendered="#{!(validarNFSeAvulsaBean.nfSeAvulsa.tipoPessoaPrestador eq 'PESSOA_FISICA')}"/>
+												
+												<br clear="all"/>
+												
+												<h:outputText value="#{validarNFSeAvulsaBean.nfSeAvulsa.cpfPessoaPrestador}" 
+												rendered="#{validarNFSeAvulsaBean.nfSeAvulsa.tipoPessoaPrestador eq 'PESSOA_FISICA'}" converter="cpfCnpjConverter"/>
+												
+												<h:outputText value="#{validarNFSeAvulsaBean.nfSeAvulsa.cnpjPessoaPrestador}" 
+												rendered="#{!(validarNFSeAvulsaBean.nfSeAvulsa.tipoPessoaPrestador eq 'PESSOA_FISICA')}" converter="cpfCnpjConverter" /> 
+											</div>
+										 	<div class="fixo width250px">
+												<p:outputLabel value="#{msg['nome']}" rendered="#{validarNFSeAvulsaBean.nfSeAvulsa.tipoPessoaPrestador eq 'PESSOA_FISICA'}"/>
+												<p:outputLabel value="#{msg['razao.social']}" rendered="#{!(validarNFSeAvulsaBean.nfSeAvulsa.tipoPessoaPrestador eq 'PESSOA_FISICA')}"/>
+												
+												<br clear="all"/>
+												
+												<h:outputText value="#{validarNFSeAvulsaBean.nfSeAvulsa.nomePessoaPrestador}" 
+												rendered="#{validarNFSeAvulsaBean.nfSeAvulsa.tipoPessoaPrestador eq 'PESSOA_FISICA'}" converter="cpfCnpjConverter"/>
+												
+												<h:outputText value="#{validarNFSeAvulsaBean.nfSeAvulsa.razaoSocialPessoaPrestador}" 
+												rendered="#{!(validarNFSeAvulsaBean.nfSeAvulsa.tipoPessoaPrestador eq 'PESSOA_FISICA')}" converter="cpfCnpjConverter" />
+											</div> 
+										</h:panelGroup>
+																
+									</p:panelGrid>
+								</div>
+								
+								
+							 	<div class="panel-heading">#{msg['tomador']}</div>
+								<div class="panel-body">
+				
+									<p:panelGrid id="tomador-panel" columns="1" layout="grid"
+										styleClass="form-panel">
+				
+										<h:panelGroup>
+											<div class="fixo width150px">
+												<p:outputLabel value="#{msg['cpf']}" rendered="#{validarNFSeAvulsaBean.nfSeAvulsa.tipoPessoaTomador eq 'PESSOA_FISICA'}"/>
+												<p:outputLabel value="#{msg['cnpj']}" rendered="#{!(validarNFSeAvulsaBean.nfSeAvulsa.tipoPessoaPrestador eq 'PESSOA_FISICA')}"/>
+												
+												<br clear="all"/>
+												
+												<h:outputText value="#{validarNFSeAvulsaBean.nfSeAvulsa.cpfPessoaTomador}" 
+												rendered="#{validarNFSeAvulsaBean.nfSeAvulsa.tipoPessoaTomador eq 'PESSOA_FISICA'}" converter="cpfCnpjConverter"/>
+												
+												<h:outputText value="#{validarNFSeAvulsaBean.nfSeAvulsa.cnpjPessoaTomador}" 
+												rendered="#{!(validarNFSeAvulsaBean.nfSeAvulsa.tipoPessoaPrestador eq 'PESSOA_FISICA')}" converter="cpfCnpjConverter" />
+											</div>
+											<div class="fixo width250px">
+												<p:outputLabel value="#{msg['nome']}" rendered="#{validarNFSeAvulsaBean.nfSeAvulsa.tipoPessoaTomador eq 'PESSOA_FISICA'}"/>
+												<p:outputLabel value="#{msg['razao.social']}" rendered="#{!(validarNFSeAvulsaBean.nfSeAvulsa.tipoPessoaPrestador eq 'PESSOA_FISICA')}"/>
+												
+												<br clear="all"/>
+												
+												<h:outputText value="#{validarNFSeAvulsaBean.nfSeAvulsa.nomePessoaTomador}" 
+												rendered="#{validarNFSeAvulsaBean.nfSeAvulsa.tipoPessoaTomador eq 'PESSOA_FISICA'}" converter="cpfCnpjConverter"/>
+												
+												<h:outputText value="#{validarNFSeAvulsaBean.nfSeAvulsa.razaoSocialPessoaTomador}" 
+												rendered="#{!(validarNFSeAvulsaBean.nfSeAvulsa.tipoPessoaPrestador eq 'PESSOA_FISICA')}" converter="cpfCnpjConverter" />
+											</div>
+										</h:panelGroup>
+										
+																
+									    <h:panelGroup>
+											<div class="responsivo width100">
+												<p:outputLabel value="#{msg['endereco']}"/>
+												<br clear="all"/>
+												<h:outputText value="#{validarNFSeAvulsaBean.nfSeAvulsa.tomador.endereco}"/>
+											</div>
+										</h:panelGroup>
+										
+									</p:panelGrid>
+								</div> 
+								
+								
+							 <div class="panel-heading">#{msg['servico.prestado']}</div>
+								<div class="panel-body">
+				
+									<p:panelGrid id="servico-panel" columns="1" layout="grid"
+										styleClass="form-panel">
+				
+										<h:panelGroup>
+											<div class="fixo width650px">
+												<p:outputLabel value="#{msg['servico']}"/>
+												<br clear="all"/>
+												<h:outputText value="#{validarNFSeAvulsaBean.nfSeAvulsa.descricaoItemServico}" converter="cpfCnpjConverter" />
+											</div>
+				
+											<div class="fixo width250px">
+												<p:outputLabel value="#{msg['aliquota']}"/>
+												<br clear="all"/>
+												<h:outputText value="#{validarNFSeAvulsaBean.nfSeAvulsa.aliquota} %">
+													<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+												</h:outputText>	
+											</div>
+											
+										</h:panelGroup>
+										
+										<h:panelGroup>
+											<div class="fixo width100">
+												<p:outputLabel value="#{msg['local.tributacao.servico']}"/>
+												<br clear="all"/>
+												<h:outputText value="#{msg[validarNFSeAvulsaBean.nfSeAvulsa.servico.localTributacaoServico.label]}"/>
+											</div>
+										</h:panelGroup>
+										
+										<h:panelGroup>
+											<div class="responsivo width100">
+												<p:outputLabel for="observacao" value="#{msg['descricao.servico']}" />
+												<p:spacer width="10px" /><h:outputText id="disp-observacao" />
+												<p:inputTextarea id="observacao" value="#{validarNFSeAvulsaBean.nfSeAvulsa.discriminacaoServico}" disabled="true"/>
+											</div>
+										</h:panelGroup>
+										
+										
+												
+										<h:panelGroup>
+											<div class="fixo width250px">
+												<p:outputLabel value="#{msg['local.execucao.servico']}"/>
+												<br clear="all"/>
+												<h:outputText value="#{validarNFSeAvulsaBean.nfSeAvulsa.localPrestacaoServico}"/>
+											</div>
+										</h:panelGroup>
+										
+										
+										<h:panelGroup>
+											<div class="fixo width250px">
+												<p:outputLabel value="#{msg['valor.servico']}"/>
+												<br clear="all"/>
+												<h:outputText value="#{validarNFSeAvulsaBean.nfSeAvulsa.valorTotal}" converter="moneyConverter"/>
+											</div>	
+											
+											<div class="fixo width250px">
+												<p:outputLabel value="#{msg['valor.deducoes']}"/>
+												<br clear="all"/>
+												<h:outputText value="#{validarNFSeAvulsaBean.nfSeAvulsa.valorDeducoes}" converter="moneyConverter"/>
+												
+											</div>	
+											
+											<div class="fixo width250px">
+												<p:outputLabel value="#{msg['base.calculo']}"/>
+												<br clear="all"/>
+												<h:outputText value="#{validarNFSeAvulsaBean.nfSeAvulsa.valorBaseCalculo}" converter="moneyConverter"/>
+											</div>	
+											
+											<div class="fixo width250px">
+												<p:outputLabel value="#{msg['valor.iss']}"/>
+												<br clear="all"/>
+												<h:outputText value="#{validarNFSeAvulsaBean.nfSeAvulsa.valorISS}" converter="moneyConverter"/>
+											</div>	
+											
+										</h:panelGroup>
+										
+									</p:panelGrid>
+								</div> 
+								
+								
+							</div>
+							
+						</div>	
+					
+						
+					</div><!-- End of row -->
+				</div><!-- End of container -->
+			</section>			
+			
+			<f:metadata>
+				<f:event listener="#{conversationBean.begin}" type="preRenderView" />
+			</f:metadata>
+	</h:form>
+	</ui:define>
+</ui:composition>

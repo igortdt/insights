@@ -1,0 +1,366 @@
+<div id="servico"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+
+
+	
+	
+	<div class="panel-heading">#{msg['servico.prestado']}</div>
+	<div class="panel-body">
+		
+		<p:panelGrid id="servivo-panel" columns="1" layout="grid" styleClass="form-panel">
+
+			<h:panelGroup>
+				<div class="responsivo width100">
+					<p:panelGrid columns="1" layout="grid" id="grid_natureza_operacao" styleClass="form-panel">
+						<p:selectOneButton id="natureza_operacao" styleClass="combobox margin-auto" value="#{emitirNFSePortalBean.nfse.naturezaOperacao}" >
+							<f:selectItem itemLabel="#{msg['natureza.operacao.tributavel']}" itemValue="TRIBUTAVEL" />
+							<f:selectItem itemLabel="#{msg['natureza.operacao.imunidade']}" itemValue="IMUNIDADE"
+								itemDisabled="#{!emitirNFSePortalBean.imunidade}" />
+							<f:selectItem itemLabel="#{msg['natureza.operacao.nao.incidencia']}" itemValue="NAO_INCIDENCIA"
+								itemDisabled="#{!emitirNFSePortalBean.naoIncidencia}" />
+							<f:param name="cid" value="#{javax.enterprise.context.conversation.id}" />
+							<p:ajax event="change" process="@this" update="servivo-panel" resetValues="true"
+								listener="#{emitirNFSePortalBean.alterarNaturezaOperacao}" />
+						</p:selectOneButton>
+					</p:panelGrid>
+				</div>
+			</h:panelGroup>
+
+			<h:panelGroup rendered="#{emitirNFSePortalBean.nfse.naturezaOperacao eq 'TRIBUTAVEL'}">
+				<div class="responsivo width450px">
+					<p:outputLabel for="itemServico" value="#{msg['item.servico']}" />
+					<p:selectOneMenu id="itemServico" value="#{emitirNFSePortalBean.itemServico}" converter="entityConverter"
+						filter="true" filterMatchMode="contains">
+						<f:selectItem itemLabel="#{msg['selecione.item.servico']}" itemValue=""/>
+						<f:selectItems value="#{emitirNFSePortalBean.itensServico}" var="item" itemLabel="#{item}" itemValue="#{item}" />
+						<p:ajax listener="#{emitirNFSePortalBean.onItemServicoChange}" process="@this"
+							update="subItemServico, panelAliquota" resetValues="true" />
+					</p:selectOneMenu>
+				</div>
+			</h:panelGroup>
+			<h:panelGroup rendered="#{emitirNFSePortalBean.nfse.naturezaOperacao ne 'TRIBUTAVEL'}">
+				<div class="responsivo width450px">
+					<p:outputLabel value="#{msg['item.servico']}" styleClass="width100" />
+					<h:outputText value="#{emitirNFSePortalBean.itemServico}" />
+				</div>
+			</h:panelGroup>
+			
+			<h:panelGroup rendered="#{emitirNFSePortalBean.nfse.naturezaOperacao eq 'TRIBUTAVEL'}">
+				<div class="responsivo width450px">
+					<p:outputLabel for="subItemServico" value="#{msg['subitem.servico']}" />
+					<p:selectOneMenu id="subItemServico" value="#{emitirNFSePortalBean.nfse.servico}" converter="entityConverter" required="true"
+						filter="true" filterMatchMode="contains">
+						<f:selectItem itemLabel="#{msg['selecione.sub.item.servico']}" itemValue=""/>
+						<f:selectItems value="#{emitirNFSePortalBean.subItensServico}" var="sub" itemLabel="#{sub}" itemValue="#{sub}" />		
+						<p:ajax process="@this pisPasep cofins irrf csll inss" update="panelAliquota geral-panel" resetValues="true" listener="#{emitirNFSePortalBean.onSubItemServicoChange}" />			
+					</p:selectOneMenu>
+				</div>
+			</h:panelGroup>
+			<h:panelGroup rendered="#{emitirNFSePortalBean.nfse.naturezaOperacao ne 'TRIBUTAVEL'}">
+				<div class="responsivo width450px">
+					<p:outputLabel value="#{msg['subitem.servico']}" styleClass="width100" />
+					<h:outputText value="#{emitirNFSePortalBean.nfse.servico}" />
+				</div>
+			</h:panelGroup>
+
+			
+			<p:outputPanel id="local-panel" styleClass="row" >
+
+				<div class="panel panel-default margin-left15px">
+					<div class="panel-heading clearfix">
+						<span class="pull-left">#{msg['local.execucao.servico']}</span>
+					</div>
+					<div class="panel-body no-padding collapse in">
+						<div class="responsivo width450px">
+							<div class="row">
+								
+								<p:outputPanel rendered="#{emitirNFSePortalBean.consultarPessoaBean.renderExterior}">
+								<div class="col-md-4 ">
+									<p:outputLabel for="pais-local-execucao" value="#{msg['pais']}"/>
+									<p:selectOneMenu id="pais-local-execucao"
+										value="#{emitirNFSePortalBean.nfse.paisLocalPrestacaoServico}"
+										converter="entityConverter"
+										filter="true" filterMatchMode="contains">
+										<f:selectItem itemLabel="#{msg['selecionar']}" />
+										<f:selectItems value="#{emitirNFSePortalBean.paisesComBrasil}"
+											var="pais" itemLabel="#{pais.nome}" itemValue="#{pais}" />
+										<p:ajax listener="#{emitirNFSePortalBean.onPaisExecucaoChange()}"
+											process="@this" update="local-panel, panelAliquota"
+											resetValues="true" />
+									</p:selectOneMenu>
+								</div>
+								</p:outputPanel>
+								
+								<div class="col-md-4">
+									<p:outputLabel for="ufExecucao" value="#{msg['uf']}" />
+									<p:selectOneMenu id="ufExecucao"
+										value="#{emitirNFSePortalBean.ufLocalExecucaoServico}"
+										converter="entityConverter" filter="true"
+										disabled="#{!emitirNFSePortalBean.renderLocalExecucao}"
+										filterMatchMode="contains">
+										<f:selectItem itemLabel="#{msg['selecione.uf']}" itemValue="" />
+										<f:selectItems value="#{emitirNFSePortalBean.ufs}" var="uf"
+											itemLabel="#{uf.nome}" itemValue="#{uf}" />
+										<p:ajax listener="#{emitirNFSePortalBean.onUfExecucaoChange}"
+											process="@this" update="municipioExecucao, panelAliquota"
+											resetValues="true" />
+									</p:selectOneMenu>
+								</div>
+
+								<div class="col-md-4">
+									<p:outputLabel for="municipioExecucao"
+										value="#{msg['municipio']}" />
+									<p:selectOneMenu id="municipioExecucao"
+										value="#{emitirNFSePortalBean.nfse.localPrestacaoServico}"
+										converter="entityConverter" filter="true"
+										disabled="#{!emitirNFSePortalBean.renderLocalExecucao}"
+										filterMatchMode="contains">
+										<f:selectItem
+											itemLabel="#{empty emitirNFSePortalBean.ufLocalExecucaoServico ? msg['selecione.uf'] : msg['selecione.municipio']}"
+											itemValue="" />
+										<f:selectItems
+											value="#{emitirNFSePortalBean.municipiosExecucaoServico}"
+											var="mun" itemLabel="#{mun.nome}" itemValue="#{mun}" />
+										<p:ajax
+											listener="#{emitirNFSePortalBean.onMunicipioExecucaoChange}"
+											process="@this" update="panelAliquota" resetValues="true" />
+									</p:selectOneMenu>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</p:outputPanel>
+
+			<h:panelGroup id="panelAliquota">		
+				<div class="fixo width120px float-left">
+					<p:outputLabel value="#{msg['aliquota']} *" rendered="#{emitirNFSePortalBean.nfse.servico != null}"/>
+					<br clear="all"/>
+					<p:outputLabel value="#{emitirNFSePortalBean.nfse.aliquota}"
+						rendered="#{emitirNFSePortalBean.nfse.servico != null and !emitirNFSePortalBean.renderAliquotaSelect and !emitirNFSePortalBean.renderAliquotaInput}">
+						<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+					</p:outputLabel>
+<!-- 					<p:selectOneMenu id="aliquota-select" value="#{emitirNFSePortalBean.nfse.aliquota}" -->
+<!-- 						rendered="#{emitirNFSePortalBean.renderAliquotaSelect and !emitirNFSePortalBean.renderAliquotaInput}"> -->
+<!-- 						<f:convertNumber maxFractionDigits="2" minFractionDigits="2" /> -->
+<!-- 						<f:selectItems value="#{emitirNFSePortalBean.aliquotasSimples}" var="aliquota" -->
+<!-- 							itemLabel="#{emitirNFSePortalBean.formatAliquota(aliquota)}" itemValue="#{aliquota}" /> -->
+<!-- 						<p:ajax event="change" process="@this" update="valorBaseCalculo, valorISS, valor-liquido"  listener="#{emitirNFSePortalBean.calcularValores}" /> -->
+<!-- 					</p:selectOneMenu> -->
+					
+					<p:inputText id="aliquota-select" value="#{emitirNFSePortalBean.nfse.aliquota}" 
+						rendered="#{emitirNFSePortalBean.renderAliquotaSelect and !emitirNFSePortalBean.renderAliquotaInput}"  styleClass="number">
+						<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+						<p:ajax event="blur" process="@this" update="valorBaseCalculo, valorISS, valor-liquido"  listener="#{emitirNFSePortalBean.calcularValores}" />
+					</p:inputText>
+					
+					<p:inputText id="aliquota-input" value="#{emitirNFSePortalBean.nfse.aliquota}" rendered="#{emitirNFSePortalBean.renderAliquotaInput}" styleClass="number">
+						<f:convertNumber maxFractionDigits="2" minFractionDigits="2" />
+						<p:ajax event="blur" process="@this" update="valorBaseCalculo, valorISS, valor-liquido"  listener="#{emitirNFSePortalBean.calcularValores}" />
+					</p:inputText>
+				</div>
+				
+				<div class="fixo width300px float-left">
+					<p:outputLabel value="#{msg['local.tributacao.servico']} *" rendered="#{emitirNFSePortalBean.nfse.servico != null}"/>
+					<br clear="all"/>
+					<p:outputLabel value="#{msg[emitirNFSePortalBean.nfse.servico.localTributacaoServico.label]}" rendered="#{emitirNFSePortalBean.nfse.servico != null}" />
+					<!-- <p:outputLabel value="#{msg[emitirNFSePortalBean.nfse.localTributacaoNFSe.label]}" id="local-tributacao" /> -->
+				</div>
+
+				<p:outputPanel styleClass="fixo width200px float-left" rendered="#{emitirNFSePortalBean.renderIssRetido}">
+					<p:outputLabel for="iss-retido" value="#{msg['iss.retido.tomador']}?" />
+					<p:selectOneMenu id="iss-retido" value="#{emitirNFSePortalBean.nfse.issRetidoPeloTomador}"
+						required="true">
+						<f:selectItem itemLabel="#{msg['selecione']}" itemValue="" />
+						<f:selectItems value="#{enumProducer.simNao}" var="opt"
+							itemLabel="#{msg[opt.label]}" itemValue="#{opt}" />
+							
+						<p:ajax event="change" process="@this" update="valor-liquido" />	
+					</p:selectOneMenu>
+				</p:outputPanel>
+			</h:panelGroup>
+			
+			<h:panelGroup>
+				<div class="responsivo width100">
+					<p:outputLabel for="observacao" value="#{msg['descricao.servico']}" />
+					<p:spacer width="10px" /><h:outputText id="disp-observacao" />
+					<p:inputTextarea id="observacao" value="#{emitirNFSePortalBean.nfse.discriminacaoServico}" required="true"
+						autoResize="true" maxlength="1000" counter="disp-observacao" counterTemplate="(Restam {0} caracteres)" />
+				</div>
+			</h:panelGroup>
+			
+		</p:panelGrid>
+	</div>			
+		
+		
+		
+		<div class="panel-body">		
+		
+		<p:panelGrid id="geral-panel" columns="1" layout="grid" styleClass="form-panel">
+			
+			<h:panelGroup>
+						
+				<div class="fixo width120px float-left">
+					<p:outputLabel for="valorTotal" value="#{msg['valor.servico']}"  />
+					<p:inputText id="valorTotal" required="true"
+						value="#{emitirNFSePortalBean.nfse.valorTotal}" converter="moneyConverter" styleClass="money">						
+						<p:ajax event="blur" process="@this, aliquota-select, aliquota-input" update="valorBaseCalculo, valorISS, valor-liquido"  listener="#{emitirNFSePortalBean.calcularValores}" />
+					</p:inputText>
+				</div>
+
+				<div class="fixo width160px float-left">
+					<p:outputLabel for="desc-incond" value="#{msg['desconto.incondicionado']}"  />
+					<p:inputText id="desc-incond"
+						value="#{emitirNFSePortalBean.nfse.descontoIncondicionado}" converter="moneyConverter" styleClass="money width120px">						
+						<p:ajax event="blur" process="@this, aliquota-select, aliquota-input" update="valorBaseCalculo, valorISS, valor-liquido" listener="#{emitirNFSePortalBean.calcularValores}" />
+					</p:inputText>
+				</div>
+
+				<div class="fixo width160px float-left">
+					<p:outputLabel for="desc-cond" value="#{msg['desconto.condicionado']}"  />
+					<p:inputText id="desc-cond"
+						value="#{emitirNFSePortalBean.nfse.descontoCondicionado}" converter="moneyConverter" styleClass="money width120px">
+						<p:ajax process="@this" update="valor-liquido" resetValues="false" />
+					</p:inputText>
+				</div>
+				
+				<div class="fixo width120px float-left">
+					<p:outputLabel for="valorDeducoes" value="#{msg['deducoes.legais']}" />
+					<p:inputText id="valorDeducoes"
+						value="#{emitirNFSePortalBean.nfse.valorDeducoes}" converter="moneyConverter" styleClass="money">						
+						<!-- <p:ajax process="@this" update="geral-panel" resetValues="false" /> -->
+						<p:ajax event="blur" process="@this, aliquota-select, aliquota-input" update="valorBaseCalculo, valorISS" listener="#{emitirNFSePortalBean.calcularValores}"/>
+					</p:inputText>
+				</div>
+				
+				<div class="fixo width120px float-left">
+					<p:outputLabel for="valorBaseCalculo" value="#{msg['base.calculo']}" />
+					<p:inputText id="valorBaseCalculo" disabled="true"
+						value="#{emitirNFSePortalBean.nfse.valorBaseCalculo}" converter="moneyConverter" styleClass="money">						
+						<!-- <p:ajax process="@this" update="valorBaseCalculo" resetValues="false" /> -->
+					</p:inputText>
+				</div>
+
+				<div class="fixo width120px float-left">
+					<p:outputLabel for="valorISS" value="#{msg['valor.iss']}" />
+					<p:inputText id="valorISS" disabled="true"
+						value="#{emitirNFSePortalBean.nfse.valorISS}" converter="moneyConverter" styleClass="money">
+						<!-- <p:ajax process="@this" update="valorISS" resetValues="false" /> -->
+					</p:inputText>
+				</div>
+
+				<div class="fixo width120px float-left">
+					<p:outputLabel for="valor-liquido" value="#{msg['valor.liquido']}" />
+					<p:inputText id="valor-liquido" disabled="true"
+						value="#{emitirNFSePortalBean.valorLiquido}" converter="moneyConverter" styleClass="money">
+					</p:inputText>
+				</div>
+				
+			</h:panelGroup>
+			
+			<h:panelGroup>
+				
+				<div class="fixo width120px float-left">
+					<p:outputLabel for="pisPasep" value="#{msg['pisPasep']}" />
+					<p:inputText id="pisPasep" disabled="#{emitirNFSePortalBean.consultarPessoaBean.renderPF}"
+						value="#{emitirNFSePortalBean.nfse.pisPasep}" converter="moneyConverter" styleClass="money">
+						<p:ajax process="@this" update="pisPasep, valor-liquido" resetValues="false" />
+					</p:inputText>
+				</div>
+				
+				<div class="fixo width120px float-left">
+					<p:outputLabel for="cofins" value="#{msg['cofins']}" />
+					<p:inputText id="cofins" disabled="#{emitirNFSePortalBean.consultarPessoaBean.renderPF}"
+						value="#{emitirNFSePortalBean.nfse.cofins}" converter="moneyConverter" styleClass="money">
+						<p:ajax process="@this" update="cofins, valor-liquido" resetValues="false" />
+					</p:inputText>
+				</div>
+
+				<div class="fixo width120px float-left">
+					<p:outputLabel for="irrf" value="#{msg['irrf']}" />
+					<p:inputText id="irrf"
+						value="#{emitirNFSePortalBean.nfse.irrf}" converter="moneyConverter" styleClass="money">
+						<p:ajax process="@this" update="irrf, valor-liquido" resetValues="false" />
+					</p:inputText>
+				</div>
+				
+				<div class="fixo width120px float-left">
+					<p:outputLabel for="csll" value="#{msg['csll']}" />
+					<p:inputText id="csll" disabled="#{emitirNFSePortalBean.consultarPessoaBean.renderPF}"
+						value="#{emitirNFSePortalBean.nfse.csll}" converter="moneyConverter" styleClass="money">
+						<p:ajax process="@this" update="csll, valor-liquido" resetValues="false" />
+					</p:inputText>
+				</div>
+				
+				<div class="fixo width120px float-left">
+					<p:outputLabel for="inss" value="#{msg['inss']}" />
+					<p:inputText id="inss"
+						value="#{emitirNFSePortalBean.nfse.inss}" converter="moneyConverter" styleClass="money">
+						<p:ajax process="@this" update="inss, valor-liquido" resetValues="false" />
+					</p:inputText>
+				</div>
+				
+			</h:panelGroup>
+			
+			<h:panelGroup>
+			
+				
+			</h:panelGroup>
+		</p:panelGrid>
+
+	</div>
+
+	<p:blockUI block="geral-panel" trigger="valorTotal, desc-incond, valorDeducoes">
+	</p:blockUI>
+	<p:blockUI block="@form" trigger="btSubmit">
+	</p:blockUI>
+
+		<!-- <p:outputPanel id="scripts">
+			<script type="text/javascript">
+				jQuery('.money').priceFormat({
+					prefix: 'R$ ',
+				    centsSeparator: ',',
+				    thousandsSeparator: '.'
+				});
+				jQuery('.number').priceFormat({
+					prefix: '',
+				    centsSeparator: ',',
+				    thousandsSeparator: '.'
+				});
+			</script>
+		</p:outputPanel> -->
+
+	<p:commandButton action="#{emitirNFSePortalBean.salvar}" id="btSubmit" styleClass="botao-verde toolbar-right margin-top15px"
+		icon="fa fa-floppy-o" value="#{msg['emitir']}" update="@form" resetValues="true">
+		<f:param name="cid" value="#{javax.enterprise.context.conversation.id}" />
+		<p:confirm message="#{msg['confirma.inclusao']}" />
+	</p:commandButton>
+	<p:confirmDialog global="true" showEffect="fade" hideEffect="fade" closeOnEscape="true" closable="false" width="100%"
+		styleClass="modal-confirmacao">
+		<div class="modal-confirmacao-botoes">
+			<p:commandButton value="#{msg['sim']}" type="button" styleClass="ui-confirmdialog-yes modal-confirmacao-botao-verde" />
+			<p:commandButton value="#{msg['nao']}" type="button" styleClass="ui-confirmdialog-no modal-confirmacao-botao-vermelho" />
+		</div>
+	</p:confirmDialog>
+
+	<!-- <p:commandButton onclick="PF('confirmSave').show();return false;" id="btSubmit" styleClass="botao-verde toolbar-right margin-top15px" icon="fa fa-floppy-o" value="#{msg['solicitar']}">
+		<f:param name="cid" value="#{javax.enterprise.context.conversation.id}" />
+	 </p:commandButton> 
+	 
+	 <p:dialog widgetVar="confirmSave" fitViewport="true" modal="true"
+		width="100%" closable="false" draggable="false" resizable="false" showEffect="fade"
+		closeOnEscape="true" hideEffect="fade" styleClass="modal-confirmacao" >
+		<h:outputText value="#{msg['confirma.inclusao']}" styleClass="modal-confirmacao-texto" />
+		<div class="modal-confirmacao-botoes">
+			<p:commandButton id="btSim" value="#{msg['sim']}" action="#{emitirNFSePortalBean.salvar}" update="@form" styleClass="modal-confirmacao-botao-verde" />
+			<p:commandButton value="#{msg['nao']}" type="button" onclick="PF('confirmSave').hide();" styleClass="modal-confirmacao-botao-vermelho" />
+		</div>
+	</p:dialog> -->
+
+</div>

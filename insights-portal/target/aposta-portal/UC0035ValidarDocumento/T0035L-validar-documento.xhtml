@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	template="/WEB-INF/template/master-template-portal.xhtml">
+	
+	<ui:define name="conteudo">
+		<div class="bg-light">
+				<div class="container">
+					<div class="col-lg-6 col-md-6 col-sm-6">
+						<ul class="list-inline margin-top5px">
+							<li>
+								<p:link outcome="/login.xhtml">
+									#{msg['pagina.inicial']}
+								</p:link>
+							</li>
+							<li>/</li>
+							<li>
+								<p:link outcome="/UC0035ValidarDocumento/T0035L-validar-documento.xhtml">
+									#{msg['validacao.documentos']}
+								</p:link>
+							</li>
+							<li>/</li>
+						</ul>
+					</div>
+					<!--  
+					<div class="col-lg-6 col-md-6 col-sm-6">
+						<ul class="list-inline pull-right margin-top5px">
+							<li><i class="fa fa-adjust" aria-hidden="true"></i></li>
+							<li><b>A</b><i class="fa fa-plus" aria-hidden="true"></i></li>
+							<li><small><b>A</b><i class="fa fa-minus" aria-hidden="true"></i></small></li>
+						</ul>
+					</div>
+					-->
+				</div>
+			</div>
+			
+			<section class="bg-white min-height-680px">
+				<div class="container">
+					<div class="row">
+						
+						<div class="col-lg-3">
+
+							<h2 class="novo-portal-chamada-servicos">#{msg['servicos']}</h2>
+						
+							<div class="novo-portal-menu-principal">
+								<!-- Include de componente de Menu -->
+								<ui:include src="/WEB-INF/template/menu-portal.xhtml" />
+							</div>
+							
+							<!-- O INCLUDE DOS BANNERS DEVERÃO  FICAR AQUI -->
+							
+						</div>
+						
+						<div class="col-lg-9">
+							<div class="row novo-portal-texto-principal">
+								<div class="col-sm-10">
+									<h1>#{msg['validacao.documentos']}</h1>
+									<p>#{msg['validacao.documentos.texto']}</p>
+								</div>
+								
+								<div class="col-sm-2 novo-portal-texto-principal-ico-area hidden-xs">
+									<i class="fa fa-qrcode fa-4x"></i>
+								</div>
+							</div>
+						</div>
+						<div class="col-lg-9">
+										
+							<div class="row">
+								<div class="col-lg-8 col-lg-offset-2">
+									
+									<p:messages autoUpdate="true" />
+
+									<h:form id="frmValidacao" prependId="false">
+										<p:focus context="frmValidacao" />
+				
+										<!-- <div class="panel-heading clearfix"></div> -->
+				
+										<div class="panel-body">
+				
+											<div class="form-group" style="text-align: center;">
+												<!-- <p:selectBooleanCheckbox id="validar-codigo" value="#{validacaoDocumentoBean.validarCodigo}"
+													itemLabel="#{msg['validar.codigo.enviado.email']}">
+													<p:ajax update="frm" resetValues="true" />
+												</p:selectBooleanCheckbox> -->
+												<p:selectOneButton id="validar-codigo" value="#{validacaoDocumentoBean.validarCodigo}">
+													<f:selectItem itemLabel="#{msg['por.documento']}" itemValue="false" />
+													<f:selectItem itemLabel="#{msg['por.email']}" itemValue="true" />
+													<p:ajax process="@this" update="frmValidacao" resetValues="true" />
+												</p:selectOneButton>
+											</div>
+				
+											<p:outputPanel styleClass="form-group" rendered="#{validacaoDocumentoBean.validarCodigo}">
+												<!-- Codigo enviado por E-MAIL -->
+												<p:outputLabel for="codigo-email" value="#{msg['codigo.enviado.email']}" /> 
+												<p:inputText id="codigo-email" value="#{validacaoDocumentoBean.codigoEmail}"
+													styleClass="form-control input-sm" />
+											</p:outputPanel>
+				
+											<p:outputPanel styleClass="form-group" rendered="#{!validacaoDocumentoBean.validarCodigo}">
+												<p:outputLabel for="tipo-documento" value="#{msg['tipo.documento']}" />
+												<p:selectOneMenu id="tipo-documento" required="true"
+													value="#{validacaoDocumentoBean.tipoDocumento}">
+													<f:selectItem itemLabel="#{msg['selecione']}" itemValue="" />
+													<f:selectItems value="#{enumProducer.tiposDocumentos}" var="tipo"
+														itemLabel="#{msg[tipo.label]}" itemValue="#{tipo}" />
+												</p:selectOneMenu>
+											</p:outputPanel>
+				
+											<!-- CPF / CNPJ -->
+											<div class="form-group">
+												<p:outputLabel for="cpf-cnpj" value="#{msg['cpf.cnpj.prestador']}" />
+												<p:inputText id="cpf-cnpj" value="#{validacaoDocumentoBean.cpfCnpj}" required="true"
+													onkeyup="mascara(this, cpfcnpj)" maxlength="18"
+													styleClass="form-control input-sm" converter="cpfCnpjConverter">
+													<f:passThroughAttribute name="pattern" value="[0-9]*" />
+												</p:inputText>
+											</div>
+				
+											<!-- CODIGO DE VERIFICACAO -->
+											<p:outputPanel styleClass="form-group" rendered="#{!validacaoDocumentoBean.validarCodigo}">
+												<p:outputLabel for="cod-verificacao" value="#{msg['codigo.verificacao']}" />
+												<p:inputMask mask="****-****" id="cod-verificacao" value="#{validacaoDocumentoBean.codigoVerificacao}" required="true"
+													styleClass="form-control input-sm" converter="codigoVerificacaoConverter" />
+											</p:outputPanel>
+				
+											<p:separator />
+				
+											<p:commandButton id="btValidar" action="#{validacaoDocumentoBean.validar}" update="frmValidacao" value="#{msg['validar']}"
+											icon="fa fa-sign-in" styleClass="btn btn-success btn-sm pull-right ">
+											</p:commandButton>
+											<!-- <p:defaultCommand target="btValidar" /> -->
+				
+										</div>
+									</h:form>
+									
+								</div>
+							</div>
+							
+						</div><!-- End of COL LG 9 -->
+					
+						
+					</div><!-- End of row -->
+				</div><!-- End of container -->
+			</section>			
+			
+			<f:metadata>
+				<f:event listener="#{conversationBean.begin}" type="preRenderView" />
+			</f:metadata>
+			
+	</ui:define>
+</ui:composition>
